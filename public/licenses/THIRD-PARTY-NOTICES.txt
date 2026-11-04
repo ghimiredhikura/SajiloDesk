@@ -1,0 +1,23 @@
+Sajilo Desk v0.1.0 — bundled runtime dependencies and fonts
+
+@remotemerge/nepali-date-converter 1.2.7
+Copyright holders: see nepali-date-converter.txt. MIT License.
+Source: https://github.com/remotemerge/nepali-date-converter
+Purpose: versioned BS month-length data and BS/AD conversion.
+
+@lacspace/preeti 1.1.0
+Copyright (c) 2026 Lacspace. Lacspace Free Licence v1.0.
+Commercial use permitted subject to retaining the full notice.
+Full notice: lacspace-preeti.txt
+Source: https://developer.lacspace.com/packages/preeti
+Purpose: Preeti to Unicode text mapping and reordering.
+
+DM Sans, distributed by @fontsource-variable/dm-sans 5.3.0
+SIL Open Font License 1.1. Full notice: dm-sans.txt
+
+Noto Sans Devanagari, distributed by @fontsource-variable/noto-sans-devanagari 5.3.0
+SIL Open Font License 1.1. Full notice: noto-sans-devanagari.txt
+
+The logo and decorative mountain/pagoda vector are original Sajilo Desk project artwork.
+Development/build tools and their exact versions are recorded in package-lock.json.
+Generated production assets contain no external font/CDN dependencies.

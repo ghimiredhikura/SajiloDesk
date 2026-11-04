@@ -1,0 +1,14 @@
+---
+import ToolCard from './ToolCard.astro';
+import Icon from './Icon.astro';
+import { tools, categories, pick, route, type Lang } from '../lib/catalog';
+interface Props { lang: Lang; journey?: boolean; saved?: boolean }
+const { lang, journey = false, saved = false } = Astro.props;
+---
+<section class="tools-section" data-tool-browser data-saved-only={saved ? 'true' : undefined}>
+  {!saved && <div class="category-filters" role="group" aria-label={pick(lang, 'Filter tools by category', 'प्रकारअनुसार छान्नुहोस्')}>{categories.map(([id, en, ne, icon]) => <button type="button" data-category-filter={id} aria-pressed={id === 'all'} class:list={{ active: id === 'all' }}><Icon name={icon} size={16}/>{pick(lang, en, ne)}</button>)}</div>}
+  <p id="search-count" class="sr-only" role="status"></p>
+  <div class="tool-grid" id="tool-grid">{tools.map(tool => <ToolCard tool={tool} lang={lang}/>)}
+    {journey && <a class="tool-card journey-mini" href={route(lang, 'guides/application-prep')} data-journey-card><span class="mini-eyebrow"><Icon name="spark" size={17}/>{pick(lang, 'A LITTLE HELP', 'अलिकति सहयोग')}</span><h3>{pick(lang, 'A form to fill?', 'फाराम भर्नुछ?')}</h3><p>{pick(lang, 'Get your dates, age and photo ready in three simple steps.', 'तीन सरल चरणमा मिति, उमेर र फोटो तयार पार्नुहोस्।')}</p><span class="inline-link">{pick(lang, 'Let’s get you ready', 'तयारी सुरु गर्नुहोस्')}<Icon name="arrow" size={19}/></span></a>}
+  </div><div class="empty-state" id="no-tools" hidden><Icon name="search" size={32}/><h3>{saved ? pick(lang, 'Your tools, one tap away', 'मेरा उपकरण एकै ठाउँमा') : pick(lang, 'No tools found', 'उपकरण भेटिएन')}</h3><p>{saved ? pick(lang, 'Tap the heart on any tool to keep it here. Saved only on this device.', 'कुनै उपकरणको मुटु चिन्ह थिचेर यहाँ राख्नुहोस्। यही यन्त्रमा मात्र सुरक्षित हुन्छ।') : pick(lang, 'Try “date”, “photo”, “Preeti” or “jagga”.', '“मिति”, “फोटो”, “प्रीति” वा “jagga” खोज्नुहोस्।')}</p>{saved && <a class="button primary" href={route(lang, 'tools')}>{pick(lang, 'Explore tools', 'उपकरण हेर्नुहोस्')}<Icon name="arrow" size={18}/></a>}</div>
+</section>

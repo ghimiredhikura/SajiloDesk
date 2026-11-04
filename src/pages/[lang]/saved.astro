@@ -1,0 +1,8 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolGrid from '../../components/ToolGrid.astro';
+import { langs,pick } from '../../lib/catalog';
+export function getStaticPaths(){return langs.map(lang=>({params:{lang},props:{lang}}));}
+const {lang}=Astro.props;
+---
+<Layout lang={lang} title={pick(lang,'My saved tools','मेरा सुरक्षित उपकरण')} description={pick(lang,'Keep your most-used Sajilo Desk tools together on this device.','बढी प्रयोग हुने उपकरण यही यन्त्रमा एकै ठाउँमा राख्नुहोस्।')} active="saved" noindex><div class="container page-content"><div class="page-heading"><p class="eyebrow">{pick(lang,'YOUR OWN LITTLE WORKSPACE','आफ्नै सानो कार्यस्थल')}</p><h1>{pick(lang,'My tools','मेरा उपकरण')}</h1><p>{pick(lang,'The tools you reach for, right where you need them. Hearts are saved on this device only.','धेरै चलाउने उपकरण सजिलै भेट्नुहोस्। मुटु चिन्हले छानेका उपकरण यही यन्त्रमा मात्र सुरक्षित हुन्छन्।')}</p></div><ToolGrid lang={lang} saved/><noscript><p>{pick(lang,'Enable JavaScript to view tools saved on this device.','यो यन्त्रका सुरक्षित उपकरण हेर्न JavaScript खोल्नुहोस्।')}</p></noscript></div></Layout>

@@ -1,0 +1,59 @@
+---
+import '../styles/global.css';
+import '../styles/accessibility.css';
+import '@fontsource-variable/dm-sans';
+import '@fontsource-variable/noto-sans-devanagari';
+import Brand from '../components/Brand.astro';
+import Icon from '../components/Icon.astro';
+import { pick, route, type Lang } from '../lib/catalog';
+interface Props { lang?: Lang; title: string; description: string; active?: string; noindex?: boolean }
+const { lang = 'en', title, description, active = '', noindex = false } = Astro.props;
+const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true' && !noindex;
+const path = Astro.url.pathname;
+const localPath = /^\/(en|ne)\//.test(path) ? path.replace(/^\/(en|ne)\//, '') : '';
+const canonical = new URL(path === '/404/' ? '/404.html' : path, Astro.site);
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} | Sajilo Desk</title><meta name="description" content={description} />
+    <meta name="theme-color" content="#F45231" /><meta name="robots" content={indexable ? 'index,follow' : 'noindex,follow'} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={new URL(route('en', localPath), Astro.site)} />
+    <link rel="alternate" hreflang="ne" href={new URL(route('ne', localPath), Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(route('en', localPath), Astro.site)} />
+    <meta property="og:type" content="website" /><meta property="og:title" content={`${title} | Sajilo Desk`} />
+    <meta property="og:description" content={description} /><meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'ne' ? 'ne_NP' : 'en_US'} />
+    <meta name="twitter:card" content="summary" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{pick(lang, 'Skip to content', 'मुख्य सामग्रीमा जानुहोस्')}</a>
+    <header class="site-header"><div class="container header-inner">
+      <a class="brand" href={route(lang)} aria-label="Sajilo Desk"><Brand /></a>
+      <nav class="desktop-nav" aria-label={pick(lang, 'Main navigation', 'मुख्य मेनु')}>
+        <a href={route(lang)} aria-current={active === 'home' ? 'page' : undefined}>{pick(lang, 'Home', 'गृहपृष्ठ')}</a>
+        <a href={route(lang, 'tools')} aria-current={active === 'tools' ? 'page' : undefined}>{pick(lang, 'All tools', 'सबै उपकरण')}</a>
+        <a href={route(lang, 'guides')} aria-current={active === 'guides' ? 'page' : undefined}>{pick(lang, 'Guides', 'सहयोगी लेख')}</a>
+      </nav>
+      <div class="header-actions"><div class="language-switch" aria-label="Language / भाषा">
+        <a href={route('ne', localPath)} lang="ne" data-language="ne" class:list={{ selected: lang === 'ne' }}>नेपाली</a><span aria-hidden="true">/</span>
+        <a href={route('en', localPath)} lang="en" data-language="en" class:list={{ selected: lang === 'en' }}>EN</a>
+      </div><a class="saved-link" href={route(lang, 'saved')} aria-label={pick(lang, 'My saved tools', 'मेरा सुरक्षित उपकरण')}><Icon name="heart" size={18}/><span>{pick(lang, 'My tools', 'मेरा उपकरण')}</span></a></div>
+    </div></header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer"><div class="container footer-top"><div><a class="brand footer-brand" href={route(lang)}><Brand compact /></a><p>{pick(lang, 'Everyday tasks, a little easier.', 'हरेक दिनका काम, अझ सजिलो।')}</p><span class="footer-note">{pick(lang, 'Made for Nepal. Useful wherever you are.', 'नेपालका लागि। तपाईं जहाँ भए पनि उपयोगी।')}</span></div>
+      <nav aria-label={pick(lang, 'About Sajilo Desk', 'सजिलो डेस्कबारे')}><a href={route(lang, 'about')}>{pick(lang, 'About', 'हाम्रो बारेमा')}</a><a href={route(lang, 'methodology')}>{pick(lang, 'Sources & methods', 'स्रोत र विधि')}</a><a href={route(lang, 'contact')}>{pick(lang, 'Feedback', 'सुझाव')}</a><a href={route(lang, 'privacy')}>{pick(lang, 'Privacy', 'गोपनीयता')}</a></nav>
+    </div><div class="container footer-bottom"><span>© {new Date().getUTCFullYear()} Sajilo Desk <span class="dot-sep">·</span> v0.1.0</span><span><span class="status-dot"></span>{pick(lang, 'Free tools. No account needed.', 'निःशुल्क उपकरण। खाता चाहिँदैन।')}</span></div></footer>
+    <nav class="mobile-nav" aria-label={pick(lang, 'Mobile navigation', 'मोबाइल मेनु')}>
+      <a href={route(lang)} class:list={{ selected: active === 'home' }}><Icon name="home" size={21}/>{pick(lang, 'Home', 'गृहपृष्ठ')}</a>
+      <a href={route(lang, 'tools')} class:list={{ selected: active === 'tools' }}><Icon name="grid" size={21}/>{pick(lang, 'Tools', 'उपकरण')}</a>
+      <a href={route(lang, 'guides')} class:list={{ selected: active === 'guides' }}><Icon name="book" size={21}/>{pick(lang, 'Guides', 'सहयोग')}</a>
+      <a href={route(lang, 'saved')} class:list={{ selected: active === 'saved' }}><Icon name="heart" size={21}/>{pick(lang, 'My tools', 'मेरा उपकरण')}</a>
+    </nav>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script>import '../scripts/shared';</script>
+  </body>
+</html>

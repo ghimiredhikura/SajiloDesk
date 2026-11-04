@@ -1,0 +1,5 @@
+---
+const { compact = false } = Astro.props;
+---
+<span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 38 38" fill="none"><path d="M3 13 19 4v12L3 25V13Z" fill="#F45231"/><path d="m19 16 16-9v12l-16 9V16Z" fill="#292448"/><path d="m3 28 16-9v12l-16 7V28Z" fill="#F45231" opacity=".28"/><path d="m19 31 16-9v8l-16 8v-7Z" fill="#292448" opacity=".16"/></svg></span>
+<span class="brand-name">Sajilo<span>Desk</span>{!compact && <small>सजिलो डेस्क</small>}</span>

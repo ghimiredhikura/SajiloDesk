@@ -1,0 +1,157 @@
+/* Contrast and minimum reading sizes supplement the visual theme. */
+:root { --orange: #d43f22; --muted: #706b79; }
+.hero-copy h1 > span { color: #e84929; }
+.muted,.search-hint,.tools-count,.card-bottom,.footer-note,.footer-bottom,.field-help,
+.panel-kicker,.text-counter,.privacy-note,.file-stats,.share-row,.breadcrumbs { color: #756d7c; }
+.mini-eyebrow { color: #806550; }
+.today-ad,.today-time { color: #7a6252; }
+.today-top > span:first-child { color: #81533d; }
+.workflow-copy p { color: #c5bdd6; }
+.workflow-steps div > span { color: #beb3ce; }
+.workflow-steps .step-number { color: #beb3ce; }
+.result-panel .panel-kicker,.result-caption,.result-meta,.result-empty p,.land-result-row span { color: #63705b; }
+.result-empty { color: #6d7a63; }
+.method-section details { color: #756d7c; }
+.method-section details > div { color: #756d7c; }
+.related-card p { color: #786483; }
+.footer-top nav,.share-row button { color: #74657d; }
+.mobile-nav > a { color: #75677f; }
+.mobile-nav > a.selected { color: #c83a20; }
+.info-note { color: #79613c; }
+input::placeholder,textarea::placeholder { color: #797280; }
+
+/* Comfortable reading scale: headings stay steady; small and medium text step up. */
+body { font-size: 16px; }
+.desktop-nav a,.saved-link,.language-switch { font-size: 15px; }
+.brand-name small { font-size: 12px; letter-spacing: .4px; }
+.eyebrow,.muted,.mini-eyebrow,.pill,.panel-kicker { font-size: 12px; letter-spacing: 1px; }
+.hero-description { font-size: 17px; line-height: 1.75; }
+.search-wrap input { font-size: 16px; }
+.search-hint,.tools-count { font-size: 13px; }
+.category-filters button { font-size: 14px; min-height: 44px; padding: 9px 14px; }
+.tool-card { padding: 24px; }
+.tool-card h3 { font-size: 19px; line-height: 1.3; }
+.tool-card p { font-size: 15px; line-height: 1.65; min-height: 50px; }
+.card-bottom { font-size: 12px; gap: 10px; margin-top: 18px; }
+.card-arrow { flex-shrink: 0; }
+.favorite-button { width: 44px; height: 44px; }
+.journey-mini .inline-link,.inline-link { font-size: 14px; }
+.today-top > span:first-child { font-size: 12px; letter-spacing: 1px; }
+.today-ad { font-size: 15px; }
+.today-time,.today-link { font-size: 12px; }
+.today-card { min-height: 330px; }
+.today-link { margin-top: 61px; }
+.workflow-copy p { font-size: 15px; line-height: 1.75; max-width: 420px; }
+.workflow-copy .button,.button { font-size: 15px; }
+.workflow-steps strong { font-size: 15px; line-height: 1.45; }
+.workflow-steps div > span { font-size: 13px; }
+.workflow-steps > a { padding: 16px; }
+.workflow-steps .step-number { font-size: 12px; }
+.trust-row h3 { font-size: 15px; line-height: 1.45; }
+.trust-row p { font-size: 13px; line-height: 1.7; max-width: 290px; }
+.footer-top p,.footer-note,.footer-top nav { font-size: 13px; }
+.footer-bottom { font-size: 12px; }
+.breadcrumbs { font-size: 13px; }
+.tool-heading p { font-size: 15px; line-height: 1.65; }
+.panel label,.field-row label,legend,.checkbox-label { font-size: 14px; }
+input,select,textarea { font-size: 16px; }
+.segmented button { font-size: 14px; min-height: 44px; }
+.field-help,.privacy-note,.text-counter,.file-stats,.share-row,.copy-feedback { font-size: 13px; line-height: 1.65; }
+.text-counter button,.share-row button { font-size: 14px; min-height: 44px; }
+.result-empty p { font-size: 15px; line-height: 1.7; }
+.result-caption,.result-meta,.land-result-row span { font-size: 13px; }
+.result-secondary { font-size: 19px; }
+.error-box,.success-note,.info-note { font-size: 14px; line-height: 1.7; }
+.method-section summary { font-size: 15px; }
+.method-section details > div { font-size: 14px; line-height: 1.85; }
+.related-card p { font-size: 12px; }
+.related-card strong { font-size: 15px; line-height: 1.5; }
+.instruction-grid > div,.instruction-grid strong { font-size: 14px; line-height: 1.7; }
+.instruction-grid > div > span { font-size: 12px; }
+.age-result-grid span { font-size: 14px; }
+.upload-zone strong { font-size: 16px; }
+.upload-zone p { font-size: 13px; }
+.panel .upload-zone { display: flex; min-height: 160px; gap: 9px; }
+.range-heading output { font-size: 14px; }
+.preset-buttons button { font-size: 13px; min-height: 40px; }
+.prose,.guide-card p { font-size: 16px; }
+.page-heading > p:last-child { font-size: 16px; }
+.prose h3 { font-size: 19px; }
+.mobile-nav > a { font-size: 12px; }
+@media (max-width:1100px) {
+  .home-hero { gap: 32px; }
+  .desktop-nav { gap: 22px; margin-left: 20px; }
+  .header-actions { gap: 18px; }
+  .workflow-steps strong { font-size: 14px; }
+  .workflow-steps div > span { font-size: 12px; }
+}
+@media (max-width:800px) {
+  .desktop-nav { gap: 18px; margin-left: 0; }
+  .desktop-nav a,.language-switch { font-size: 14px; }
+  .hero-description { font-size: 15px; }
+  .home-hero { gap: 24px; }
+  .today-top > span:first-child { font-size: 11px; }
+  .today-ad { font-size: 13px; }
+  .today-time { font-size: 11px; }
+  .today-card { min-height: 305px; }
+  .footer-top nav { max-width: 300px; }
+}
+@media (max-width:600px) {
+  .home-hero { padding-top: 28px; gap: 22px; }
+  .hero-description { font-size: 15px; max-width: none; }
+  .brand-name small { font-size: 10px; }
+  .eyebrow,.muted,.mini-eyebrow,.pill,.panel-kicker { font-size: 12px; letter-spacing: .5px; }
+  .search-wrap input { font-size: 16px; }
+  .search-hint { font-size: 12px; line-height: 1.6; }
+  .today-card { min-height: 195px; }
+  .today-top > span:first-child { font-size: 11px; }
+  .today-ad { font-size: 14px; }
+  .today-time,.today-link { font-size: 12px; }
+  .today-link { margin: 0; }
+  .category-filters button { font-size: 13px; min-height: 42px; padding: 8px 12px; }
+  .category-filters button svg { width: 16px; height: 16px; }
+  .tool-card { padding: 16px 14px; min-height: 0; }
+  .tool-card h3 { font-size: 17px; line-height: 1.35; min-height: 46px; }
+  .tool-card p { font-size: 14px; min-height: 0; line-height: 1.65; }
+  .tool-card-top { margin-bottom: 12px; }
+  .favorite-button { margin-right: -8px; }
+  .card-bottom { font-size: 12px; min-height: 36px; margin-top: 15px; gap: 7px; align-items: center; }
+  .home-tools .tool-card:not(.journey-mini) p { display: none; }
+  .journey-mini { justify-content: center; }
+  .journey-mini h3 { min-height: 0; }
+  .journey-mini p { font-size: 13px; line-height: 1.6; min-height: 0; }
+  .journey-mini .mini-eyebrow { font-size: 11px; margin-bottom: 10px; }
+  .journey-mini .inline-link { font-size: 12px; margin-top: 14px; line-height: 1.5; }
+  .workflow-banner { padding: 24px 20px; }
+  .workflow-copy p { font-size: 15px; }
+  .workflow-copy .button { font-size: 14px; }
+  .workflow-steps > a { padding: 13px 10px; gap: 9px; }
+  .workflow-steps strong { font-size: 13px; }
+  .workflow-steps div > span { font-size: 12px; line-height: 1.5; }
+  .workflow-steps .step-number { display: none; }
+  .trust-row { padding: 28px 2px; }
+  .trust-row h3 { font-size: 15px; }
+  .trust-row p { font-size: 13px; }
+  .footer-top nav { font-size: 13px; gap: 16px; }
+  .footer-bottom { font-size: 11px; }
+  .site-footer { padding-bottom: 80px; }
+  .breadcrumbs { font-size: 12px; }
+  .tool-heading p { font-size: 14px; }
+  .field-row { gap: 8px; grid-template-columns: 1.05fr 1.45fr .8fr; }
+  .field-row.two { grid-template-columns: 1fr 1fr; }
+  .field-row select { font-size: 14px; padding-inline: 8px; }
+  .field-help,.privacy-note,.file-stats { font-size: 13px; }
+  .button,.segmented button { font-size: 14px; }
+  .panel-actions { gap: 9px; }
+  .text-counter button { font-size: 13px; text-align: left; }
+  .info-note,.error-box,.result-meta { font-size: 13px; }
+  .prose { font-size: 15px; }
+  .page-heading > p:last-child { font-size: 15px; }
+  .panel .upload-zone { min-height: 145px; padding: 20px 14px; }
+  .file-preview img { max-height: 230px; }
+  .share-row { flex-wrap: wrap; gap: 4px 15px; }
+  html[lang=ne] .tool-card h3 { font-size: 17px; }
+  html[lang=ne] .tool-card p { font-size: 14px; }
+  html[lang=ne] .tool-card { min-height: 0; }
+  html[lang=ne] .journey-mini p { font-size: 13px; }
+}

@@ -1,0 +1,7 @@
+---
+import Icon from './Icon.astro';
+import { pick, type Lang } from '../lib/catalog';
+const { lang = 'en' } = Astro.props as { lang: Lang };
+---
+<div class="search-wrap"><Icon name="search" size={23}/><label class="sr-only" for="tool-search">{pick(lang, 'Search tools', 'उपकरण खोज्नुहोस्')}</label><input id="tool-search" type="search" autocomplete="off" placeholder={pick(lang, 'What do you need to do?', 'तपाईंलाई के गर्नुछ?')} aria-controls="tool-grid"/><kbd aria-hidden="true">/</kbd></div>
+<p class="search-hint">{pick(lang, 'Search in English, नेपाली or Romanized Nepali', 'English, नेपाली वा Romanized Nepali मा खोज्नुहोस्')}</p>

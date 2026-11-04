@@ -1,0 +1,9 @@
+---
+import { bsMonths, bsMonthsNe, adMonths, adMonthsNe } from '../lib/dates';
+import { pick, type Lang } from '../lib/catalog';
+interface Props { prefix: string; lang: Lang; calendar?: 'BS' | 'AD' }
+const { prefix, lang, calendar = 'BS' } = Astro.props;
+const months = calendar === 'BS' ? (lang === 'ne' ? bsMonthsNe : bsMonths) : (lang === 'ne' ? adMonthsNe : adMonths);
+---
+<div class="field-row"><div><label for={`${prefix}-year`}>{pick(lang, 'Year', 'वर्ष')}</label><input id={`${prefix}-year`} type="text" inputmode="numeric" autocomplete="off" maxlength="4" placeholder={calendar === 'BS' ? '2083' : '2026'} required aria-describedby={`${prefix}-range`}/></div><div><label for={`${prefix}-month`}>{pick(lang, 'Month', 'महिना')}</label><select id={`${prefix}-month`}>{months.map((m,i) => <option value={i+1}>{m}</option>)}</select></div><div><label for={`${prefix}-day`}>{pick(lang, 'Day', 'गते')}</label><input id={`${prefix}-day`} type="text" inputmode="numeric" autocomplete="off" maxlength="2" placeholder="1" required aria-describedby={`${prefix}-range`}/></div></div>
+<p class="field-help" id={`${prefix}-range`}>{calendar === 'BS' ? pick(lang,'BS 1975–2099 · Nepali or Latin digits','वि.सं. १९७५–२०९९ · नेपाली वा अंग्रेजी अंक') : pick(lang,'AD 13 Apr 1918–13 Apr 2043 · Nepali or Latin digits','ई.सं. १३ अप्रिल १९१८–१३ अप्रिल २०४३ · नेपाली वा अंग्रेजी अंक')}</p>

@@ -8,7 +8,8 @@ async function walk(dir){const entries=await readdir(dir,{withFileTypes:true});r
 const files=await walk('dist'),htmlFiles=files.filter(f=>f.endsWith('.html'));
 const all=new Set(files.map(f=>f.replaceAll('\\','/')));const documents=new Map();let linkCount=0,fieldCount=0;
 const headers=await readFile('dist/_headers','utf8');
-function resolveLocal(url){const clean=decodeURIComponent(url.pathname);return `dist${clean.endsWith('/')?`${clean}index.html`:clean}`;}
+const basePath=`/${(process.env.PUBLIC_BASE_PATH||'/').replace(/^\/+|\/+$/g,'')}`.replace(/\/$/,'');
+function resolveLocal(url){let clean=decodeURIComponent(url.pathname);assert.ok(!basePath||clean===basePath||clean.startsWith(`${basePath}/`),`Local URL escaped the project base: ${clean}`);clean=clean.slice(basePath.length)||'/';return `dist${clean.endsWith('/')?`${clean}index.html`:clean}`;}
 for(const file of htmlFiles){
  const html=await readFile(file,'utf8');const {document}=parseHTML(html);const normalized=file.replaceAll('\\','/');documents.set(normalized,document);
  assert.equal(document.querySelectorAll('h1').length,1,`${file}: one H1`);

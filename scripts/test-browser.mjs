@@ -65,6 +65,7 @@ try {
     assert.equal(await page.locator('[data-tool-card]:visible').getAttribute('data-tool-id'), 'photo-resizer');
 
     await go(`/${lang}/tools/date-converter/`);
+    await visible('#date-result');
     await page.locator('#date-example').click();
     assert.equal(await text('#result-iso'), 'BS 2082-01-01 = AD 2025-04-14');
     await page.locator('#copy-date').click();
@@ -79,6 +80,7 @@ try {
     await visible('#date-result');
 
     await go(`/${lang}/tools/age-calculator/`);
+    await visible('#age-result');
     await page.locator('#age-example').click();
     assert.equal(await text('#age-years'), lang === 'ne' ? '२५' : '25');
     await page.locator('#copy-age').click();
@@ -86,6 +88,7 @@ try {
     await shot(`${lang}-age-result-390`);
 
     await go(`/${lang}/tools/preeti-unicode/`);
+    assert.equal(await page.locator('#preeti-output').inputValue(), 'नेपाल\nनिर्माण\nEmail: hello@example.com');
     await page.locator('#preeti-example').click();
     assert.equal(await page.locator('#preeti-output').inputValue(), 'नेपाल\nनिर्माण\nEmail: hello@example.com');
     await page.locator('#copy-preeti').click();
@@ -97,11 +100,14 @@ try {
     await shot(`${lang}-preeti-result-390`);
 
     await go(`/${lang}/tools/land-converter/`);
+    await visible('#land-result');
     await page.locator('#land-form [type=submit]').click();
     assert.equal(await text('#land-sqft-result'), lang === 'ne' ? '५,४७६' : '5,476');
     await shot(`${lang}-land-result-390`);
 
     await go(`/${lang}/tools/photo-resizer/`);
+    await page.locator('#photo-result').waitFor({ state: 'visible' });
+    await visible('#photo-sample-label');
     const canvas = createCanvas(640, 480), ctx = canvas.getContext('2d');
     ctx.fillStyle = '#f6d8af'; ctx.fillRect(0, 0, 640, 480);
     ctx.fillStyle = '#312840'; ctx.fillRect(180, 80, 280, 280);
@@ -110,6 +116,7 @@ try {
     await page.waitForFunction(() => !document.querySelector('#photo-controls').disabled);
     await page.locator('#photo-width').fill('240');
     assert.equal(await page.locator('#photo-height').inputValue(), '180');
+    await page.locator('.photo-advanced > summary').click();
     await page.locator('#photo-mode').selectOption('crop');
     await page.locator('#photo-height').fill('240');
     await page.locator('#process-photo').click();

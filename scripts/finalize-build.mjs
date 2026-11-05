@@ -6,5 +6,15 @@ async function walk(directory){const entries=await readdir(directory,{withFileTy
 const hashes=new Set();
 for(const file of await walk('dist'))if(file.endsWith('.html')){const html=await readFile(file,'utf8');for(const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)){if(!/\bsrc=/.test(match[1])&&match[2].trim())hashes.add(`'sha256-${createHash('sha256').update(match[2]).digest('base64')}'`);}}
 const headers=await readFile('public/_headers','utf8');
-await writeFile('dist/_headers',headers.replace("script-src 'self'",`script-src 'self' ${[...hashes].join(' ')}`));
-console.log(`Static security headers finalized (${hashes.size} inline script hashes).`);
+const finalized=headers.replace("script-src 'self'",`script-src 'self' ${[...hashes].join(' ')}`);
+await writeFile('dist/_headers',finalized);
+// GitHub Pages does not interpret _headers. A meta policy preserves supported CSP
+// directives there; frame-ancestors remains in the header for hosts supporting it.
+const csp=finalized.match(/Content-Security-Policy:\s*(.+)/)?.[1].replace(/frame-ancestors[^;]*;?\s*/g,'');
+if(!csp)throw new Error('Missing content security policy.');
+for(const file of await walk('dist'))if(file.endsWith('.html')){
+  const html=await readFile(file,'utf8');
+  await writeFile(file,html.replace(/<head([^>]*)>/,`<head$1><meta http-equiv="Content-Security-Policy" content="${csp.trim()}"/><meta name="referrer" content="strict-origin-when-cross-origin"/>`));
+}
+await writeFile('dist/.nojekyll','');
+console.log(`Static security policy finalized (${hashes.size} inline script hashes); GitHub Pages output prepared.`);

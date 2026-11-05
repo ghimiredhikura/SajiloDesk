@@ -10,3 +10,4 @@ el('preeti-example').addEventListener('click',()=>{input.value='g]kfn\nlgdf{0f\n
 el('preeti-reset').addEventListener('click',()=>{input.value='';setText('preeti-count','0 / 50,000');invalidate();input.focus();});
 el('copy-preeti').addEventListener('click',()=>{if(output.value)copyText(output.value);});
 el('download-preeti').addEventListener('click',()=>{if(output.value)downloadBlob(new Blob([output.value],{type:'text/plain;charset=utf-8'}),'sajilo-unicode.txt');});
+el('preeti-example').click();

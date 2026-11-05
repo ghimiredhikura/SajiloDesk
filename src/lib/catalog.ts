@@ -1,3 +1,4 @@
+import { withBase } from './paths';
 export type Lang = 'en' | 'ne';
 export const langs: Lang[] = ['en', 'ne'];
 export const pick = (lang: Lang, en: string, ne: string) => lang === 'ne' ? ne : en;
@@ -14,5 +15,5 @@ export const categories = [
   ['text', 'Nepali text', 'नेपाली अक्षर', 'type'], ['files', 'Photos & files', 'फोटो र फाइल', 'image'],
   ['numbers', 'Measurements', 'नापजाँच', 'land'],
 ] as const;
-export const route = (lang: Lang, path = '') => `/${lang}/${path}${path && !path.endsWith('/') ? '/' : ''}`;
+export const route = (lang: Lang, path = '') => withBase(`${lang}/${path}${path && !path.endsWith('/') ? '/' : ''}`);
 export const toolText = (tool: Tool, key: 'title' | 'short' | 'description' | 'tags', lang: Lang) => tool[key][lang === 'ne' ? 1 : 0];

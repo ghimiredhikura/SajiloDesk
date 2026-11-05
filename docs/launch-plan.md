@@ -1,3 +1,5 @@
+> Hosting update, 5 November 2026: the owner selected GitHub Pages for the SajiloDesk project URL. See [the current deployment guide](github-pages.md). The Cloudflare hosting sections below record the earlier proposal.
+
 # Sajilo Desk: launch, measurement and distribution
 
 Reviewed **4 November 2026**. This is an operating plan; deployment, account connections, outreach and interviews must be reported separately when they actually occur. The source project and test report establish implementation status.

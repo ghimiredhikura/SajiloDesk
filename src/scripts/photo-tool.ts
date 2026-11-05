@@ -3,7 +3,9 @@ import { decimal } from '../lib/land';
 import { readImage,processImage,type ImageFormat } from '../lib/images';
 import { t,el,val,setText,number } from './form-utils';
 import { downloadBlob } from './shared';
+import { withBase } from '../lib/paths';
 let bitmap:ImageBitmap|undefined,file:File|undefined,output:Blob|undefined,originalUrl='',outputUrl='',revision=0,busy=false;
+let sampleRevision=0;
 const fileInput=el<HTMLInputElement>('photo-file');
 const errorMessages:Record<string,[string,string]>={
  'file-limit':['Choose a photo under 20 MiB.','२० MiB भन्दा सानो फोटो छान्नुहोस्।'],
@@ -20,10 +22,11 @@ const errorMessages:Record<string,[string,string]>={
 };
 function showError(error:unknown){const code=error instanceof Error?error.message:'';if(code==='cancelled')return;const message=errorMessages[code]||['Could not process this photo. Try a smaller image.','फोटो प्रशोधन भएन। सानो फोटो प्रयास गर्नुहोस्।'];setText('photo-error',t(message[0],message[1]));el('photo-error').hidden=false;el('photo-error').focus();}
 function invalidate(){revision++;output=undefined;if(outputUrl)URL.revokeObjectURL(outputUrl);outputUrl='';el<HTMLImageElement>('output-preview').removeAttribute('src');el('photo-result').hidden=true;el('result-empty').hidden=false;el('photo-error').hidden=true;}
-function setBusy(value:boolean){busy=value;el<HTMLButtonElement>('process-photo').disabled=value||!bitmap;el<HTMLFieldSetElement>('photo-controls').disabled=value||!bitmap;el<HTMLButtonElement>('clear-photo').disabled=value;fileInput.disabled=value;el('cancel-photo').hidden=!value;setText('photo-status',value?t('Processing on your device…','तपाईंको यन्त्रमा प्रशोधन हुँदैछ…'):'');}
-function release(){invalidate();bitmap?.close();bitmap=undefined;file=undefined;if(originalUrl)URL.revokeObjectURL(originalUrl);originalUrl='';el<HTMLImageElement>('original-preview').removeAttribute('src');el('original-block').hidden=true;el('clear-photo').hidden=true;fileInput.value='';setBusy(false);}
-async function choose(selected:File){
+function setBusy(value:boolean){busy=value;el<HTMLButtonElement>('process-photo').disabled=value||!bitmap;el<HTMLFieldSetElement>('photo-controls').disabled=value||!bitmap;el<HTMLButtonElement>('clear-photo').disabled=value;el<HTMLButtonElement>('photo-example').disabled=value;fileInput.disabled=value;el('cancel-photo').hidden=!value;setText('photo-status',value?t('Processing on your device…','तपाईंको यन्त्रमा प्रशोधन हुँदैछ…'):'');}
+function release(){sampleRevision++;invalidate();bitmap?.close();bitmap=undefined;file=undefined;if(originalUrl)URL.revokeObjectURL(originalUrl);originalUrl='';el<HTMLImageElement>('original-preview').removeAttribute('src');el('original-block').hidden=true;el('clear-photo').hidden=true;el('photo-sample-label').hidden=true;fileInput.value='';setBusy(false);}
+async function choose(selected:File,isSample=false){
  if(busy)return;release();const version=++revision;setText('photo-status',t('Opening your photo locally…','फोटो यहीँ खोलिँदैछ…'));
+ el('photo-sample-label').hidden=!isSample;
  try{const opened=await readImage(selected);if(version!==revision){opened.close();return;}bitmap=opened;file=selected;
    originalUrl=URL.createObjectURL(selected);el<HTMLImageElement>('original-preview').src=originalUrl;
    setText('original-dimensions',`${number(bitmap.width,0)} × ${number(bitmap.height,0)} px`);setText('original-size',`${number(selected.size/1000,2)} KB (${number(selected.size,0)} ${t('bytes','बाइट')})`);
@@ -70,4 +73,29 @@ el('cancel-photo').addEventListener('click',()=>{revision++;setText('photo-statu
 el('clear-photo').addEventListener('click',()=>{if(busy){revision++;return;}release();});
 el('reduce-dimensions').addEventListener('click',()=>{try{el<HTMLInputElement>('photo-width').value=String(Math.max(1,Math.floor(integer(val('photo-width'))*.75)));el<HTMLInputElement>('photo-height').value=String(Math.max(1,Math.floor(integer(val('photo-height'))*.75)));void generate();}catch(error){showError(error);}});
 el('download-photo').addEventListener('click',()=>{if(output)downloadBlob(output,`sajilo-photo.${output.type==='image/jpeg'?'jpg':output.type==='image/png'?'png':'webp'}`);});
-window.addEventListener('pagehide',()=>{revision++;bitmap?.close();if(originalUrl)URL.revokeObjectURL(originalUrl);if(outputUrl)URL.revokeObjectURL(outputUrl);});
+window.addEventListener('pagehide',()=>{sampleRevision++;revision++;bitmap?.close();if(originalUrl)URL.revokeObjectURL(originalUrl);if(outputUrl)URL.revokeObjectURL(outputUrl);});
+
+async function loadSample(){
+ if(busy)return;
+ const version=++sampleRevision;
+ el<HTMLButtonElement>('photo-example').disabled=true;
+ setText('photo-status',t('Loading the example image…','उदाहरण चित्र खोलिँदैछ…'));
+ try{
+   const response=await fetch(withBase('examples/mountain-sample.jpg'));
+   if(!response.ok)throw new Error('sample-unavailable');
+   const blob=await response.blob();
+   if(version!==sampleRevision)return;
+   const sampleFile=new File([blob],'sajilo-example.jpg',{type:'image/jpeg'});
+   await choose(sampleFile,true);
+   if(!bitmap||file!==sampleFile)return;
+   el<HTMLInputElement>('photo-width').value='800';el<HTMLInputElement>('photo-height').value='500';
+   el<HTMLSelectElement>('photo-format').value='image/jpeg';el<HTMLSelectElement>('photo-mode').value='fit';
+   el<HTMLInputElement>('lock-ratio').checked=true;el<HTMLInputElement>('photo-quality').value='85';setText('quality-label','85%');
+   el('quality-control').hidden=false;el<HTMLInputElement>('photo-target').value='200';
+   await generate();
+ }catch{
+   if(version===sampleRevision)setText('photo-status',t('Example unavailable. Choose your own photo to continue.','उदाहरण खुलेन। आफ्नो फोटो छानेर अगाडि बढ्नुहोस्।'));
+ }finally{el<HTMLButtonElement>('photo-example').disabled=busy;}
+}
+el('photo-example').addEventListener('click',()=>{void loadSample();});
+void loadSample();

@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Brand from '../components/Brand.astro';
+import { route } from '../lib/catalog';
 ---
-<Layout title="Everyday tasks, a little easier" description="Free bilingual everyday tools for Nepal. Choose English or Nepali."><div class="container root-welcome"><a class="brand" href="/en/"><Brand/></a><h1>नमस्ते। Welcome.</h1><p class="mt-20">Choose your language. आफ्नो भाषा छान्नुहोस्।</p><div class="panel-actions"><a class="button primary" href="/ne/" data-language="ne" lang="ne">नेपालीमा सुरु गर्नुहोस्</a><a class="button secondary" href="/en/" data-language="en">Continue in English</a></div></div><script>let language='en';try{if(localStorage.getItem('sajilo-language')==='ne')language='ne';}catch{}window.location.replace(`/${language}/`);</script></Layout>
+<Layout title="Everyday tasks, a little easier" description="Free bilingual everyday tools for Nepal. Choose English or Nepali."><div class="container root-welcome"><a class="brand" href={route('en')}><Brand/></a><h1>नमस्ते। Welcome.</h1><p class="mt-20">Choose your language. आफ्नो भाषा छान्नुहोस्।</p><div class="panel-actions"><a class="button primary" href={route('ne')} data-language="ne" lang="ne">नेपालीमा सुरु गर्नुहोस्</a><a class="button secondary" href={route('en')} data-language="en">Continue in English</a></div></div><script>import { route } from '../lib/catalog';let language:'en'|'ne'='en';try{if(localStorage.getItem('sajilo-language')==='ne')language='ne';}catch{}window.location.replace(route(language));</script></Layout>

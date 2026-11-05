@@ -27,3 +27,5 @@ el('date-form').addEventListener('submit',e => {e.preventDefault();calculate();}
 el('use-today').addEventListener('click',() => {try {const now = todayNepal(); writeDate('date',direction === 'AD' ? now : convertDate(now,'AD')); calculate();} catch(error){showError(error);}});
 el('date-example').addEventListener('click',() => {writeDate('date',direction === 'BS' ? {year:2082,month:1,day:1} : {year:2025,month:4,day:14});calculate();});
 el('copy-date').addEventListener('click',() => { if(copy) copyText(copy); });
+// Start with Nepal's current date and a usable result; Today remains available.
+try { writeDate('date',convertDate(todayNepal(),'AD')); calculate(); } catch(error) { showError(error); }

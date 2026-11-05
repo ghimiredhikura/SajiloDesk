@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+import { bsMonths,bsMonthsNe } from '../lib/dates';
+import { pick,type Lang } from '../lib/catalog';
+import '../styles/calendar.css';
+const {lang}=Astro.props as {lang:Lang};
+const weekdays=lang==='ne'?['आइत','सोम','मंगल','बुध','बिही','शुक्र','शनि']:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+---
+<section class="calendar-section" id="calendar" aria-labelledby="calendar-heading">
+  <div class="section-heading"><div><p class="eyebrow muted">{pick(lang,'ONE DAY. TWO CALENDARS.','एउटै दिन। दुई पात्रो।')}</p><h2 id="calendar-heading">{pick(lang,'Your month, in BS and AD','वि.सं. र ई.सं. मा तपाईंको पात्रो')}</h2></div><p class="calendar-intro">{pick(lang,'Pick a day for dates, key days and holidays.','मिति, विशेष दिवस र बिदा हेर्न दिन छान्नुहोस्।')}</p></div>
+  <noscript><p class="noscript-note">{pick(lang,'Enable JavaScript to browse the calendar.','पात्रो हेर्न JavaScript खोल्नुहोस्।')}</p></noscript>
+  <div class="calendar-workspace">
+    <div class="calendar-panel">
+      <div class="calendar-top"><div class="segmented" role="group" aria-label={pick(lang,'Calendar view','पात्रोको प्रकार')}><button type="button" data-calendar="BS" aria-pressed="true" title={pick(lang,'Bikram Sambat','विक्रम संवत्')}>{pick(lang,'BS','वि.सं.')}</button><button type="button" data-calendar="AD" aria-pressed="false" title={pick(lang,'Gregorian','अंग्रेजी पात्रो')}>{pick(lang,'AD','ई.सं.')}</button></div><button type="button" class="calendar-today" id="calendar-today">{pick(lang,'Today','आज')}</button></div>
+      <form id="calendar-controls" class="calendar-controls" novalidate>
+        <button type="button" class="calendar-arrow" id="calendar-previous" aria-label={pick(lang,'Previous month','अघिल्लो महिना')}>←</button>
+        <div><label for="calendar-month">{pick(lang,'Month','महिना')}</label><select id="calendar-month">{(lang==='ne'?bsMonthsNe:bsMonths).map((month,i)=><option value={i+1}>{month}</option>)}</select></div>
+        <div><label for="calendar-year">{pick(lang,'Year','वर्ष')}</label><input id="calendar-year" type="text" inputmode="numeric" maxlength="4" autocomplete="off" aria-describedby="calendar-range"/></div>
+        <button type="submit" class="calendar-go">{pick(lang,'Go','हेर्नुहोस्')}</button>
+        <button type="button" class="calendar-arrow" id="calendar-next" aria-label={pick(lang,'Next month','अर्को महिना')}>→</button>
+      </form>
+      <p class="calendar-caption" id="calendar-caption"></p>
+      <p class="calendar-error" id="calendar-error" role="alert" hidden></p>
+      <div class="calendar-weekdays" aria-hidden="true">{weekdays.map(day=><span>{day}</span>)}</div>
+      <div class="calendar-grid" id="calendar-grid" role="group" aria-label={pick(lang,'Days of the month','महिनाका दिनहरू')}></div>
+      <div class="calendar-legend"><span><i class="nepal-dot"></i>{pick(lang,'Nepal key day','नेपालको दिवस')}</span><span><i class="world-dot"></i>{pick(lang,'World day','विश्व दिवस')}</span><span class="calendar-holiday-label"><i class="holiday-dot"></i>{pick(lang,'Holiday · scope in details','बिदा · विवरणमा क्षेत्र हेर्नुहोस्')}</span><span class="calendar-weekend-label">{pick(lang,'Saturday / Sunday','शनिबार / आइतबार')}</span></div>
+      <p class="calendar-range" id="calendar-range"></p>
+    </div>
+    <aside class="calendar-selection" aria-live="polite" aria-atomic="true">
+      <p class="eyebrow muted">{pick(lang,'YOUR SELECTED DAY','तपाईंले छानेको दिन')}</p>
+      <h3 id="calendar-selected-bs"></h3><p id="calendar-selected-ad" class="calendar-selected-ad"></p>
+      <div id="calendar-nepal-day" class="calendar-event nepal-event" hidden><span>{pick(lang,'Nepal','नेपाल')}</span><strong id="calendar-nepal-name"></strong></div>
+      <div id="calendar-world-day" class="calendar-event world-event" hidden><span>{pick(lang,'World','विश्व')}</span><strong id="calendar-world-name"></strong></div>
+      <p id="calendar-holiday" class="calendar-holiday" hidden></p>
+      <p id="calendar-plain-day" class="calendar-plain-day" hidden>{pick(lang,'Select another day to explore the month.','महिनाका अरू विवरण हेर्न अर्को दिन छान्नुहोस्।')}</p>
+      <button type="button" class="button secondary" id="calendar-copy"><Icon name="copy" size={16}/>{pick(lang,'Copy both dates','दुवै मिति कपी गर्नुहोस्')}</button>
+      <details class="calendar-sources"><summary>{pick(lang,'Sources & calendar coverage','स्रोत र पात्रोको सीमा')}</summary><div><p>{pick(lang,'Date conversion: BS 1975–2099 / AD 13 Apr 1918–13 Apr 2043. Key days are a curated selection from BS 2083 onward; Nepal holidays currently cover BS 2083. A key day does not itself mean a public holiday.','मिति परिवर्तन: वि.सं. १९७५–२०९९ / ई.सं. १३ अप्रिल १९१८–१३ अप्रिल २०४३। विशेष दिवस वि.सं. २०८३ देखि छानिएका छन्; नेपालको बिदा हाल वि.सं. २०८३ का लागि छ। विशेष दिवस हुनु मात्र सार्वजनिक बिदा हुनु होइन।')}</p><ul id="calendar-source-links"></ul></div></details>
+    </aside>
+  </div>
+</section>
+<script>import '../scripts/calendar';</script>

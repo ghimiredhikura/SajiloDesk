@@ -1,17 +1,19 @@
 ---
 import '../styles/global.css';
 import '../styles/accessibility.css';
+import '../styles/tools.css';
 import '@fontsource-variable/dm-sans';
 import '@fontsource-variable/noto-sans-devanagari';
 import Brand from '../components/Brand.astro';
 import Icon from '../components/Icon.astro';
 import { pick, route, type Lang } from '../lib/catalog';
+import { withBase,withoutBase } from '../lib/paths';
 interface Props { lang?: Lang; title: string; description: string; active?: string; noindex?: boolean }
 const { lang = 'en', title, description, active = '', noindex = false } = Astro.props;
 const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true' && !noindex;
-const path = Astro.url.pathname;
+const path = withoutBase(Astro.url.pathname);
 const localPath = /^\/(en|ne)\//.test(path) ? path.replace(/^\/(en|ne)\//, '') : '';
-const canonical = new URL(path === '/404/' ? '/404.html' : path, Astro.site);
+const canonical = new URL(withBase(path === '/404/' ? '404.html' : path), Astro.site);
 ---
 <!doctype html>
 <html lang={lang}>
@@ -19,7 +21,7 @@ const canonical = new URL(path === '/404/' ? '/404.html' : path, Astro.site);
     <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} | Sajilo Desk</title><meta name="description" content={description} />
     <meta name="theme-color" content="#F45231" /><meta name="robots" content={indexable ? 'index,follow' : 'noindex,follow'} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="en" href={new URL(route('en', localPath), Astro.site)} />
     <link rel="alternate" hreflang="ne" href={new URL(route('ne', localPath), Astro.site)} />

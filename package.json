@@ -15,7 +15,9 @@
     "verify": "npm run check && npm test && npm run build && node scripts/verify-build.mjs && node scripts/test-entries.mjs",
     "test:entries": "node scripts/test-entries.mjs",
     "test:browser": "node scripts/test-browser.mjs",
-    "deploy": "node scripts/deploy.mjs"
+    "deploy": "node scripts/deploy.mjs",
+    "test:defaults": "node scripts/test-defaults.mjs",
+    "test:calendar": "node scripts/test-calendar.mjs"
   },
   "dependencies": {
     "astro": "7.4.5",

@@ -26,3 +26,5 @@ function calculate(){
 el('age-form').addEventListener('submit',e=>{e.preventDefault();calculate();});
 el('age-example').addEventListener('click',()=>{el<HTMLSelectElement>('birth-calendar').value='AD';el<HTMLSelectElement>('cutoff-calendar').value='AD';setCalendar('birth','AD');setCalendar('cutoff','AD');writeDate('birth',{year:2000,month:2,day:29});writeDate('cutoff',{year:2025,month:2,day:28});calculate();});
 el('copy-age').addEventListener('click',()=>{if(copy)copyText(copy);});
+// A clearly labelled sample birth date, with today's Nepal date as the cutoff.
+try { writeDate('birth',convertDate({year:2000,month:1,day:1},'AD')); calculate(); } catch(error) { showError(error); }

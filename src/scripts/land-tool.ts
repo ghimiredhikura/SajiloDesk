@@ -22,3 +22,5 @@ el('land-form').addEventListener('submit',e=>{
 });
 el('copy-land').addEventListener('click',()=>{if(copy)copyText(copy);});
 el('land-reset').addEventListener('click',()=>{(el('land-form') as HTMLFormElement).reset();for(const system of ['ropani','bigha','decimal'])el(`${system}-fields`).hidden=system!=='ropani';invalidate();});
+// The initial one-ropani example is ready to compare in every unit.
+el<HTMLFormElement>('land-form').requestSubmit();

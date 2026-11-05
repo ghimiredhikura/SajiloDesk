@@ -1,101 +1,42 @@
-# Sajilo Desk / सजिलो डेस्क
+# SajiloDesk / सजिलो डेस्क
 
-A bilingual, browser-local utility desk for Nepal and Nepalis worldwide. The first implementation contains five tools, a responsive orange/navy interface, search with English/Nepali/Romanized aliases, device-local favorites, and three practical guides.
+**A little less hassle. A lot more sajilo.**
 
-**Status:** implemented and prepared for review; **not deployed**. The owner confirmed on 4 November 2026 that the domain is not approved yet and requested site/deployment preparation. Public contact: **sajilodesk@gmail.com**. English and Nepali pages have passed real Chrome workflows and responsive visual review. Physical-device checks and independent Nepali review remain before public launch.
+Free tools for life in Nepal, and wherever life takes you.
 
-## Run locally
+**[Open SajiloDesk in English](https://ghimiredhikura.github.io/SajiloDesk/en/)** · **[नेपालीमा खोल्नुहोस्](https://ghimiredhikura.github.io/SajiloDesk/ne/)**
 
-Use Node **24 LTS** (minimum supported by this Astro release: 22.23.4). All package versions are locked.
+## Everyday tools, ready when you are
 
-```sh
-npm ci
-npm run dev
-```
-
-Open **http://127.0.0.1:4321/en/** or **http://127.0.0.1:4321/ne/**. The root remembers only the chosen language and defaults to English. Tool inputs are never placed in URLs or persistent storage.
-
-This workspace is on a Google Drive virtual filesystem. `npm install` failed there with filesystem write errors. A working NTFS runtime is at `%LOCALAPPDATA%\SajiloDesk-runtime`; source remains in this project folder. From PowerShell in this folder:
-
-```powershell
-# First installation, or after dependency changes:
-.\scripts\sync-local.ps1 -Install -Preview
-# Later source changes; reuse installed dependencies:
-.\scripts\sync-local.ps1 -Preview
-# Typecheck, tests, static build and entry-handler checks:
-.\scripts\sync-local.ps1 -Check
-```
-
-The helper copies source to the local runtime and copies a built `dist` back. It does not copy `.env`, credentials or the supplied private/source materials. For continuous editing, use a normal local Git checkout; the copy helper is a one-shot sync, not a file watcher. Stop the local server with Ctrl+C.
-
-## What works
-
-| Tool | Behavior and limits |
+| Tool | What you can do |
 | --- | --- |
-| BS ↔ AD | Explicit year/month/day, both numeral systems, strict validation, two-calendar copy. BS 1975-01-01 through 2099-12-30; AD 1918-04-13 through 2043-04-13. Bundled MIT calendar library v1.2.7. |
-| Age on a date | Birth/cutoff independently accept BS or AD; cutoff defaults to Nepal today. Gregorian completed months, grouped into years, with remaining days. Missing anniversaries clamp to the shorter month’s last day. |
-| Preeti → Unicode | Paste, example, reset, readable preview, copy and UTF-8 text download. `[[English]]` preserves explicitly marked spans. 50,000-character limit. No Romanized typing or reverse conversion claim. |
-| Photo resize/compress | JPEG, PNG, still WebP; browser orientation; fit or center crop; aspect lock; quality and generic KB targets; preview/actual bytes/download. Input ≤20 MiB, ≤24 MP and ≤12,000 px/side; output ≤16 MP. PNG ignores quality. Impossible targets are reported with a 25%-smaller option. |
-| Land area | Ropani–Aana–Paisa–Daam, Bigha–Kattha–Dhur, decimal units, ft² and m². Nepal convention; full-precision calculations, 4-decimal display. |
+| BS ↔ AD date converter | Switch a date between Nepali and English calendars. |
+| Age calculator | Find your age today or on an application deadline. |
+| Preeti to Unicode | Turn legacy Preeti text into readable Nepali Unicode. |
+| Photo resize & compress | Adjust photo dimensions, format and file size, then download a copy. |
+| Land-area converter | Convert ropani, aana, bigha, kattha, square feet and square metres. |
 
-Supporting pages: Home, All Tools, My Tools, About, Feedback, Privacy, Sources/Methods, guide index and three guides, each in English and Nepali. Feedback prepares a local draft or opens the approved email address; it does not send messages automatically.
+Each tool opens with a ready-to-try example. Replace the values or choose your own photo to get started.
 
-## Verification
+## Your day, at a glance
 
-```sh
-npm run verify
-```
+See today's Nepali and English dates, Nepal and world key days, and listed holidays. Browse a [BS/AD calendar](https://ghimiredhikura.github.io/SajiloDesk/en/#calendar), select a date and explore its details. Holiday dates appear in red, with regional or community scope explained alongside them.
 
-Runs Astro/TypeScript diagnostics, 19 calculation/raster tests (including every supported calendar day), the production build, static link/metadata/label/CSP checks, and 14 generated-HTML/DOM-event scenarios covering both languages. The image tests use a native Canvas adapter; the event tests use jsdom. A separate real-browser suite is available:
+## Simple and private
 
-```sh
-# Terminal 1, after building:
-npm exec -- wrangler dev --local --port 8787
-# Terminal 2, in the same local checkout:
-npm run test:browser
-```
+- Free to use, with no account required.
+- Available in English and नेपाली.
+- Photos, text and calculations are processed in your browser.
+- Save favourite tools on your own device for quick access.
 
-The browser suite uses Playwright with an isolated installed Chrome browser, not your personal profile. It checks English/Nepali home and tool layouts at six widths from 320 to 1440 px, runs 14 real workflows, validates clipboard/download contents, and saves screenshots plus a JSON report in `tmp/visual/`. `TEST_BASE_URL` and `BROWSER_CHANNEL` can override the default local URL and Chrome channel. Restart Wrangler after rebuilding if its asset watcher reports stale files. See [the test report](docs/test-results.md) for exact evidence and remaining checks.
+SajiloDesk is an independent utility site. Check the issuing authority's rules when preparing official applications. The holiday list currently covers BS 2083; sources and coverage are available in the site.
 
-```sh
-npm run build                 # ordinary portable static output in dist/
-npm run preview              # preview production output
-npm exec -- wrangler dev --local --port 8787
-```
+## Feedback
 
-The Wrangler command exercises the configured static-asset routing and 404 behavior locally. There is no SSR entry point, database, Worker script, API service or paid runtime dependency. Only the photo/text tool pages load their processing code. Fonts are served locally.
+Found a problem or have an idea? [Open an issue](https://github.com/ghimiredhikura/SajiloDesk/issues) or email [sajilodesk@gmail.com](mailto:sajilodesk@gmail.com).
 
-## Deploy when ready
+Built and maintained by [Deepak Ghimire](https://github.com/ghimiredhikura).
 
-The single target is **Cloudflare Workers Static Assets — Free, asset-only**. No live deployment or DNS changes have been made.
+---
 
-1. Complete the remaining physical-device, Safari and Nepali review in the test report.
-2. Connect the GitHub repository to Cloudflare Workers Builds and select `main` and the repository root.
-3. Use `npm run verify` as the build command and `npx wrangler deploy` as the deploy command. Set Node 24 in the build environment.
-4. Set `PUBLIC_SITE_URL` to the **actual HTTPS hostname** assigned by Cloudflare or your approved domain. Keep `PUBLIC_INDEXABLE=false` while the hostname/release is unsettled. The default local build uses `http://localhost:4321` and noindex; never publish that build as indexable production.
-5. Set `PUBLIC_CONTACT_EMAIL=sajilodesk@gmail.com`. No analytics token is needed; analytics is not installed.
-6. After production review, set `PUBLIC_INDEXABLE=true`, rebuild, verify canonicals/hreflang/sitemap, then deploy. Configure preview indexing separately if enabling preview builds.
-
-For an authorized local deployment, copy `.env.example` to `.env`, fill the actual hostname, sign in with `npx wrangler login`, then run `npm run deploy`. The deployment helper refuses a missing/non-HTTPS/example hostname and verifies before publishing. Do not paste account tokens into source or chat. Source control excludes `.env`.
-
-`wrangler.jsonc` publishes `dist/`, uses `not_found_handling: "404-page"`, and has no Worker `main` or `run_worker_first`. The build finalizer hashes any Astro-inlined scripts into the CSP. Every deployment must use `npm run build` (or `verify`), not a bare `astro build` that skips that finalizer.
-
-Current free limits, reviewed 4 November 2026: unlimited/free static requests; 20,000 deployed files/version; 25 MiB/file; 3,000 Workers Builds minutes/month, one concurrent build, 20-minute build timeout. No additional static-asset storage charge. Recheck [Cloudflare’s limits](https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/) and [Builds quotas](https://developers.cloudflare.com/workers/ci-cd/builds/limits-and-pricing/) before launch. Owner time, development subscriptions and any purchased domain are outside the NPR 0 runtime target.
-
-For `sajilodesk.com.np`, wait for registry approval and confirm DNS control. Workers Custom Domains require an active Cloudflare zone. Preserve all existing DNS/email records if a nameserver change is needed. A provider-assigned hostname can be used first; none has been claimed. Exact domain, indexing, pilot and rollback steps are in [the launch plan](docs/launch-plan.md).
-
-Rollback: select the prior verified Cloudflare deployment, or use `npx wrangler rollback <verified-version-id>`. Rebuild the matching Git commit if needed. Record the production URL, source commit and Cloudflare version on every release.
-
-## Project map and decisions
-
-- `src/pages/`: pre-rendered language/tool/guide routes, sitemap, robots and 404.
-- `src/lib/`: deterministic date, age, land, text and image functions.
-- `src/scripts/`: page handlers, search, favorites and clipboard/download actions.
-- `src/components/`, `src/layouts/`, `src/styles/`: shared bilingual interface.
-- `tests/`: fixtures, full-range calendar checks, raster output checks and DOM-event scenarios.
-- `public/licenses/`: full third-party notices distributed with the site.
-- [Research and 14-opportunity backlog](docs/research.md): evidence, unknowns, competitors and ranked top five.
-- [Launch and growth plan](docs/launch-plan.md): five-shop/ten-user pilot, first 30 days, hosting, domain and future revenue.
-- [Sources and validation ledger](docs/validation-ledger.md): exact methods, dataset versions and human-review boundaries.
-
-Keep the core free. No fake live prices, testimonials, user counts, official presets or analytics claims. PDF utilities, Romanized typing, reverse text conversion and live data feeds are future work. No outreach or ad installation has occurred.
+For contributors: [Local setup](docs/development.md) · [Deployment](docs/github-pages.md) · [Sources and methods](docs/validation-ledger.md) · [Verification](docs/test-results.md)

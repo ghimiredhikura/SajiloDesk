@@ -2,6 +2,10 @@
 
 The current requested target is **https://ghimiredhikura.github.io/SajiloDesk/**, using the `main` branch of `ghimiredhikura/SajiloDesk`. The workflow is `.github/workflows/deploy-pages.yml`. This supersedes the earlier Cloudflare-only hosting plan.
 
+## Current deployment (5 November 2026)
+
+The repository is public and GitHub Pages uses the Actions workflow. HTTPS is enforced. The requested project address returns a 301 redirect to **https://ghimiredeepak.com.np/SajiloDesk/** because the account's personal website has a custom domain. That destination serves SajiloDesk successfully; its English and Nepali pages and all five tools were checked in Chrome. The personal website and its DNS were not changed. The separate `sajilodesk.com.np` domain is still pending approval.
+
 ## First deployment
 
 1. Push the application source, lockfile and workflow to `main`. Do not upload `node_modules`, private research files or `.env`.
@@ -11,7 +15,7 @@ The current requested target is **https://ghimiredhikura.github.io/SajiloDesk/**
 
 The workflow defaults to `PUBLIC_SITE_URL=https://ghimiredhikura.github.io` and `PUBLIC_BASE_PATH=/SajiloDesk/`. Internal routes, public assets, sample-image requests, canonicals and sitemap use this base. Ordinary local development still defaults to `/`.
 
-The repository owner's user site currently has a custom domain. GitHub may redirect the GitHub project address to `https://ghimiredeepak.com.np/SajiloDesk/` through its inherited-domain behavior. Do not modify the personal website or its DNS as part of this deployment. Record the actual public destination after deployment.
+The repository owner's user site has a custom domain. GitHub redirects the project address to `https://ghimiredeepak.com.np/SajiloDesk/` through its inherited-domain behavior. Do not modify the personal website or its DNS as part of this deployment.
 
 ## Local verification of the project path
 

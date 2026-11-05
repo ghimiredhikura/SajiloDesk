@@ -9,14 +9,14 @@ function initCalendar(){
   let selectedAd=todayNepal(),selectedBs=convertDate(selectedAd,'AD');
   let view={year:selectedBs.year,month:selectedBs.month};
   const grid=el('calendar-grid'),monthSelect=el<HTMLSelectElement>('calendar-month'),yearInput=el<HTMLInputElement>('calendar-year');
-  const showError=()=>{el('calendar-error').textContent=t('Choose a supported year and month. See the date range below.','समर्थित वर्ष र महिना छान्नुहोस्। तलको मितिको सीमा हेर्नुहोस्।');el('calendar-error').hidden=false;};
-  const dateLabel=(ad:DateParts,bs:DateParts)=>`${formatDate(bs,'BS',lang)} BS / ${formatDate(ad,'AD',lang)} AD`;
+  const showError=()=>{el('calendar-error').textContent=t('Choose a supported year and month. See the date range below.','तल दिइएको अवधिभित्रको वर्ष र महिना छान्नुहोस्।');el('calendar-error').hidden=false;};
+  const dateLabel=(ad:DateParts,bs:DateParts)=>`${formatDate(bs,'BS',lang)} ${t('BS','वि.सं.')} / ${formatDate(ad,'AD',lang)} ${t('AD','ई.सं.')}`;
 
   function syncMonthNames(){
     const months=system==='BS'?(lang==='ne'?bsMonthsNe:bsMonths):(lang==='ne'?adMonthsNe:adMonths);
     monthSelect.replaceChildren(...months.map((month,i)=>new Option(month,String(i+1))));
-    el('calendar-range').textContent=system==='BS'?t('BS 1975–2099 · smaller numbers are AD dates','वि.सं. १९७५–२०९९ · साना अंक ई.सं. का मिति हुन्')
-      :t('AD 13 Apr 1918–13 Apr 2043 · smaller numbers are BS dates','ई.सं. १३ अप्रिल १९१८–१३ अप्रिल २०४३ · साना अंक वि.सं. का मिति हुन्');
+    el('calendar-range').textContent=system==='BS'?t('BS 1975–2099 · smaller numbers are AD dates','वि.सं. १९७५–२०९९ · साना अंकमा अंग्रेजी मिति')
+      :t('AD 13 Apr 1918–13 Apr 2043 · smaller numbers are BS dates','ई.सं. १३ अप्रिल १९१८–१३ अप्रिल २०४३ · साना अंकमा नेपाली मिति');
   }
   function renderSelection(){
     const events=dailyObservances(selectedAd,lang);
@@ -48,14 +48,15 @@ function initCalendar(){
     el<HTMLButtonElement>('calendar-next').disabled=!model.hasNext;
     const available=model.days.filter(day=>day.available),first=available[0],last=available[available.length-1];
     const secondary:Calendar=system==='BS'?'AD':'BS';
-    el('calendar-caption').textContent=`${secondary}: ${formatDate((system==='BS'?first.ad:first.bs)!,secondary,lang)} – ${formatDate((system==='BS'?last.ad:last.bs)!,secondary,lang)}`;
+    const secondaryLabel=secondary==='BS'?t('BS','वि.सं.'):t('AD','ई.सं.');
+    el('calendar-caption').textContent=`${secondaryLabel}: ${formatDate((system==='BS'?first.ad:first.bs)!,secondary,lang)} – ${formatDate((system==='BS'?last.ad:last.bs)!,secondary,lang)}`;
     const selected=system==='BS'?selectedBs:selectedAd;
     if(selected.year!==view.year||selected.month!==view.month){selectedAd=first.ad!;selectedBs=first.bs!;}
     grid.replaceChildren(...model.cells.map(day=>{
       if(!day){const blank=document.createElement('span');blank.setAttribute('aria-hidden','true');return blank;}
       const button=document.createElement('button');button.type='button';button.className='calendar-day';button.dataset.day=String(day.day);
       const primary=document.createElement('strong');primary.textContent=number(day.day,0);button.append(primary);
-      if(!day.available||!day.ad||!day.bs){button.disabled=true;button.setAttribute('aria-label',t(`Day ${day.day}: outside supported range`,`दिन ${day.day}: समर्थित सीमाबाहिर`));return button;}
+      if(!day.available||!day.ad||!day.bs){button.disabled=true;button.setAttribute('aria-label',t(`Day ${day.day}: outside supported range`,`गते ${day.day}: उपलब्ध अवधिभन्दा बाहिर`));return button;}
       const events=dailyObservances(day.ad,lang),secondaryDay=document.createElement('small');
       secondaryDay.textContent=number((system==='BS'?day.ad:day.bs).day,0);button.append(secondaryDay);
       const dots=document.createElement('span');dots.className='calendar-dots';dots.setAttribute('aria-hidden','true');

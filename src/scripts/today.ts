@@ -1,4 +1,4 @@
-import { convertDate, formatDate, todayNepal } from '../lib/dates';
+import { convertDate, epochDay, formatDate, nepaliDigits, todayNepal } from '../lib/dates';
 import { dailyObservances, worldSource } from '../lib/observances';
 const lang = document.documentElement.lang === 'ne' ? 'ne' : 'en';
 function render() {
@@ -7,9 +7,19 @@ function render() {
     const today = todayNepal(); const bs = convertDate(today, 'AD');
     const main = target.querySelector('.today-date'); const sub = target.querySelector('.today-ad');
     if (main) main.textContent = formatDate(bs, 'BS', 'ne');
-    if (sub) sub.textContent = new Intl.DateTimeFormat(lang === 'ne' ? 'ne-NP' : 'en-GB', { timeZone:'Asia/Kathmandu', weekday:'long', day:'numeric', month:'long', year:'numeric' }).format(new Date());
+    if (sub) {
+      const weekdays = ['आइतबार','सोमबार','मंगलबार','बुधबार','बिहीबार','शुक्रबार','शनिबार'];
+      sub.textContent = lang === 'ne'
+        ? `${weekdays[new Date(epochDay(today)*86400000).getUTCDay()]}, ${formatDate(today,'AD','ne')}`
+        : new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Kathmandu', weekday:'long', day:'numeric', month:'long', year:'numeric' }).format(new Date());
+    }
     const time = document.querySelector('#nepal-time');
-    if (time) time.textContent = `${new Intl.DateTimeFormat(lang === 'ne' ? 'ne-NP' : 'en-GB', { timeZone:'Asia/Kathmandu', hour:'2-digit', minute:'2-digit', hour12:true }).format(new Date())} · ${lang === 'ne' ? 'नेपाल समय' : 'Nepal time'} (UTC +5:45)`;
+    if (time) {
+      const clock = lang === 'ne'
+        ? nepaliDigits(new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Kathmandu', hour:'2-digit', minute:'2-digit', hourCycle:'h23' }).format(new Date()))
+        : new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Kathmandu', hour:'2-digit', minute:'2-digit', hour12:true }).format(new Date());
+      time.textContent = `${clock} · ${lang === 'ne' ? 'नेपाल समय' : 'Nepal time'} (UTC +5:45)`;
+    }
     const events = dailyObservances(today,lang);
     const holiday = document.querySelector<HTMLAnchorElement>('#today-holiday');
     if(holiday) { holiday.textContent = events.holidayStatus === 'none' ? '' : events.holidayText; holiday.href = events.source; }

@@ -16,7 +16,7 @@ el('land-form').addEventListener('submit',e=>{
   setText('land-ropani-decimal',`${number(fromSqft(sqft,'ropani'))} ${t('ropani (decimal)','रोपनी (दशमलव)')}`);
   setText('land-bigha-decimal',`${number(fromSqft(sqft,'bigha'))} ${t('bigha (decimal)','बिघा (दशमलव)')}`);
   setText('land-sqft-result',number(sqft));setText('land-sqm-result',number(fromSqft(sqft,'sqm')));
-  copy=`${t('Ropani – Aana – Paisa – Daam','रोपनी – आना – पैसा – दाम')}: ${hill}\n${t('Bigha – Kattha – Dhur','बिघा – कठ्ठा – धुर')}: ${terai}\n${t('Square feet','वर्ग फिट')}: ${number(sqft)}\n${t('Square metres','वर्ग मिटर')}: ${number(fromSqft(sqft,'sqm'))}\n${t('Nepal convention; rounded to 4 decimals.','नेपालको प्रचलन; ४ दशमलवसम्म।')}`;
+  copy=`${t('Ropani – Aana – Paisa – Daam','रोपनी – आना – पैसा – दाम')}: ${hill}\n${t('Bigha – Kattha – Dhur','बिघा – कठ्ठा – धुर')}: ${terai}\n${t('Square feet','वर्ग फिट')}: ${number(sqft)}\n${t('Square metres','वर्ग मिटर')}: ${number(fromSqft(sqft,'sqm'))}\n${t('Nepal convention; rounded to 4 decimals.','नेपालमा प्रचलित एकाइअनुसार; दशमलवपछि ४ अंकसम्म।')}`;
   el('land-result').hidden=false;el('result-empty').hidden=true;
  }catch(error){showError(error);}
 });

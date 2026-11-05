@@ -16,10 +16,10 @@ function calculate(){
     const cutoffAd=calendar('cutoff')==='AD'?validateDate(cutoff,'AD'):convertDate(cutoff,'BS');
     const age=ageOnDate(birthAd,cutoffAd);
     for(const field of ['years','months','days'] as const)setText(`age-${field}`,number(age[field],0));
-    setText('age-total',`${number(age.totalDays,0)} ${t('days in total','दिन जम्मा')}`);
-    const dates=`${t('Birth','जन्म')}: ${iso(birth)} ${calendar('birth')}\n${t('Cutoff','अन्तिम मिति')}: ${iso(cutoff)} ${calendar('cutoff')}\nAD: ${iso(birthAd)} → ${iso(cutoffAd)}`;
+    setText('age-total',lang==='ne'?`जम्मा ${number(age.totalDays,0)} दिन`:`${number(age.totalDays,0)} days in total`);
+    const dates=`${t('Birth','जन्ममिति')}: ${iso(birth)} ${calendar('birth')}\n${t('Cutoff','उमेर गणना गरेको मिति')}: ${iso(cutoff)} ${calendar('cutoff')}\nAD: ${iso(birthAd)} → ${iso(cutoffAd)}`;
     setText('age-dates',dates);
-    copy=lang==='ne'?`उमेर: ${number(age.years)} वर्ष, ${number(age.months)} महिना, ${number(age.days)} दिन\n${dates}\nअंग्रेजी पात्रो; छोटो महिनामा अन्तिम दिनको नियम।`:`Age: ${age.years} years, ${age.months} months, ${age.days} days\n${dates}\nGregorian calendar; shorter-month anniversary convention.`;
+    copy=lang==='ne'?`उमेर: ${number(age.years)} वर्ष, ${number(age.months)} महिना, ${number(age.days)} दिन\n${dates}\nअंग्रेजी पात्रोअनुसार गणना गरिएको। जन्ममितिको गते नपर्ने महिनामा अन्तिम दिन लिइन्छ।`:`Age: ${age.years} years, ${age.months} months, ${age.days} days\n${dates}\nGregorian calendar; shorter-month anniversary convention.`;
     el('age-result').hidden=false;el('result-empty').hidden=true;
   }catch(error){showError(error);}
 }

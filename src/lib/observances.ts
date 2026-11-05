@@ -66,7 +66,7 @@ export const worldDays: Record<string, Label> = {
   '03-08':["International Women’s Day",'अन्तर्राष्ट्रिय महिला दिवस'],
   '03-20':['International Day of Happiness','अन्तर्राष्ट्रिय खुशी दिवस'],
   '03-21':['International Day of Forests','अन्तर्राष्ट्रिय वन दिवस'],
-  '03-22':['World Water Day','विश्व पानी दिवस'],
+  '03-22':['World Water Day','विश्व जल दिवस'],
   '03-24':['World Tuberculosis Day','विश्व क्षयरोग दिवस'],
   '04-02':['World Autism Awareness Day','विश्व अटिजम सचेतना दिवस'],
   '04-07':['World Health Day','विश्व स्वास्थ्य दिवस'],
@@ -79,7 +79,7 @@ export const worldDays: Record<string, Label> = {
   '05-21':['International Tea Day','अन्तर्राष्ट्रिय चिया दिवस'],
   '05-22':['International Day for Biological Diversity','अन्तर्राष्ट्रिय जैविक विविधता दिवस'],
   '05-29':['International Day of UN Peacekeepers','संयुक्त राष्ट्र शान्ति सैनिकको अन्तर्राष्ट्रिय दिवस'],
-  '05-31':['World No-Tobacco Day','विश्व सुर्तीजन्य पदार्थरहित दिवस'],
+  '05-31':['World No-Tobacco Day','विश्व सुर्तीजन्य पदार्थविरुद्धको दिवस'],
   '06-01':['Global Day of Parents','विश्व अभिभावक दिवस'],
   '06-03':['World Bicycle Day','विश्व साइकल दिवस'],
   '06-05':['World Environment Day','विश्व वातावरण दिवस'],
@@ -98,7 +98,7 @@ export const worldDays: Record<string, Label> = {
   '07-30':['International Day of Friendship','अन्तर्राष्ट्रिय मित्रता दिवस'],
   '08-09':["International Day of the World’s Indigenous Peoples",'विश्व आदिवासी जनजाति दिवस'],
   '08-12':['International Youth Day','अन्तर्राष्ट्रिय युवा दिवस'],
-  '08-19':['World Humanitarian Day','विश्व मानवीय दिवस'],
+  '08-19':['World Humanitarian Day','विश्व मानवीय सहायता दिवस'],
   '08-27':['World Lake Day','विश्व ताल दिवस'],
   '09-05':['International Day of Charity','अन्तर्राष्ट्रिय परोपकार दिवस'],
   '09-07':['International Day of Clean Air for Blue Skies','नीलो आकाशका लागि स्वच्छ हावाको अन्तर्राष्ट्रिय दिवस'],
@@ -130,7 +130,7 @@ export const worldDays: Record<string, Label> = {
   '11-20':["World Children’s Day",'विश्व बाल दिवस'],
   '11-25':['International Day for the Elimination of Violence against Women','महिला हिंसा अन्त्यको अन्तर्राष्ट्रिय दिवस'],
   '12-01':['World AIDS Day','विश्व एड्स दिवस'],
-  '12-03':['International Day of Persons with Disabilities','अन्तर्राष्ट्रिय अपाङ्गता दिवस'],
+  '12-03':['International Day of Persons with Disabilities','अपाङ्गता भएका व्यक्तिहरूको अन्तर्राष्ट्रिय दिवस'],
   '12-05':['World Soil Day','विश्व माटो दिवस'],
   '12-09':['International Anti-Corruption Day','अन्तर्राष्ट्रिय भ्रष्टाचार विरुद्धको दिवस'],
   '12-10':['Human Rights Day','मानव अधिकार दिवस'],
@@ -151,12 +151,12 @@ export function dailyObservances(ad: DateParts, lang: 'en' | 'ne') {
   const scoped = entries.filter(h=>h.scope);
   const names = entries.map(h=>`${h.name[index]}${h.scope ? ` (${h.scope[index]})` : ''}`);
   const weeklyLabel = lang === 'ne' ? 'साप्ताहिक बिदा' : 'Weekly holiday';
-  const nepal = !covered ? (lang === 'ne' ? 'बिदा पात्रो अद्यावधिक हुन बाँकी' : 'Holiday calendar awaiting update')
+  const nepal = !covered ? (lang === 'ne' ? 'यस वर्षको बिदा विवरण थप्न बाँकी छ' : 'Holiday calendar awaiting update')
     : names.length ? names.join(' / ') : weekly ? weeklyLabel
     : (lang === 'ne' ? 'सूचीमा देशव्यापी बिदा छैन' : 'No nationwide holiday listed');
   const world = worldDays[iso(ad).slice(5)]?.[index];
   const holidayLabel = lang === 'ne' ? 'देशव्यापी बिदा' : 'Nationwide holiday';
-  const regionalLabel = lang === 'ne' ? 'सम्बन्धित समूहको बिदा' : 'Scoped holiday';
+  const regionalLabel = lang === 'ne' ? 'तोकिएको समूह वा क्षेत्रमा बिदा' : 'Scoped holiday';
   const primary = !covered ? nepal : national.length ? `${holidayLabel}: ${national.map(h=>h.name[index]).join(' / ')}`
     : scoped.length ? `${regionalLabel}: ${names.join(' / ')}` : weekly ? weeklyLabel : '';
   const holidayStatus = !covered ? 'unavailable' : national.length ? 'nationwide' : scoped.length ? 'scoped' : weekly ? 'weekly' : 'none';

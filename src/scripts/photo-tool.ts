@@ -9,30 +9,30 @@ let sampleRevision=0;
 const fileInput=el<HTMLInputElement>('photo-file');
 const errorMessages:Record<string,[string,string]>={
  'file-limit':['Choose a photo under 20 MiB.','२० MiB भन्दा सानो फोटो छान्नुहोस्।'],
- 'file-type':['Choose a JPEG, PNG or still WebP image. HEIC, GIF, SVG and PDF are not supported.','JPEG, PNG वा स्थिर WebP छान्नुहोस्। HEIC, GIF, SVG र PDF चल्दैनन्।'],
- 'pixel-limit':['That image is too large. Input limit: 24 MP; output limit: 16 MP; each side at most 12,000 px.','चित्र धेरै ठूलो छ। इनपुट २४ MP, नतिजा १६ MP र प्रत्येक किनारा १२,००० px सम्म राख्नुहोस्।'],
- 'invalid-dimensions':['Enter positive whole-number dimensions in pixels.','पिक्सेलमा धनात्मक पूर्ण संख्या राख्नुहोस्।'],
- 'invalid-number':['Enter valid dimensions or target size using Nepali or Latin digits.','नेपाली वा अंग्रेजी अंकमा मान्य पिक्सेल वा आकार राख्नुहोस्।'],
- 'invalid-image':['This file is damaged or is not a supported image. Choose another photo.','यो फाइल बिग्रिएको वा समर्थन नभएको चित्र हो। अर्को फोटो छान्नुहोस्।'],
- 'animated-image':['Use a still WebP image. Animated WebP is not supported.','स्थिर WebP राख्नुहोस्। चल्ने WebP समर्थित छैन।'],
- 'decode-failed':['Your browser could not open this photo. Try a JPEG or a smaller file.','ब्राउजरले यो फोटो खोल्न सकेन। JPEG वा सानो फाइल प्रयास गर्नुहोस्।'],
- 'target-range':['Choose a target between 1 KB and 20,000 KB, or leave it blank.','१ KB देखि २०,००० KB भित्र राख्नुहोस् वा खाली छोड्नुहोस्।'],
- 'format-unavailable':['Your browser cannot encode that format. Please choose JPEG or PNG.','यो ब्राउजरले यो प्रकार बनाउन सकेन। JPEG वा PNG छान्नुहोस्।'],
- 'encode-failed':['The image could not be saved. Try smaller dimensions.','फोटो बनाउन सकिएन। सानो पिक्सेल प्रयास गर्नुहोस्।'],
+ 'file-type':['Choose a JPEG, PNG or still WebP image. HEIC, GIF, SVG and PDF are not supported.','JPEG, PNG वा एनिमेसन नभएको WebP फोटो छान्नुहोस्। HEIC, GIF, SVG र PDF प्रयोग गर्न मिल्दैन।'],
+ 'pixel-limit':['That image is too large. Input limit: 24 MP; output limit: 16 MP; each side at most 12,000 px.','फोटो धेरै ठूलो छ। छान्ने फोटो २४ MP र नयाँ फोटो १६ MP भित्र हुनुपर्छ। चौडाइ वा उचाइ १२,००० px भन्दा बढी राख्न मिल्दैन।'],
+ 'invalid-dimensions':['Enter positive whole-number dimensions in pixels.','चौडाइ र उचाइ पिक्सेलमा राख्नुहोस्। शून्यभन्दा ठूलो पूर्ण संख्या चाहिन्छ।'],
+ 'invalid-number':['Enter valid dimensions or target size using Nepali or Latin digits.','चौडाइ, उचाइ वा फाइलको साइज जाँच्नुहोस्। नेपाली र अंग्रेजी दुवै अंक राख्न मिल्छ।'],
+ 'invalid-image':['This file is damaged or is not a supported image. Choose another photo.','यो फाइल बिग्रिएको छ वा यहाँ खोल्न नमिल्ने प्रकारको छ। अर्को फोटो छान्नुहोस्।'],
+ 'animated-image':['Use a still WebP image. Animated WebP is not supported.','एनिमेसन नभएको WebP फोटो छान्नुहोस्। एनिमेसन भएको WebP यहाँ प्रयोग गर्न मिल्दैन।'],
+ 'decode-failed':['Your browser could not open this photo. Try a JPEG or a smaller file.','ब्राउजरले यो फोटो खोल्न सकेन। JPEG वा सानो फाइल छानेर हेर्नुहोस्।'],
+ 'target-range':['Choose a target between 1 KB and 20,000 KB, or leave it blank.','फाइलको साइज १ KB देखि २०,००० KB भित्र राख्नुहोस् वा खाली छोड्नुहोस्।'],
+ 'format-unavailable':['Your browser cannot encode that format. Please choose JPEG or PNG.','यो ब्राउजरले छानिएको प्रकारको फाइल बनाउन सकेन। JPEG वा PNG छान्नुहोस्।'],
+ 'encode-failed':['The image could not be saved. Try smaller dimensions.','फोटो तयार हुन सकेन। चौडाइ र उचाइ घटाएर फेरि हेर्नुहोस्।'],
 };
-function showError(error:unknown){const code=error instanceof Error?error.message:'';if(code==='cancelled')return;const message=errorMessages[code]||['Could not process this photo. Try a smaller image.','फोटो प्रशोधन भएन। सानो फोटो प्रयास गर्नुहोस्।'];setText('photo-error',t(message[0],message[1]));el('photo-error').hidden=false;el('photo-error').focus();}
+function showError(error:unknown){const code=error instanceof Error?error.message:'';if(code==='cancelled')return;const message=errorMessages[code]||['Could not process this photo. Try a smaller image.','फोटो तयार हुन सकेन। सानो फोटो छानेर फेरि हेर्नुहोस्।'];setText('photo-error',t(message[0],message[1]));el('photo-error').hidden=false;el('photo-error').focus();}
 function invalidate(){revision++;output=undefined;if(outputUrl)URL.revokeObjectURL(outputUrl);outputUrl='';el<HTMLImageElement>('output-preview').removeAttribute('src');el('photo-result').hidden=true;el('result-empty').hidden=false;el('photo-error').hidden=true;}
-function setBusy(value:boolean){busy=value;el<HTMLButtonElement>('process-photo').disabled=value||!bitmap;el<HTMLFieldSetElement>('photo-controls').disabled=value||!bitmap;el<HTMLButtonElement>('clear-photo').disabled=value;el<HTMLButtonElement>('photo-example').disabled=value;fileInput.disabled=value;el('cancel-photo').hidden=!value;setText('photo-status',value?t('Processing on your device…','तपाईंको यन्त्रमा प्रशोधन हुँदैछ…'):'');}
+function setBusy(value:boolean){busy=value;el<HTMLButtonElement>('process-photo').disabled=value||!bitmap;el<HTMLFieldSetElement>('photo-controls').disabled=value||!bitmap;el<HTMLButtonElement>('clear-photo').disabled=value;el<HTMLButtonElement>('photo-example').disabled=value;fileInput.disabled=value;el('cancel-photo').hidden=!value;setText('photo-status',value?t('Processing on your device…','तपाईंको ब्राउजरमै फोटो तयार हुँदैछ…'):'');}
 function release(){sampleRevision++;invalidate();bitmap?.close();bitmap=undefined;file=undefined;if(originalUrl)URL.revokeObjectURL(originalUrl);originalUrl='';el<HTMLImageElement>('original-preview').removeAttribute('src');el('original-block').hidden=true;el('clear-photo').hidden=true;el('photo-sample-label').hidden=true;fileInput.value='';setBusy(false);}
 async function choose(selected:File,isSample=false){
- if(busy)return;release();const version=++revision;setText('photo-status',t('Opening your photo locally…','फोटो यहीँ खोलिँदैछ…'));
+ if(busy)return;release();const version=++revision;setText('photo-status',t('Opening your photo locally…','फोटो खोलिँदैछ…'));
  el('photo-sample-label').hidden=!isSample;
  try{const opened=await readImage(selected);if(version!==revision){opened.close();return;}bitmap=opened;file=selected;
    originalUrl=URL.createObjectURL(selected);el<HTMLImageElement>('original-preview').src=originalUrl;
    setText('original-dimensions',`${number(bitmap.width,0)} × ${number(bitmap.height,0)} px`);setText('original-size',`${number(selected.size/1000,2)} KB (${number(selected.size,0)} ${t('bytes','बाइट')})`);
    el('original-block').hidden=false;el('clear-photo').hidden=false;
    const scale=Math.min(1,1600/Math.max(bitmap.width,bitmap.height));el<HTMLInputElement>('photo-width').value=String(Math.round(bitmap.width*scale));el<HTMLInputElement>('photo-height').value=String(Math.round(bitmap.height*scale));
-   setBusy(false);setText('photo-status',t('Photo ready. Set your size, then preview.','फोटो तयार छ। आकार मिलाएर झलक हेर्नुहोस्।'));
+   setBusy(false);setText('photo-status',t('Photo ready. Set your size, then preview.','फोटो खुल्यो। चाहिएको साइज राखेर नतिजा हेर्नुहोस्।'));
  }catch(error){if(version===revision){setBusy(false);showError(error);}}
 }
 fileInput.addEventListener('change',()=>{const selected=fileInput.files?.[0];if(selected)void choose(selected);});
@@ -63,13 +63,13 @@ async function generate(){
    const reduction=(1-output.size/file.size)*100;
    setText('photo-summary',`${reduction>=0?`${number(reduction,1)}% ${t('smaller','सानो')}`:`${number(-reduction,1)}% ${t('larger','ठूलो')}`} · ${output.type.replace('image/','').toUpperCase()}${output.type==='image/png'?'':` · ${t('Quality','गुणस्तर')} ${number(result.quality*100,0)}%`}`);
    el('target-notice').hidden=result.metTarget;el('reduce-dimensions').hidden=result.metTarget;
-   setText('target-notice',t(`This output is ${number(output.size/1000,2)} KB, above your ${number((target||0)/1000)} KB target. Try smaller dimensions or another format.`,`यो नतिजा ${number(output.size/1000,2)} KB छ, चाहिएको ${number((target||0)/1000)} KB भन्दा ठूलो। पिक्सेल घटाउनुहोस् वा प्रकार बदल्नुहोस्।`));
+   setText('target-notice',t(`This output is ${number(output.size/1000,2)} KB, above your ${number((target||0)/1000)} KB target. Try smaller dimensions or another format.`,`तयार भएको फाइल ${number(output.size/1000,2)} KB छ। तपाईंले तोकेको ${number((target||0)/1000)} KB मा अटेन। चौडाइ र उचाइ घटाउनुहोस् वा फाइलको प्रकार बदल्नुहोस्।`));
    el('photo-result').hidden=false;el('result-empty').hidden=true;
  }catch(error){if(revision===version)showError(error);}
  finally{setBusy(false);}
 }
 el('photo-form').addEventListener('submit',e=>{e.preventDefault();void generate();});
-el('cancel-photo').addEventListener('click',()=>{revision++;setText('photo-status',t('Cancelling after the current encoding step…','हालको चरणपछि रद्द हुँदैछ…'));});
+el('cancel-photo').addEventListener('click',()=>{revision++;setText('photo-status',t('Cancelling after the current encoding step…','चलिरहेको कामको यो चरण सकिएपछि रोकिनेछ…'));});
 el('clear-photo').addEventListener('click',()=>{if(busy){revision++;return;}release();});
 el('reduce-dimensions').addEventListener('click',()=>{try{el<HTMLInputElement>('photo-width').value=String(Math.max(1,Math.floor(integer(val('photo-width'))*.75)));el<HTMLInputElement>('photo-height').value=String(Math.max(1,Math.floor(integer(val('photo-height'))*.75)));void generate();}catch(error){showError(error);}});
 el('download-photo').addEventListener('click',()=>{if(output)downloadBlob(output,`sajilo-photo.${output.type==='image/jpeg'?'jpg':output.type==='image/png'?'png':'webp'}`);});
@@ -79,7 +79,7 @@ async function loadSample(){
  if(busy)return;
  const version=++sampleRevision;
  el<HTMLButtonElement>('photo-example').disabled=true;
- setText('photo-status',t('Loading the example image…','उदाहरण चित्र खोलिँदैछ…'));
+ setText('photo-status',t('Loading the example image…','नमुना फोटो खोलिँदैछ…'));
  try{
    const response=await fetch(withBase('examples/mountain-sample.jpg'));
    if(!response.ok)throw new Error('sample-unavailable');
@@ -94,7 +94,7 @@ async function loadSample(){
    el('quality-control').hidden=false;el<HTMLInputElement>('photo-target').value='200';
    await generate();
  }catch{
-   if(version===sampleRevision)setText('photo-status',t('Example unavailable. Choose your own photo to continue.','उदाहरण खुलेन। आफ्नो फोटो छानेर अगाडि बढ्नुहोस्।'));
+   if(version===sampleRevision)setText('photo-status',t('Example unavailable. Choose your own photo to continue.','नमुना फोटो खुलेन। आफ्नो फोटो छानेर काम सुरु गर्न सक्नुहुन्छ।'));
  }finally{el<HTMLButtonElement>('photo-example').disabled=busy;}
 }
 el('photo-example').addEventListener('click',()=>{void loadSample();});

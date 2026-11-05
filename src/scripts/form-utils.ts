@@ -15,16 +15,16 @@ export function setCalendar(prefix: string, calendar: Calendar) {
   setText(`${prefix}-range`, calendar === 'BS' ? t('BS 1975–2099 · Nepali or Latin digits','वि.सं. १९७५–२०९९ · नेपाली वा अंग्रेजी अंक') : t('AD 13 Apr 1918–13 Apr 2043 · Nepali or Latin digits','ई.सं. १३ अप्रिल १९१८–१३ अप्रिल २०४३ · नेपाली वा अंग्रेजी अंक'));
 }
 const messages: Record<string,[string,string]> = {
-  'invalid-number':['Enter a valid non-negative number. Nepali and Latin digits are supported.','मान्य धनात्मक संख्या वा शून्य लेख्नुहोस्। नेपाली र अंग्रेजी अंक चल्छन्।'],
+  'invalid-number':['Enter a valid non-negative number. Nepali and Latin digits are supported.','शून्य वा त्यसभन्दा ठूलो संख्या राख्नुहोस्। नेपाली र अंग्रेजी दुवै अंक प्रयोग गर्न मिल्छ।'],
   'invalid-date':['That date does not exist in the selected calendar. Check the year, month and day.','छानिएको पात्रोमा यो मिति छैन। वर्ष, महिना र गते जाँच्नुहोस्।'],
   range:['Use BS 1975–2099 or AD 13 April 1918–13 April 2043.','वि.सं. १९७५–२०९९ वा ई.सं. १३ अप्रिल १९१८–१३ अप्रिल २०४३ भित्रको मिति राख्नुहोस्।'],
-  'future-birth':['The birth date must be on or before the selected cutoff date.','जन्ममिति अन्तिम मितिभन्दा अघि वा त्यही दिन हुनुपर्छ।'],
-  'empty-text':['Paste some Preeti text first, or try the example.','पहिले प्रीति अक्षर पेस्ट गर्नुहोस् वा उदाहरण चलाउनुहोस्।'],
-  'text-limit':['Use 50,000 characters or fewer. Split longer documents into smaller sections.','५०,००० सम्म अक्षर राख्नुहोस्। लामो सामग्रीलाई भाग लगाउनुहोस्।'],
-  compound:['Use whole numbers for larger units. Aana must be below 16, Paisa and Daam below 4; Kattha and Dhur below 20. Only the smallest unit may contain decimals.','ठूला एकाइमा पूर्ण अंक राख्नुहोस्। आना १६ भन्दा, पैसा र दाम ४ भन्दा, कठ्ठा र धुर २० भन्दा कम हुनुपर्छ। सबैभन्दा सानो एकाइमा मात्र दशमलव राख्न मिल्छ।'],
-  'land-range':['Please use an area no larger than 1 trillion square feet.','कृपया १ ट्रिलियन वर्ग फिटभन्दा सानो क्षेत्रफल राख्नुहोस्।'],
+  'future-birth':['The birth date must be on or before the selected cutoff date.','जन्ममिति उमेर गणना गर्ने मितिभन्दा पछिको हुन मिल्दैन।'],
+  'empty-text':['Paste some Preeti text first, or try the example.','पहिले प्रीतिमा लेखिएको पाठ पेस्ट गर्नुहोस् वा नमुना हेर्नुहोस्।'],
+  'text-limit':['Use 50,000 characters or fewer. Split longer documents into smaller sections.','एक पटकमा ५०,००० अक्षरसम्म राख्न मिल्छ। लामो पाठलाई साना भागमा बाँडेर बदल्नुहोस्।'],
+  compound:['Use whole numbers for larger units. Aana must be below 16, Paisa and Daam below 4; Kattha and Dhur below 20. Only the smallest unit may contain decimals.','आना १६ भन्दा, पैसा र दाम ४ भन्दा, कठ्ठा र धुर २० भन्दा कम राख्नुहोस्। ठूला एकाइमा पूर्ण संख्या र सबैभन्दा सानो एकाइमा मात्र दशमलव राख्न मिल्छ।'],
+  'land-range':['Please use an area no larger than 1 trillion square feet.','क्षेत्रफल १० खर्ब वर्ग फिटसम्म राख्न मिल्छ।'],
 };
-export function errorMessage(error: unknown) { const key = error instanceof Error ? error.message : ''; const pair = messages[key]; return pair ? t(...pair) : t('Something went wrong. Check your inputs and try again.','समस्या आयो। राखिएको विवरण जाँचेर फेरि चलाउनुहोस्।'); }
+export function errorMessage(error: unknown) { const key = error instanceof Error ? error.message : ''; const pair = messages[key]; return pair ? t(...pair) : t('Something went wrong. Check your inputs and try again.','गणना हुन सकेन। राखेको विवरण जाँचेर फेरि प्रयास गर्नुहोस्।'); }
 export function showError(error: unknown, id = 'form-error') { const node = el(id); node.textContent = errorMessage(error); node.hidden = false; node.focus(); }
 export function clearError(id = 'form-error') { el(id).hidden = true; }
 export function number(value: number, max = 4) { const s = new Intl.NumberFormat('en-US',{ maximumFractionDigits:max }).format(value); return lang === 'ne' ? nepaliDigits(s) : s; }

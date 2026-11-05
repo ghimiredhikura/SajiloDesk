@@ -38,6 +38,10 @@ try {
       await page.screenshot({path:`${out}/${lang}-${id}-1366.png`,animations:'disabled'});
     }
     await page.goto(`${base}/${lang}/`);
+    if(lang==='ne') {
+      assert.match(await page.locator('.today-ad').textContent(),/बिहीबार.*५ नोभेम्बर २०२६/);
+      assert.match(await page.locator('#nepal-time').textContent(),/११:४५.*नेपाल समय/);
+    }
     assert.equal(await page.locator('.today-observances').getAttribute('open'),null);
     assert.equal(await page.locator('#today-world').isVisible(),true);
     assert.match(await page.locator('#today-world').textContent(),lang==='ne'?/सुनामी/:/Tsunami/);

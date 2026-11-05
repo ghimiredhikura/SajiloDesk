@@ -9,7 +9,7 @@ export function toast(message: string) {
 }
 export async function copyText(text: string) {
   try { await navigator.clipboard.writeText(text); toast(ne ? 'कपी भयो।' : 'Copied to clipboard.'); }
-  catch { toast(ne ? 'कपी गर्न अनुमति भएन। नतिजा छानेर कपी गर्नुहोस्।' : 'Clipboard unavailable. Select the result and copy it.'); }
+  catch { toast(ne ? 'कपी गर्न सकिएन। नतिजा छानेर आफैँ कपी गर्नुहोस्।' : 'Clipboard unavailable. Select the result and copy it.'); }
 }
 export function downloadBlob(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob); const a = document.createElement('a');
@@ -27,8 +27,8 @@ function renderFavorites() {
 document.querySelectorAll<HTMLButtonElement>('[data-favorite]').forEach(button => button.addEventListener('click', () => {
   const id = button.dataset.favorite!;
   if (favorites.includes(id)) favorites = favorites.filter(x => x !== id); else favorites.push(id);
-  try { localStorage.setItem('sajilo-favorites', JSON.stringify(favorites)); toast(ne ? 'मेरा उपकरण अद्यावधिक भयो।' : 'Your saved tools are updated.'); }
-  catch { toast(ne ? 'यो ब्राउजरमा सुरक्षित गर्न सकिएन।' : 'Storage unavailable. Saved for this page only.'); }
+  try { localStorage.setItem('sajilo-favorites', JSON.stringify(favorites)); toast(ne ? 'मनपर्ने उपकरणको सूची फेरियो।' : 'Your saved tools are updated.'); }
+  catch { toast(ne ? 'सूची सेभ हुन सकेन। यो पृष्ठ खुलेसम्म मात्र रहन्छ।' : 'Storage unavailable. Saved for this page only.'); }
   renderFavorites(); filterTools();
 }));
 renderFavorites();
@@ -55,4 +55,4 @@ document.querySelectorAll<HTMLButtonElement>('[data-category-filter]').forEach(b
 search?.addEventListener('input', filterTools); filterTools();
 document.addEventListener('keydown', e => { const target = e.target as HTMLElement; if (e.key === '/' && search && !['INPUT','TEXTAREA','SELECT'].includes(target.tagName) && !target.isContentEditable) { e.preventDefault(); search.focus(); } });
 document.querySelector('[data-share]')?.addEventListener('click', () => copyText(`${location.origin}${location.pathname}`));
-document.querySelector('[data-clear-preferences]')?.addEventListener('click', () => { try { localStorage.removeItem('sajilo-favorites'); localStorage.removeItem('sajilo-language'); favorites = []; renderFavorites(); toast(ne ? 'सुरक्षित प्राथमिकता हटाइयो।' : 'Saved preferences cleared.'); } catch { toast(ne ? 'स्थानीय भण्डारण उपलब्ध छैन।' : 'Local storage is unavailable.'); } });
+document.querySelector('[data-clear-preferences]')?.addEventListener('click', () => { try { localStorage.removeItem('sajilo-favorites'); localStorage.removeItem('sajilo-language'); favorites = []; renderFavorites(); toast(ne ? 'छानिएको भाषा र मनपर्ने उपकरणको सूची हटाइयो।' : 'Saved preferences cleared.'); } catch { toast(ne ? 'ब्राउजरमा सेभ गरिएको विवरण हटाउन सकिएन।' : 'Local storage is unavailable.'); } });

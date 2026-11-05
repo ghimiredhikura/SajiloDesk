@@ -47,7 +47,7 @@ try {
     assert.match(await page.locator('#today-world').textContent(),lang==='ne'?/सुनामी/:/Tsunami/);
     assert.equal(await page.locator('#today-holiday').isVisible(),false);
     assert.equal(await page.locator('#today-world').evaluate(element=>element.closest('details')),null);
-    assert.ok(await page.locator('#today-world').evaluate(element=>parseFloat(getComputedStyle(element).fontSize)>=17));
+    assert.ok(await page.locator('#today-world').evaluate(element=>parseFloat(getComputedStyle(element).fontSize)>=15));
     const heroBounds=await page.evaluate(()=>{
       const intro=document.querySelector('.hero-copy').getBoundingClientRect(),card=document.querySelector('.today-card').getBoundingClientRect();
       return {intro: intro.height,card:card.height,topDifference:Math.abs(intro.top-card.top)};

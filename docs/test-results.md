@@ -1,6 +1,6 @@
 # Sajilo Desk verification report
 
-Latest changes verified locally on **5 November 2026**. This is implementation evidence, not a public deployment or participant study.
+Verification records through **6 November 2026**, including local checks and the production deployment below. This is implementation evidence, not a participant study.
 
 ## 5 November: daily information, ready-to-use examples and compact tools
 
@@ -92,10 +92,10 @@ Wrangler's local static-assets server returned 200 for representative English/Ne
 1. Independent Nepali wording and Preeti typist review, especially rare glyphs and mixed Office/PDF text. Broader historical calendar spot checks beyond the current official fixtures.
 2. Physical Android testing on a modest-memory device and a slow connection. Current phone coverage uses desktop Chrome viewports, not physical phones.
 3. Safari/iOS and Firefox, EXIF orientation fixtures, image encoder differences, and the user-denied clipboard path. Real Chrome's synthetic image download passed; it does not establish these other cases.
-4. Final hostname/domain approval, authorized Cloudflare deployment, live HTTPS/canonical/indexing checks, and real-device smoke tests on that URL.
+4. Real-device smoke tests on the production URL and owner-account Search Console verification/sitemap submission. The Cloudflare launch checks below supersede the earlier pending deployment status.
 5. The proposed five-shop/ten-user pilot and competitor timed benchmark. No interviews, outreach, measured retention or traffic forecasts are claimed.
 
-Public contact is **sajilodesk@gmail.com**. Domain `sajilodesk.com.np` is not yet approved. Deployment configuration is ready; no public deployment, DNS change, analytics or advertising activation has occurred.
+Public contact is **sajilodesk@gmail.com**. These initial checks preceded publication; the dated deployment records below describe the subsequent GitHub Pages preview and Cloudflare production launch. No application analytics or advertising has been activated.
 
 ## GitHub Pages project-path preparation (5 November 2026)
 
@@ -118,3 +118,17 @@ After the owner approved public repository visibility, `ghimiredhikura/SajiloDes
 An unauthenticated HTTPS request to `https://ghimiredhikura.github.io/SajiloDesk/` returned 301 to `https://ghimiredeepak.com.np/SajiloDesk/`, then 200. The project inherits the personal site's domain. HTTPS enforcement is enabled on this project's Pages settings; no personal-site or DNS changes were made.
 
 An isolated Chrome session opened the requested address, followed the project and language redirects, switched English/Nepali, checked the Nepali weekday/month and clock display, navigated both BS/AD calendar views and found holiday markings. It opened all five tools in both languages and verified usable default results, including the actual 800 × 500 photo output. The Nepali homepage and Romanized search also passed at a 390 px viewport. No browser runtime/console errors or failed HTTP responses occurred in these live checks. These checks supersede the earlier pre-deployment status above. Physical-device and independent editorial checks remain outstanding; `sajilodesk.com.np` remains pending and search indexing remains disabled until the final hostname/release is ready.
+
+## Cloudflare production launch and Nepali default (6 November 2026)
+
+Published the static site at **https://sajilodesk.com/** after the owner purchased the domain and approved Cloudflare access. Cloudflare provisioned DNS and trusted HTTPS for the apex and `www`; a separate redirect Worker sends HTTP and `www` requests to the HTTPS apex while preserving paths and queries. The `.com.np` application was rejected. The existing GitHub Pages project remains a separate, non-indexable preview; the personal site's settings were not changed. Production deployment instructions are in [cloudflare.md](cloudflare.md).
+
+The production verification passed Astro diagnostics, all **31 unit/calculation tests**, **14 DOM-entry scenarios**, and static checks for **34 HTML pages, 69 assets, 962 local references and 74 labelled controls**. Production canonicals, alternate-language links, robots and sitemap use the custom domain without the project prefix. Public pages are indexable; saved tools and the 404 page retain `noindex`. The local Cloudflare server passed **84 responsive layouts and 14 browser workflows**, the ten-tool-workspace defaults suite, and the **12-layout calendar suite**.
+
+Isolated real Chrome checks on the live hostname passed English/Nepali switching, Nepal date/clock text, both calendar modes and holiday markings, all five tools in both languages with their working example results, the actual 800 × 500 JPEG preview, and mobile Nepali layout/search. Live checks also verified the response security headers, production robots/sitemap, saved-page exclusions, a genuine HTTP 404, and HTTP/`www`/old-project-prefix redirects with preserved queries. These exercised paths produced no runtime/console errors or failed HTTP responses. A plain automated HTTP client received Cloudflare error 1010; the live checks therefore used an isolated real Chrome browser without changing Cloudflare's security settings.
+
+Cloudflare initially injected its Web Analytics beacon, which conflicted with the site's no-analytics policy and script restrictions. The documented `Cache-Control: public, no-transform` header prevents that automatic injection; subsequent live checks found no beacon or related errors. The favicon fallback now redirects to the existing SVG. No application analytics, advertisements or paid Cloudflare plan were enabled.
+
+New root visitors now open **`/ne/`**. Targeted local and live Chrome checks passed fresh storage, a saved explicit English choice, switching back to Nepali, unavailable storage, and the no-JavaScript language chooser. The default search-engine alternate also points to Nepali. Saved language choices remain respected. The final main Worker version is `40745940-cea5-46e5-94a0-ffbdee487085`; the redirect Worker version is `7e27282a-33f8-4eee-8859-e44c52a7a36e`.
+
+Search Console verification/submission and actual Google indexing have not been performed. Physical-device, other-browser and independent editorial/typist checks remain separate follow-up work.

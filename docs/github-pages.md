@@ -1,5 +1,7 @@
 # GitHub Pages deployment
 
+**Historical preview:** production is now at `https://sajilodesk.com` on Cloudflare, launched on 6 November 2026. Use [Cloudflare deployment](cloudflare.md) for the current production procedure. This document records the earlier GitHub Pages setup; the `.com.np` registration mentioned below was subsequently rejected.
+
 The current requested target is **https://ghimiredhikura.github.io/SajiloDesk/**, using the `main` branch of `ghimiredhikura/SajiloDesk`. The workflow is `.github/workflows/deploy-pages.yml`. This supersedes the earlier Cloudflare-only hosting plan.
 
 ## Current deployment (5 November 2026)

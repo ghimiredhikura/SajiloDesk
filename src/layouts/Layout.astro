@@ -25,7 +25,7 @@ const canonical = new URL(withBase(path === '/404/' ? '404.html' : path), Astro.
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="en" href={new URL(route('en', localPath), Astro.site)} />
     <link rel="alternate" hreflang="ne" href={new URL(route('ne', localPath), Astro.site)} />
-    <link rel="alternate" hreflang="x-default" href={new URL(route('en', localPath), Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(route('ne', localPath), Astro.site)} />
     <meta property="og:type" content="website" /><meta property="og:title" content={`${title} | Sajilo Desk`} />
     <meta property="og:description" content={description} /><meta property="og:url" content={canonical} />
     <meta property="og:locale" content={lang === 'ne' ? 'ne_NP' : 'en_US'} />

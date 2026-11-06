@@ -36,7 +36,18 @@ for(const match of sitemap.matchAll(/<loc>(.*?)<\/loc>/g))assert.ok(all.has(reso
 assert.ok(!sitemap.includes('/saved/'),'Saved tools are not search pages');assert.ok(all.has('dist/404.html'),'Real 404 page missing');
 assert.ok(!files.some(f=>/(_worker\.js|server\.|\.env|research\.md)/.test(f)),'No server/secret/research artifact in public output');
 const robots=await readFile('dist/robots.txt','utf8');const isIndexable=!robots.includes('Disallow: /\n');
-for(const [file,document] of documents){const canonical=new URL(document.querySelector('link[rel=canonical]').getAttribute('href'));if(isIndexable)assert.ok(canonical.protocol==='https:'&&!canonical.hostname.includes('localhost'),`Indexable build must have an HTTPS production hostname: ${file}`);else assert.ok(document.querySelector('meta[name=robots]').getAttribute('content').includes('noindex'),`${file}: preview must be noindex`);}
+const expectedOrigin=process.env.PUBLIC_SITE_URL?new URL(process.env.PUBLIC_SITE_URL).origin:null;
+for(const [file,document] of documents){
+ const canonical=new URL(document.querySelector('link[rel=canonical]').getAttribute('href'));
+ const meta=document.querySelector('meta[name=robots]').getAttribute('content');
+ if(expectedOrigin)assert.equal(canonical.origin,expectedOrigin,`${file}: canonical must use the configured site origin`);
+ if(isIndexable){
+  assert.ok(canonical.protocol==='https:'&&!canonical.hostname.includes('localhost'),`Indexable build must have an HTTPS production hostname: ${file}`);
+  const excluded=file==='dist/404.html'||/\/saved\/index\.html$/.test(file);
+  assert.equal(meta.split(',').includes('noindex'),excluded,`${file}: public pages must be indexable; saved/404 pages must not be`);
+ }else assert.ok(meta.includes('noindex'),`${file}: preview must be noindex`);
+}
+if(expectedOrigin)for(const match of sitemap.matchAll(/<loc>(.*?)<\/loc>/g))assert.equal(new URL(match[1]).origin,expectedOrigin,'Sitemap must use the configured site origin');
 assert.ok(files.length<20000,'Cloudflare free asset count exceeded');for(const file of files)assert.ok((await stat(file)).size<=25*1024*1024,`Asset too large: ${file}`);
 const scripts=files.filter(f=>f.endsWith('.js'));const scriptSize=(await Promise.all(scripts.map(async f=>({file:path.basename(f),bytes:(await stat(f)).size,gzip:gzipSync(await readFile(f)).length}))));
 const report={htmlPages:htmlFiles.length,checkedLocalReferences:linkCount,labeledFormControls:fieldCount,staticAssets:files.length,indexable:isIndexable,scripts:scriptSize};

@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sajilodesk-redirect",
+  "main": "scripts/redirect-domain.ts",
+  "compatibility_date": "2026-11-04",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "www.sajilodesk.com", "custom_domain": true },
+    { "pattern": "http://sajilodesk.com/*", "zone_name": "sajilodesk.com" }
+  ]
+}

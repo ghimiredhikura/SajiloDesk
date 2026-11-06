@@ -1,0 +1,4 @@
+/favicon.ico /favicon.svg 301
+/SajiloDesk / 301
+/SajiloDesk/ / 301
+/SajiloDesk/* /:splat 301

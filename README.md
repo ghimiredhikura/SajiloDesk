@@ -4,7 +4,7 @@
 
 Free tools for life in Nepal, and wherever life takes you.
 
-**[Open SajiloDesk in English](https://ghimiredhikura.github.io/SajiloDesk/en/)** · **[नेपालीमा खोल्नुहोस्](https://ghimiredhikura.github.io/SajiloDesk/ne/)**
+**[Open SajiloDesk in English](https://sajilodesk.com/en/)** · **[नेपालीमा खोल्नुहोस्](https://sajilodesk.com/ne/)**
 
 ## Everyday tools, ready when you are
 
@@ -20,7 +20,7 @@ Each tool opens with a ready-to-try example. Replace the values or choose your o
 
 ## Your day, at a glance
 
-See today's Nepali and English dates, Nepal and world key days, and listed holidays. Browse a [BS/AD calendar](https://ghimiredhikura.github.io/SajiloDesk/en/#calendar), select a date and explore its details. Holiday dates appear in red, with regional or community scope explained alongside them.
+See today's Nepali and English dates, Nepal and world key days, and listed holidays. Browse a [BS/AD calendar](https://sajilodesk.com/en/#calendar), select a date and explore its details. Holiday dates appear in red, with regional or community scope explained alongside them.
 
 ## Simple and private
 
@@ -39,4 +39,4 @@ Built and maintained by [Deepak Ghimire](https://github.com/ghimiredhikura).
 
 ---
 
-For contributors: [Local setup](docs/development.md) · [Deployment](docs/github-pages.md) · [Sources and methods](docs/validation-ledger.md) · [Verification](docs/test-results.md)
+For contributors: [Local setup](docs/development.md) · [Deployment](docs/cloudflare.md) · [Sources and methods](docs/validation-ledger.md) · [Verification](docs/test-results.md)

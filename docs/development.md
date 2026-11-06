@@ -1,12 +1,12 @@
 # Developer and local setup guide
 
-The following contains the project setup, verification and earlier hosting notes. For the current GitHub Pages target, see [GitHub Pages deployment](github-pages.md).
+The following contains the project setup, verification and historical hosting notes. The production target is now `https://sajilodesk.com` on Cloudflare; see [production deployment](cloudflare.md). The [GitHub Pages guide](github-pages.md) describes the earlier preview.
 
 # Sajilo Desk / सजिलो डेस्क
 
 A bilingual, browser-local utility desk for Nepal and Nepalis worldwide. The first implementation contains five tools, a responsive orange/navy interface, search with English/Nepali/Romanized aliases, device-local favorites, and three practical guides.
 
-**Status:** implemented and prepared for review; **not deployed**. The owner confirmed on 4 November 2026 that the domain is not approved yet and requested site/deployment preparation. Public contact: **sajilodesk@gmail.com**. English and Nepali pages have passed real Chrome workflows and responsive visual review. Physical-device checks and independent Nepali review remain before public launch.
+**Status:** the bilingual site was published on GitHub Pages on 5 November 2026 and launched at `https://sajilodesk.com` on Cloudflare on 6 November. The earlier `.com.np` application was rejected. Public contact: **sajilodesk@gmail.com**. English and Nepali pages have passed real Chrome workflows and responsive visual review. Physical-device checks and independent Nepali review remain separate checks.
 
 ## Run locally
 
@@ -60,7 +60,7 @@ npm ci
 npm run dev
 ```
 
-Open the English or Nepali URL above once the server is ready. The root remembers only the chosen language and defaults to English. Tool inputs are never placed in URLs or persistent storage.
+Open the English or Nepali URL above once the server is ready. The root remembers only the chosen language and defaults to Nepali. Choosing English explicitly makes subsequent root visits use English in that browser. Tool inputs are never placed in URLs or persistent storage.
 
 ## Ready-to-try defaults and daily information
 

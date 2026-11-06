@@ -18,6 +18,9 @@ SIL Open Font License 1.1. Full notice: dm-sans.txt
 Noto Sans Devanagari, distributed by @fontsource-variable/noto-sans-devanagari 5.3.0
 SIL Open Font License 1.1. Full notice: noto-sans-devanagari.txt
 
+Mukta, distributed by @fontsource/mukta 5.3.0
+SIL Open Font License 1.1. Full notice: mukta.txt
+
 The logo and decorative mountain/pagoda vector are original Sajilo Desk project artwork.
 Development/build tools and their exact versions are recorded in package-lock.json.
 Generated production assets contain no external font/CDN dependencies.

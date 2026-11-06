@@ -142,3 +142,11 @@ Isolated Chrome verified HTTP 404 for both `https://ghimiredeepak.com.np/SajiloD
 ## Concise homepage headlines (6 November 2026)
 
 Published the approved headlines, “Everyday tasks, made sajilo.” and “तपाईंको दैनिकी, अब अझ सजिलो।” with the forced line break removed. Supporting descriptions and the orange emphasis remain in place. `npm run verify` passed. Chrome checks covered both languages at 320, 390, 768, 1024, 1366 and 1920 px: no horizontal overflow or console/runtime errors, one headline line from 768 px upward, and natural wrapping on phones. The hero and daily card still have matching heights in the side-by-side layout. Representative desktop/mobile screenshots were visually inspected. Live checks confirmed both approved headlines at `sajilodesk.com`; Cloudflare version `2a66cadc-10de-4fb9-97c0-d63e3bb78e6f`.
+
+## Compact daily card and responsive hero typography (6 November 2026)
+
+The daily card now uses its content height instead of stretching to match the left hero. On an ordinary day at 1366 px, it measures about **190 px instead of 247 px**; key days, holidays and expanded source details can still make it grow. The background illustration is smaller so the dates remain clear. Existing daily-card layout checks now require top alignment rather than equal panel heights.
+
+Hero headings now use locally bundled **Mukta 700** for both Latin and Devanagari, with the font's full licence included in the public notices. Desktop sizes are retained. Below 601 px, the heading scales between 22 and 32 px; both approved headlines fit on one line at 320, 360, 390, 430 and 600 px. The desktop/tablet checks also passed at 768, 1366 and 1920 px. Representative mobile/desktop screenshots were visually inspected.
+
+`npm run verify`, final static-build checks and the bilingual defaults/daily-card suite passed, including the holiday/key-day visibility and expanded-details cases. Live Chrome checks at 320, 390 and 1366 px confirmed both headline translations on one line, actual Mukta font loading, the smaller daily card, zero horizontal overflow and no console/runtime errors. Cloudflare version: `b2749885-09e4-4a8b-a806-635299c90e5d`.

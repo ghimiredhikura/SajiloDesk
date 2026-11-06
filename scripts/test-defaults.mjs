@@ -52,7 +52,7 @@ try {
       const intro=document.querySelector('.hero-copy').getBoundingClientRect(),card=document.querySelector('.today-card').getBoundingClientRect();
       return {intro: intro.height,card:card.height,topDifference:Math.abs(intro.top-card.top)};
     });
-    assert.ok(Math.abs(heroBounds.intro-heroBounds.card)<1,JSON.stringify(heroBounds));
+    assert.ok(heroBounds.card<=heroBounds.intro+1,JSON.stringify(heroBounds));
     assert.ok(heroBounds.topDifference<1,JSON.stringify(heroBounds));
     assert.ok(heroBounds.card<340,'The ordinary daily card is compact');
     await page.screenshot({path:`${out}/${lang}-today-visible.png`,animations:'disabled'});
@@ -88,8 +88,8 @@ try {
           if(width>600) {
             assert.ok(await page.evaluate(()=>{
               const intro=document.querySelector('.hero-copy').getBoundingClientRect(),card=document.querySelector('.today-card').getBoundingClientRect();
-              return Math.abs(intro.height-card.height)<1 && Math.abs(intro.top-card.top)<1;
-            }),`${lang} aligned hero panels at ${width}`);
+              return card.height<=intro.height+1 && Math.abs(intro.top-card.top)<1;
+            }),`${lang} top-aligned compact daily card at ${width}`);
           }
           await page.screenshot({path:`${out}/${lang}-holiday-and-key-day-${width}.png`,animations:'disabled',fullPage:width<600});
         }

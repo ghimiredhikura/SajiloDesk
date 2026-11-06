@@ -1,0 +1,53 @@
+---
+import '../../styles/global.css';
+import '../../styles/accessibility.css';
+import '../../styles/moderation.css';
+import '@fontsource-variable/dm-sans';
+import '@fontsource-variable/noto-sans-devanagari';
+import Brand from '../../components/Brand.astro';
+import { withBase } from '../../lib/paths';
+const canonical = new URL(withBase('admin/'), Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Community moderation | SajiloDesk</title>
+    <meta name="description" content="Private owner review of SajiloDesk community comments." />
+    <meta name="robots" content="noindex,nofollow,noarchive" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="canonical" href={canonical} /><link rel="icon" href={withBase('favicon.svg')} />
+  </head>
+  <body class="moderation-page">
+    <a class="skip-link" href="#review-main">Skip to comments</a>
+    <header class="review-header review-width">
+      <a class="brand" href={withBase()} aria-label="SajiloDesk home"><Brand compact /></a>
+      <nav aria-label="Owner navigation"><a href={withBase('ne/')}>View site</a><a href="/cdn-cgi/access/logout">Sign out</a></nav>
+    </header>
+    <main id="review-main" class="review-width">
+      <div class="review-heading"><div><span class="panel-kicker">PRIVATE · OWNER ONLY</span><h1>Community moderation</h1></div><button id="review-refresh" class="review-secondary" type="button">Refresh</button></div>
+      <p class="review-intro">Review suggestions and experiences before publishing.</p>
+      <div class="review-toolbar">
+        <div class="review-tabs" role="group" aria-label="Comment status">
+          <button type="button" data-review-tab="pending" aria-pressed="true">Pending <span id="review-pending-count">—</span></button>
+          <button type="button" data-review-tab="published" aria-pressed="false">Published <span id="review-published-count">—</span></button>
+        </div>
+        <div class="review-filters">
+          <label><span>Guide</span><select id="review-thread"><option value="">All guides</option><option value="korea-d2-extension">D-2 extension</option><option value="korea-d4-extension">D-4-1 extension</option><option value="korea-e9-extension">E-9 extension</option><option value="korea-address-change">Address change</option></select></label>
+          <label><span>Type</span><select id="review-category"><option value="">All types</option><option value="experience">Experience</option><option value="correction">Correction</option><option value="request">Suggestion</option></select></label>
+        </div>
+      </div>
+      <div class="review-status-row"><p id="review-status" role="status" aria-live="polite">Loading comments…</p><a id="review-sign-in" href={withBase('admin/')} hidden>Sign in again</a></div>
+      <section id="review-list" aria-label="Comments" aria-busy="true"></section>
+      <button id="review-more" class="review-secondary" type="button" hidden>Load older comments</button>
+      <noscript><p>Enable JavaScript to review, publish and delete comments.</p></noscript>
+      <details class="review-help"><summary>Before publishing</summary><p>Check for personal details, spam and relevance. Treat corrections as leads to verify against official sources.</p></details>
+      <p id="review-account" class="review-account"></p>
+    </main>
+    <dialog id="review-delete-dialog" aria-labelledby="review-delete-title" aria-describedby="review-delete-description">
+      <h2 id="review-delete-title">Delete this comment?</h2><p id="review-delete-description">This permanently removes it from SajiloDesk.</p>
+      <div class="review-dialog-actions"><button type="button" id="review-cancel-delete" class="review-secondary">Cancel</button><button type="button" id="review-confirm-delete" class="review-danger">Delete comment</button></div>
+    </dialog>
+    <script>import '../../scripts/moderation';</script>
+  </body>
+</html>

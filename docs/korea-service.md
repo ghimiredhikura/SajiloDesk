@@ -36,11 +36,11 @@ Financial minimums, fees, copies/originals, certificate age, authentication and 
 
 ## Public comments and review
 
-Comments are **real shared comments**, stored in the account's Cloudflare D1 database `sajilodesk-community` (APAC). No GitHub or other visitor account is required. The frontend uses only same-origin `/api/comments` requests, without external scripts or widgets. Static pages and existing tools remain served as assets; only `/api/*` invokes the Worker. A daily cleanup trigger removes old pending comments and rate-limit records.
+Comments are **real shared comments**, stored in the account's Cloudflare D1 database `sajilodesk-community` (APAC). No GitHub or other visitor account is required. The frontend uses only same-origin `/api/comments` requests, without external scripts or widgets. Static pages and existing tools remain served as assets; `/api/*` and private `/admin` routes invoke the Worker. A daily cleanup trigger removes old pending comments and rate-limit records.
 
 Only `published` rows can be returned publicly. New submissions always enter `pending`; the caller cannot supply a publication status. There is no public moderation API. Submissions require an exact same-origin JSON request and consent, valid length/category/thread, an empty honeypot, and a daily private IP-hash limit of three per connection. Shared connections share that limit. Comment content is rendered as text, never HTML. There are no file attachments or email collection.
 
-From the synced local runtime, authenticated with the owner's existing Wrangler access:
+For visual review, use the [private moderation page](moderation.md) at `https://sajilodesk.com/admin/` after completing Cloudflare Access sign-in setup. It has Pending/Published tabs, guide/type filters and Publish/Delete controls. The following terminal fallback also remains available from the synced local runtime, authenticated with the owner's existing Wrangler access:
 
 ```powershell
 npm run community -- pending

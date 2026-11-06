@@ -24,7 +24,7 @@ for(const file of htmlFiles){
  const base=new URL(document.querySelector('link[rel=canonical]').getAttribute('href'));
  for(const element of document.querySelectorAll('a[href],link[href],script[src],img[src]')){
   const raw=element.getAttribute('href')||element.getAttribute('src');if(!raw||/^(mailto:|data:|blob:)/.test(raw))continue;
-  const url=new URL(raw,base);if(url.origin!==base.origin)continue;
+  const url=new URL(raw,base);if(url.origin!==base.origin||url.pathname==='/cdn-cgi/access/logout')continue;
   const target=resolveLocal(url);assert.ok(all.has(target),`${file}: broken local reference ${raw} → ${target}`);linkCount++;
   if(url.hash&&target===normalized)assert.ok(document.getElementById(url.hash.slice(1)),`${file}: missing fragment ${raw}`);
  }
@@ -43,7 +43,7 @@ for(const [file,document] of documents){
  if(expectedOrigin)assert.equal(canonical.origin,expectedOrigin,`${file}: canonical must use the configured site origin`);
  if(isIndexable){
   assert.ok(canonical.protocol==='https:'&&!canonical.hostname.includes('localhost'),`Indexable build must have an HTTPS production hostname: ${file}`);
-  const excluded=file==='dist/404.html'||/\/saved\/index\.html$/.test(file);
+  const excluded=file==='dist/404.html'||/\/(saved|admin)\/index\.html$/.test(file);
   assert.equal(meta.split(',').includes('noindex'),excluded,`${file}: public pages must be indexable; saved/404 pages must not be`);
  }else assert.ok(meta.includes('noindex'),`${file}: preview must be noindex`);
 }

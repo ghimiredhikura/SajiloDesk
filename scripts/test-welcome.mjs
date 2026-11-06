@@ -31,7 +31,7 @@ try {
     await choice.focus();
     await page.clock.runFor(5000);
     assert.equal(new URL(page.url()).pathname, '/', 'Language focus pauses the automatic redirect');
-    await choice.evaluate(link => link.click());
+    await choice.evaluate(link => { if (link instanceof HTMLElement) link.click(); });
     await page.waitForURL(`${base}/en/`);
     assert.equal(await page.evaluate(() => localStorage.getItem('sajilo-language')), 'en');
     checks.push('Keyboard users can take longer; choosing a language opens it immediately');
@@ -45,7 +45,7 @@ try {
     await choice.dispatchEvent('pointerdown');
     await page.clock.runFor(1000);
     assert.equal(new URL(page.url()).pathname, '/', 'Pointer interaction cancels a pending redirect');
-    await choice.evaluate(link => link.click());
+    await choice.evaluate(link => { if (link instanceof HTMLElement) link.click(); });
     await page.waitForURL(`${base}/en/`);
     checks.push('Pointer selection does not race the automatic redirect');
     await context.close();

@@ -20,6 +20,7 @@
     "test:calendar": "node scripts/test-calendar.mjs",
     "test:korea": "node scripts/test-korea.mjs",
     "test:welcome": "node scripts/test-welcome.mjs",
+    "test:moderation": "tsx scripts/test-moderation.ts",
     "community": "node scripts/community-admin.mjs"
   },
   "dependencies": {
@@ -28,7 +29,8 @@
     "@fontsource/mukta": "5.3.0",
     "@lacspace/preeti": "1.1.0",
     "@remotemerge/nepali-date-converter": "1.2.7",
-    "astro": "7.4.5"
+    "astro": "7.4.5",
+    "jose": "6.2.15"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",

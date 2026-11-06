@@ -1,20 +1,14 @@
-// Only /api/* invokes this Worker; ordinary site assets remain static and cacheable.
-export const threads = ['korea-d2-extension', 'korea-d4-extension', 'korea-e9-extension', 'korea-address-change'] as const;
-const categories = ['experience', 'correction', 'request'];
-interface Statement {
-  bind(...values: unknown[]): Statement;
-  first<T>(): Promise<T | null>;
-  all<T>(): Promise<{ results: T[] }>;
-  run(): Promise<unknown>;
-}
-interface Env { COMMUNITY_DB: { prepare(sql: string): Statement }; COMMENT_SALT: string; ASSETS: { fetch(request: Request): Promise<Response> } }
+// Public comments and private moderation invoke this Worker; other assets stay static.
+import { threads, categories, type CommunityEnv as Env } from './community-types';
+import { moderation } from './community-moderation';
+export { threads } from './community-types';
 export interface CommentInput { thread: string; name: string; category: string; message: string }
 export function validateComment(value: unknown): CommentInput | null {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
   const input = value as Record<string, unknown>;
   if (input.consent !== true || (input.website !== '' && input.website !== undefined)) return null;
   if (typeof input.thread !== 'string' || !threads.includes(input.thread as typeof threads[number])) return null;
-  if (typeof input.category !== 'string' || !categories.includes(input.category)) return null;
+  if (typeof input.category !== 'string' || !categories.includes(input.category as typeof categories[number])) return null;
   if (typeof input.message !== 'string' || (input.name !== undefined && typeof input.name !== 'string')) return null;
   const message = input.message.normalize('NFC').trim(), name = ((input.name as string | undefined) || '').normalize('NFC').trim() || 'Visitor';
   if (message.length < 10 || message.length > 1500 || name.length > 40 || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(message) || /[\r\n\u0000-\u001f\u007f]/.test(name)) return null;
@@ -61,7 +55,7 @@ export async function commentsApi(request: Request, env: Env): Promise<Response>
     if (!limited) return json({ error: 'daily_limit' }, 429, { 'Retry-After': '86400' });
     const pending = await env.COMMUNITY_DB.prepare('SELECT count(*) AS count FROM comments WHERE status=\'pending\'').first<{ count: number }>();
     if ((pending?.count || 0) >= 500) return json({ error: 'review_queue_full' }, 503);
-    // No public endpoint can publish; review happens through the owner's Cloudflare access.
+    // Publication is possible only through the authenticated owner moderation route.
     const inserted = await env.COMMUNITY_DB.prepare('INSERT INTO comments (thread,name,category,message,created_at,status) VALUES (?,?,?,?,?,\'pending\') RETURNING id').bind(comment.thread, comment.name, comment.category, comment.message, now.toISOString()).first<{ id: number }>();
     await purgeCommunity(env);
     return json({ id: inserted!.id, status: 'pending' }, 201);
@@ -73,6 +67,10 @@ export async function purgeCommunity(env: Env) {
   await env.COMMUNITY_DB.prepare('DELETE FROM comments WHERE status=\'pending\' AND created_at<?').bind(new Date(now - 30 * 86400000).toISOString()).run();
 }
 export default {
-  async fetch(request: Request, env: Env) { return new URL(request.url).pathname.startsWith('/api/') ? commentsApi(request, env) : env.ASSETS.fetch(request); },
+  async fetch(request: Request, env: Env) {
+    const path = new URL(request.url).pathname;
+    if (path === '/admin' || path.startsWith('/admin/')) return moderation(request, env);
+    return path.startsWith('/api/') ? commentsApi(request, env) : env.ASSETS.fetch(request);
+  },
   async scheduled(_event: unknown, env: Env) { await purgeCommunity(env); },
 };

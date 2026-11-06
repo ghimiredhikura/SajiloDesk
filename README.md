@@ -1,6 +1,6 @@
 # SajiloDesk / सजिलो डेस्क
 
-**A little less hassle. A lot more sajilo.**
+**Everyday tasks, made sajilo.**
 
 Free tools for life in Nepal, and wherever life takes you.
 

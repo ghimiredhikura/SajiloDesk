@@ -25,9 +25,9 @@ input::placeholder,textarea::placeholder { color: #797280; }
 /* Comfortable reading scale: headings stay steady; small and medium text step up. */
 /* English uppercase overlines use a lighter scale; retain readable tiny captions. */
 html[lang=en] {
-  --caps-regular: max(11px, calc(var(--text-md) * .75));
-  --caps-compact: max(11px, calc(var(--text-sm) * .75));
-  --caps-small: max(11px, calc(var(--text-xs) * .75));
+  --caps-regular: max(11px, calc(var(--text-md) * .85));
+  --caps-compact: max(11px, calc(var(--text-sm) * .85));
+  --caps-small: max(11px, calc(var(--text-xs) * .85));
 }
 html[lang=en] :is(.eyebrow,.mini-eyebrow,.pill,.panel-kicker),
 html[lang=en] .related-card p,

@@ -63,6 +63,25 @@
 .korea-scope summary,.korea-sources summary,.community-guidelines summary { font-size:15px; }
 .community-form .community-consent { font-size:14px; }
 
+/* Published discussion follows the form, with a clear reader-comment hierarchy. */
+.community-published { max-width:900px; margin-top:20px; padding-top:16px; border-top:1px solid #e3dcd5; scroll-margin-top:100px; }
+.community-comments-heading { display:flex; align-items:center; gap:8px; }
+.community-comments-heading svg { flex-shrink:0; color:#a33c24; }
+.community-comments-heading h3 { margin:0; font-size:19px; line-height:1.5; }
+.community-published #community-load-status { margin:4px 0 12px; font-size:var(--text-sm); line-height:1.65; color:#756d7c; }
+.community-published .community-comment { border-left:3px solid #e8bbaa; margin-block:10px; }
+.community-comment-head { align-items:flex-start; gap:6px 14px; }
+.community-comment-author { display:flex; align-items:center; flex-wrap:wrap; gap:5px 10px; min-width:0; }
+.community-comment-author h4 { margin:0; font-size:16px; line-height:1.6; letter-spacing:0; overflow-wrap:anywhere; }
+.community-comment-head .community-comment-category { padding:2px 7px; border-radius:5px; background:#f1f4eb; color:#4f6542; font-size:var(--text-xs); line-height:1.6; }
+.community-comment-meta { display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; color:#786c7d; font-size:var(--text-xs); line-height:1.8; }
+.community-comment p { color:#392f43; }
+.community-pagination { display:flex; flex-wrap:wrap; gap:8px; }
+@media(max-width:600px) {
+  .community-published { margin-top:16px; padding-top:14px; }
+  .community-comment-head { flex-direction:column; gap:3px; }
+}
+
 /* Requested 25% reduction for the Nepali visa-document headline. */
 html[lang=ne] #abroad-feature-title {
   font-size:calc(var(--desk-section-title) * .75);

@@ -2,7 +2,7 @@
 
 Open **https://sajilodesk.com/admin/** and sign in with the approved owner identity through Cloudflare Access. Bookmark this private address; it is not linked from the visitor navigation or sitemap.
 
-Production Access configuration was installed on 6 November 2026 after the owner created the application. Anonymous login redirects were verified; the owner's first signed-in visit is the remaining manual check. The setup instructions below are for future reconfiguration.
+Production Access configuration was installed on 6 November 2026 after the owner created the application. Anonymous login redirects were verified, and the owner subsequently confirmed that sign-in and publishing worked. The setup instructions below are for future reconfiguration.
 
 ## Everyday use
 

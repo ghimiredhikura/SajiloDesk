@@ -8,7 +8,7 @@ if (section) {
   const more = section.querySelector<HTMLButtonElement>('#community-more')!;
   const retry = section.querySelector<HTMLButtonElement>('#community-retry')!;
   let cursor: number | null = null, loading = false;
-  const categories: Record<string, string> = { experience: say('Experience', 'अनुभव'), correction: say('Document / correction', 'कागजात / सुधार'), request: say('Guide request', 'जानकारीको अनुरोध') };
+  const categories: Record<string, string> = { experience: say('Experience', 'अनुभव'), correction: say('Correction', 'सुधारको सुझाव'), request: say('Suggestion', 'सुझाव') };
   async function load(append = false) {
     if (loading) return;
     loading = true; more.disabled = true; retry.hidden = true;
@@ -21,14 +21,21 @@ if (section) {
       if (!append) list.replaceChildren();
       for (const comment of data.comments) {
         const article = document.createElement('article'); article.className = 'community-comment';
-        const header = document.createElement('div'); header.className = 'community-comment-head';
-        const name = document.createElement('strong'); name.textContent = comment.name;
-        const meta = document.createElement('span'); meta.textContent = `${categories[comment.category] || categories.experience} · ${new Intl.DateTimeFormat(ne ? 'ne-NP' : 'en-GB', { dateStyle: 'medium' }).format(new Date(comment.createdAt))} · #${comment.id}`;
+        article.setAttribute('aria-labelledby', `comment-${comment.id}-author`);
+        const header = document.createElement('header'); header.className = 'community-comment-head';
+        const author = document.createElement('div'); author.className = 'community-comment-author';
+        const name = document.createElement('h4'); name.id = `comment-${comment.id}-author`; name.textContent = comment.name;
+        const badge = document.createElement('span'); badge.className = 'community-comment-category'; badge.textContent = categories[comment.category] || categories.experience;
+        author.append(name, badge);
+        const meta = document.createElement('div'); meta.className = 'community-comment-meta';
+        const date = document.createElement('time'); date.dateTime = comment.createdAt; date.textContent = new Intl.DateTimeFormat(ne ? 'ne-NP' : 'en-GB', { dateStyle: 'medium' }).format(new Date(comment.createdAt));
+        const receipt = document.createElement('span'); receipt.textContent = `#${comment.id}`;
+        meta.append(date, receipt);
         const message = document.createElement('p'); message.textContent = comment.message;
-        header.append(name, meta); article.append(header, message); list.append(article);
+        header.append(author, meta); article.append(header, message); list.append(article);
       }
       cursor = data.nextBefore; more.hidden = !cursor;
-      loadStatus.textContent = list.childElementCount ? say('Reader experiences · not official instructions.', 'पाठकका अनुभव · आधिकारिक निर्देशन होइनन्।') : say('No published comments yet. You can be the first to share.', 'अहिलेसम्म टिप्पणी प्रकाशित भएका छैनन्। तपाईंले सुरुवात गर्न सक्नुहुन्छ।');
+      loadStatus.textContent = list.childElementCount ? say('Reader comments, not official guidance.', 'पाठकका टिप्पणी हुन्, आधिकारिक निर्देशन होइनन्।') : say('No published comments yet. You can be the first to share.', 'अहिलेसम्म टिप्पणी प्रकाशित भएका छैनन्। तपाईंले सुरुवात गर्न सक्नुहुन्छ।');
     } catch {
       loadStatus.textContent = say('Comments could not be loaded. Try again in a moment.', 'टिप्पणी लोड भएनन्। केही बेरपछि फेरि प्रयास गर्नुहोस्।'); retry.hidden = false;
     } finally { loading = false; more.disabled = false; }

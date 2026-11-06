@@ -18,6 +18,12 @@ Free tools for life in Nepal, and wherever life takes you.
 
 Each tool opens with a ready-to-try example. Replace the values or choose your own photo to get started.
 
+## Life abroad · Korea
+
+Preparing to extend a D-2, D-4-1 or E-9 stay in Korea? [Choose a document guide](https://sajilodesk.com/en/life-abroad/) by selecting your current visa and whether you need a stay extension or an address-change report. Understand Korean document names, where to get each item and which official forms to use. Save your preparation in your browser or download the checklist. The guides are available in Nepali and English.
+
+Share an experience, suggest a missing document or request a new guide in the comments at the end. Comments are reviewed before publication; no sign-up is needed. Check your individual requirements with immigration and your school or employer.
+
 ## Your day, at a glance
 
 See today's Nepali and English dates, Nepal and world key days, and listed holidays. Browse a [BS/AD calendar](https://sajilodesk.com/en/#calendar), select a date and explore its details. Holiday dates appear in red, with regional or community scope explained alongside them.
@@ -39,4 +45,4 @@ Built and maintained by [Deepak Ghimire](https://github.com/ghimiredhikura).
 
 ---
 
-For contributors: [Local setup](docs/development.md) · [Deployment](docs/cloudflare.md) · [Sources and methods](docs/validation-ledger.md) · [Verification](docs/test-results.md)
+For contributors: [Local setup](docs/development.md) · [Deployment](docs/cloudflare.md) · [Korea guides & comment review](docs/korea-service.md) · [Sources and methods](docs/validation-ledger.md) · [Verification](docs/test-results.md)

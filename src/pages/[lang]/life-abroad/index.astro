@@ -1,0 +1,18 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Icon from '../../../components/Icon.astro';
+import KoreaJourneyPicker from '../../../components/KoreaJourneyPicker.astro';
+import { langs, pick, route } from '../../../lib/catalog';
+import { reviewed } from '../../../lib/korea';
+export function getStaticPaths() { return langs.map(lang => ({ params: { lang }, props: { lang } })); }
+const { lang } = Astro.props;
+---
+<Layout lang={lang} active="abroad" title={pick(lang, 'Life abroad · Korea document guides', 'विदेशको दैनिकी · कोरियाका कागजातको तयारी')} description={pick(lang, 'Prepare for D-2, D-4-1 and E-9 stay extensions in Korea with bilingual document explanations, official sources and a saved checklist.', 'कोरियामा D-2, D-4-1 र E-9 को बसाइ अवधि थप्न चाहिने कागजात बुझ्नुहोस्। आधिकारिक स्रोत, कागजात लिने तरिका र सेभ गर्न मिल्ने सूची नेपाली र अंग्रेजीमा।')}>
+  <div class="container abroad-hub"><div class="abroad-heading"><p class="eyebrow">{pick(lang, 'LIFE ABROAD', 'विदेशको दैनिकी')}</p><h1>{pick(lang, 'Life abroad, made sajilo.', 'विदेशको दैनिकी, अझ सजिलो।')}</h1><p>{pick(lang, 'Documents and steps for life in Korea.', 'कोरियाका जरुरी कामका कागजात र प्रक्रिया।')}</p></div>
+  <section id="korea" aria-labelledby="korea-heading"><div class="abroad-section-title"><span class="abroad-country">KR</span><div><p class="eyebrow">{pick(lang, 'LIFE ABROAD · KOREA', 'विदेशको दैनिकी · कोरिया')}</p><h2 id="korea-heading">{pick(lang, 'Get your documents ready.', 'कागजातको तयारी गरौँ।')}</h2></div></div>
+    <KoreaJourneyPicker lang={lang}/>
+    <div class="abroad-explainer"><div><Icon name="book" size={22}/><h3>{pick(lang, 'Understand each document', 'कागजात बुझ्नुहोस्')}</h3><p>{pick(lang, 'Korean names, issuers and official forms, explained simply.', 'कोरियाली नाम, कागजात पाइने ठाउँ र आधिकारिक फाराम, सरल भाषामा।')}</p></div><div><Icon name="check" size={22}/><h3>{pick(lang, 'Keep track of your preparation', 'तयारीको हिसाब राख्नुहोस्')}</h3><p>{pick(lang, 'Tick, save or download your checklist. No document uploads.', 'तयार कागजातमा चिनो लगाउनुहोस्। सूची सेभ वा डाउनलोड गर्नुहोस्। कागजात अपलोड गर्नुपर्दैन।')}</p></div></div>
+    <p class="abroad-review">{pick(lang, 'Sources checked', 'स्रोत जाँचिएको मिति')}: <time datetime={reviewed}>{pick(lang, '6 November 2026', '६ नोभेम्बर २०२६')}</time>. {pick(lang, 'Confirm your case with HiKorea / 1345.', 'आफ्नो अवस्थाबारे हाइकोरिया/१३४५ मा बुझ्नुहोस्।')}</p>
+  </section>
+  <section class="abroad-next"><h2>{pick(lang, 'Need another guide?', 'अर्को जानकारी चाहियो?')}</h2><p>{pick(lang, 'Suggest a visa, procedure or country in a guide’s comments, or send us a suggestion.', 'भिसा, प्रक्रिया वा अर्को देशको जानकारी सुझाउनुहोस्। टिप्पणी लेख्नुहोस् वा हामीलाई पठाउनुहोस्।')}</p><a class="text-link" href={route(lang, 'contact')}>{pick(lang, 'Suggest a service', 'सुझाव पठाउनुहोस्')} →</a></section></div>
+</Layout>

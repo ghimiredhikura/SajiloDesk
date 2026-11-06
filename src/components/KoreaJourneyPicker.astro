@@ -1,0 +1,17 @@
+---
+import { pick, type Lang } from '../lib/catalog';
+import { koreaVisas, koreaTasks, koreaGuides, textFor } from '../lib/korea';
+import { route } from '../lib/catalog';
+import Icon from './Icon.astro';
+interface Props { lang: Lang; visa?: string; task?: string; compact?: boolean }
+const { lang, visa = '', task = '', compact = false } = Astro.props;
+const PickerBody = compact ? 'details' : 'div';
+const visaNames = { 'D-2': ['University student', 'विश्वविद्यालयमा अध्ययन'], 'D-4-1': ['Korean-language student', 'कोरियाली भाषा अध्ययन'], 'E-9': ['EPS worker', 'EPS श्रमिक'] } as const;
+---
+<section class:list={['korea-journey', { compact }]} aria-labelledby="journey-title" data-journey data-lang={lang} data-initial-visa={visa} data-initial-task={task}>
+  <PickerBody>
+  {compact ? <summary id="journey-title">{pick(lang, 'Change visa or task', 'भिसा वा काम फेर्नुहोस्')}</summary> : <h2 id="journey-title">{pick(lang, compact ? 'Choose your situation' : 'Find your document guide', compact ? 'आफ्नो अवस्था छान्नुहोस्' : 'आफ्नो अवस्था छान्नुहोस्')}</h2>}
+  <form id="korea-journey-form"><div><label for="journey-visa"><span>1</span>{pick(lang, 'Which visa do you have?', 'अहिले कुन भिसा छ?')}</label><select id="journey-visa" required><option value="">{pick(lang, 'Choose your current visa', 'अहिले भएको भिसा छान्नुहोस्')}</option>{koreaVisas.map(v => <option value={v} selected={visa === v}>{v} · {textFor(lang, visaNames[v])}</option>)}</select></div><div><label for="journey-task"><span>2</span>{pick(lang, 'What do you want to do?', 'के गर्न चाहनुहुन्छ?')}</label><select id="journey-task" required disabled={!visa}><option value="">{pick(lang, 'Choose what you need', 'गर्नुपर्ने काम छान्नुहोस्')}</option>{koreaTasks.map(t => <option value={t.id} selected={task === t.id}>{textFor(lang, t.name)}</option>)}</select></div><button class="button primary" id="journey-open" type="submit" disabled>{pick(lang, 'Show my guide', 'जानकारी हेर्नुहोस्')}<Icon name="arrow" size={18}/></button></form>
+  <p class="abroad-small" id="journey-help">{pick(lang, 'For registered residents already in Korea.', 'कोरियामा विदेशी दर्ता गरिसकेकाहरूका लागि।')}</p>
+  <noscript><p>{pick(lang, 'Open a guide directly:', 'सीधै जानकारी खोल्नुहोस्:')}</p><ul>{koreaGuides.map(g => <li><a href={route(lang, `life-abroad/korea/${g.slug}`)}>{g.visa === 'ALL' ? '' : `${g.visa} · `}{textFor(lang, g.title)}</a></li>)}</ul></noscript>
+</PickerBody></section><script>import '../scripts/korea-journey';</script>

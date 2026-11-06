@@ -17,7 +17,9 @@
     "test:browser": "node scripts/test-browser.mjs",
     "deploy": "node scripts/deploy.mjs",
     "test:defaults": "node scripts/test-defaults.mjs",
-    "test:calendar": "node scripts/test-calendar.mjs"
+    "test:calendar": "node scripts/test-calendar.mjs",
+    "test:korea": "node scripts/test-korea.mjs",
+    "community": "node scripts/community-admin.mjs"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "5.3.0",

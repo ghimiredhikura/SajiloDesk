@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import '../styles/accessibility.css';
 import '../styles/tools.css';
+import '../styles/abroad.css';
 import '@fontsource-variable/dm-sans';
 import '@fontsource-variable/noto-sans-devanagari';
 import '@fontsource/mukta/700.css';
@@ -39,6 +40,7 @@ const canonical = new URL(withBase(path === '/404/' ? '404.html' : path), Astro.
       <nav class="desktop-nav" aria-label={pick(lang, 'Main navigation', 'मुख्य मेनु')}>
         <a href={route(lang)} aria-current={active === 'home' ? 'page' : undefined}>{pick(lang, 'Home', 'गृहपृष्ठ')}</a>
         <a href={route(lang, 'tools')} aria-current={active === 'tools' ? 'page' : undefined}>{pick(lang, 'All tools', 'सबै उपकरण')}</a>
+        <a href={route(lang, 'life-abroad')} aria-current={active === 'abroad' ? 'page' : undefined}>{pick(lang, 'Life abroad', 'विदेशको दैनिकी')}</a>
         <a href={route(lang, 'guides')} aria-current={active === 'guides' ? 'page' : undefined}>{pick(lang, 'Guides', 'उपयोगी जानकारी')}</a>
       </nav>
       <div class="header-actions"><div class="language-switch" aria-label="Language / भाषा">
@@ -48,12 +50,12 @@ const canonical = new URL(withBase(path === '/404/' ? '404.html' : path), Astro.
     </div></header>
     <main id="main"><slot /></main>
     <footer class="site-footer"><div class="container footer-top"><div><a class="brand footer-brand" href={route(lang)}><Brand compact /></a><p>{pick(lang, 'Everyday tasks, a little easier.', 'हरेक दिनका काम, अझ सजिलो।')}</p><span class="footer-note">{pick(lang, 'Made for Nepal. Useful wherever you are.', 'नेपालमा होस् वा विदेशमा, तपाईंको काममा साथ।')}</span></div>
-      <nav aria-label={pick(lang, 'About Sajilo Desk', 'सजिलो डेस्कबारे')}><a href={route(lang, 'about')}>{pick(lang, 'About', 'हाम्रो बारेमा')}</a><a href={route(lang, 'methodology')}>{pick(lang, 'Sources & methods', 'स्रोत र विधि')}</a><a href={route(lang, 'contact')}>{pick(lang, 'Feedback', 'सुझाव')}</a><a href={route(lang, 'privacy')}>{pick(lang, 'Privacy', 'गोपनीयता')}</a></nav>
+      <nav aria-label={pick(lang, 'About Sajilo Desk', 'सजिलो डेस्कबारे')}><a href={route(lang, 'guides')}>{pick(lang, 'Tool guides', 'उपकरणसम्बन्धी जानकारी')}</a><a href={route(lang, 'about')}>{pick(lang, 'About', 'हाम्रो बारेमा')}</a><a href={route(lang, 'methodology')}>{pick(lang, 'Sources & methods', 'स्रोत र विधि')}</a><a href={route(lang, 'contact')}>{pick(lang, 'Feedback', 'सुझाव')}</a><a href={route(lang, 'privacy')}>{pick(lang, 'Privacy', 'गोपनीयता')}</a></nav>
     </div><div class="container footer-bottom"><span>© {new Date().getUTCFullYear()} Sajilo Desk <span class="dot-sep">·</span> v0.1.0</span><span><span class="status-dot"></span>{pick(lang, 'Free tools. No account needed.', 'निःशुल्क उपकरण। खाता चाहिँदैन।')}</span></div></footer>
     <nav class="mobile-nav" aria-label={pick(lang, 'Mobile navigation', 'मोबाइल मेनु')}>
       <a href={route(lang)} class:list={{ selected: active === 'home' }}><Icon name="home" size={21}/>{pick(lang, 'Home', 'गृहपृष्ठ')}</a>
       <a href={route(lang, 'tools')} class:list={{ selected: active === 'tools' }}><Icon name="grid" size={21}/>{pick(lang, 'Tools', 'उपकरण')}</a>
-      <a href={route(lang, 'guides')} class:list={{ selected: active === 'guides' }}><Icon name="book" size={21}/>{pick(lang, 'Guides', 'जानकारी')}</a>
+      <a href={route(lang, 'life-abroad')} class:list={{ selected: active === 'abroad' }}><Icon name="globe" size={21}/>{pick(lang, 'Abroad', 'विदेशमा')}</a>
       <a href={route(lang, 'saved')} class:list={{ selected: active === 'saved' }}><Icon name="heart" size={21}/>{pick(lang, 'My tools', 'मेरा उपकरण')}</a>
     </nav>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>

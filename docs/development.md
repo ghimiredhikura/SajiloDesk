@@ -8,6 +8,10 @@ A bilingual, browser-local utility desk for Nepal and Nepalis worldwide. The fir
 
 **Status:** the bilingual site was published on GitHub Pages on 5 November 2026 and launched at `https://sajilodesk.com` on Cloudflare on 6 November. The earlier `.com.np` application was rejected. Public contact: **sajilodesk@gmail.com**. English and Nepali pages have passed real Chrome workflows and responsive visual review. Physical-device checks and independent Nepali review remain separate checks.
 
+## Interface direction
+
+The owner's preference is a compact website that shows useful information and the next action with little scrolling on desktop and mobile. Use content-sized panels, modest margins/padding and expandable optional help. Keep descriptions concise and sufficient to guide the task. Reuse the existing heading, body, label and control sizes, including the previously enlarged small-text tiers. Preserve readable text and comfortable tap targets while tightening space. The shared spacing rules are in `src/styles/compact.css`; Korea typography uses the established site scale in `src/styles/abroad.css`.
+
 ## Run locally
 
 Use Node **24 LTS** (minimum supported by this Astro release: 22.23.4). All package versions are locked.

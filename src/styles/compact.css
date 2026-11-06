@@ -1,0 +1,135 @@
+/* Use content height and modest gaps. Typography stays in the existing scale. */
+.site-header { height:76px; }
+.home-hero { padding-block:24px; }
+.hero-copy h1 { margin-block:12px; }
+.home-hero .hero-description { margin-bottom:16px; }
+.section-heading { margin-bottom:16px; }
+.section-heading h2 { margin-top:6px; }
+.category-filters { margin-bottom:12px; }
+.tool-card { min-height:0; padding:18px; }
+.tool-card-top { margin-bottom:10px; }
+.tool-card h3,.tool-card p { min-height:0; }
+.card-bottom { margin-top:12px; }
+.workflow-banner { margin-top:24px; padding:24px; gap:24px; }
+.workflow-steps > a { padding:12px; }
+.trust-row { padding-block:24px; gap:20px; }
+.page-heading { padding:20px 0 18px; }
+.prose .page-heading { padding-top:20px; }
+.page-content { min-height:0; padding-bottom:24px; }
+.empty-state { padding:24px 16px; }
+.prose { padding-bottom:24px; }
+.prose h2 { margin-top:20px; }
+.prose h3 { margin-top:16px; }
+.prose p+p { margin-top:10px; }
+.guide-grid { gap:16px; }
+.guide-card { padding:20px; }
+.guide-card h2 { margin-block:12px 8px; }
+.prose-card { padding:18px; margin-top:16px; }
+.tool-heading { padding-block:12px 14px; }
+.breadcrumbs { padding-top:10px; }
+.footer-top { padding-block:20px; gap:20px; }
+.footer-bottom { padding-block:12px; }
+
+.abroad-feature { padding:16px 20px; gap:16px; margin-bottom:24px; }
+.abroad-feature-mark { width:48px; height:48px; border-radius:13px; }
+.abroad-hub { padding-block:24px; }
+.abroad-heading { margin-bottom:20px; }
+.abroad-heading h1 { margin-block:8px 12px; }
+.abroad-section-title { margin-top:16px; }
+.abroad-explainer { margin-top:20px; padding-top:18px; gap:18px; }
+.abroad-explainer h3 { margin-block:8px 5px; }
+.abroad-review { margin-block:12px; }
+.abroad-next { padding:18px; margin-top:20px; }
+.korea-journey { padding:18px; margin-block:16px; }
+.korea-journey h2 { margin-bottom:14px; }
+.korea-journey form { gap:14px; }
+.korea-journey label { margin-bottom:6px; }
+.korea-journey select { padding-block:10px; min-height:44px; }
+.korea-journey button { height:48px; min-height:44px; }
+.korea-journey .abroad-small { margin-top:10px; }
+.korea-journey.compact { padding:4px 14px; margin-block:12px; }
+.korea-journey.compact summary { display:flex; align-items:center; min-height:40px; }
+.korea-journey.compact details[open] { padding-bottom:10px; }
+.korea-journey.compact details[open] form { margin-top:10px; }
+.korea-page { padding-bottom:24px; }
+.korea-page .breadcrumbs { margin-top:0; }
+.korea-page-heading { margin-block:16px; gap:18px; }
+.korea-page-heading h1 { margin-block:10px; }
+.korea-notice { padding:10px 14px; }
+.korea-scope { margin-bottom:14px; }
+.korea-workspace { gap:18px; }
+.korea-progress { padding:16px; gap:10px; top:88px; }
+.korea-options { padding:16px; gap:12px; margin-bottom:16px; }
+.korea-options select { padding-block:10px; min-height:44px; }
+.korea-list-heading { margin-bottom:10px; }
+.korea-document { padding:14px 16px; gap:12px; margin-bottom:8px; }
+.korea-document-body { margin-top:12px; padding-top:12px; }
+.korea-next-steps { margin-block:18px; padding:16px; }
+.korea-next-steps li { margin-bottom:8px; }
+.korea-sources { padding:14px 16px; margin-bottom:24px; }
+.community-section { padding-top:20px; }
+.community-notice { padding:10px 12px; margin-block:12px; }
+.community-comment { padding:14px 16px; margin-block:10px; }
+.community-comment p { margin-top:8px; }
+.community-form { padding:18px; margin-top:16px; }
+.community-form h3 { margin-bottom:14px; }
+.community-form-row { gap:14px; margin-bottom:12px; }
+.community-form input:not([type=checkbox]),.community-form select { min-height:44px; padding-block:10px; }
+.community-form textarea { min-height:96px; }
+.community-form .community-consent { margin-block:12px; }
+.community-submit { gap:12px; }
+.korea-scope summary { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:4px 12px; padding-block:6px; }
+.korea-scope summary .abroad-review { font-size:var(--text-xs); line-height:1.6; margin:0; font-weight:400; }
+.korea-options { display:block; padding-block:12px; }
+.korea-options > summary { display:flex; align-items:center; justify-content:space-between; gap:12px; cursor:pointer; list-style:none; }
+.korea-options > summary::-webkit-details-marker { display:none; }
+.korea-options > summary::after { content:'+'; color:#526c43; }
+.korea-options[open] > summary::after { content:'−'; }
+.korea-options h2 { margin:0; }
+.korea-option-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:12px; }
+.reset-glyph { display:none; }
+
+@media (min-width:1101px) {
+  .abroad-feature { padding-block:14px; }
+  .abroad-feature .eyebrow { display:inline; margin-right:12px; }
+  .abroad-feature h2 { display:inline; margin:0; }
+  .abroad-feature p:last-child { margin-top:6px; }
+}
+
+@media (max-width:600px) {
+  .site-header { height:64px; }
+  .home-hero { padding-block:20px; gap:16px; }
+  .section-heading { margin-bottom:12px; }
+  .tool-card { padding:14px; }
+  .tool-card-top { margin-bottom:8px; }
+  .card-bottom { margin-top:10px; }
+  .workflow-banner { margin-top:20px; padding:20px; gap:16px; }
+  .workflow-steps > a { padding:10px; }
+  .trust-row { padding-block:20px; gap:16px; }
+  .page-heading { padding-block:16px; }
+  .prose .page-heading { padding-top:16px; }
+  .tool-heading { padding-block:10px 12px; }
+  .breadcrumbs { padding-top:8px; }
+  .guide-card { padding:18px; }
+  .footer-top { gap:16px; }
+  .abroad-feature { padding:16px; gap:12px; margin-bottom:20px; }
+  .abroad-hub { padding-block:20px; }
+  .abroad-heading { margin-bottom:16px; }
+  .korea-journey { padding:16px; }
+  .korea-journey form { gap:12px; }
+  .korea-page-heading { margin-block:12px; }
+  .korea-workspace { gap:16px; }
+  .korea-progress { padding:14px; grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px; gap:8px; }
+  .korea-progress .eyebrow { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
+  .korea-progress .button { min-height:44px; padding:10px; }
+  .korea-progress > #korea-reset { grid-column:auto; min-width:44px; min-height:44px; padding:0; text-decoration:none; }
+  .reset-label { display:none; }
+  .reset-glyph { display:inline; font-size:20px; line-height:1; }
+  .korea-progress > #korea-save-status { font-size:var(--text-xs); line-height:1.6; }
+  .korea-page-heading > a { display:none; }
+  .korea-option-fields { grid-template-columns:1fr; }
+  .korea-document { padding:12px; gap:10px; }
+  .korea-options { padding:14px; }
+  .korea-notice { padding:10px 12px; }
+  .community-form { padding:16px; }
+}

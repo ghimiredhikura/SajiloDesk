@@ -47,6 +47,7 @@ try {
   }
   await go('/en/life-abroad/korea/d2-extension/');
   assert.equal(await page.locator('[data-document=enrollment]').isVisible(),true);
+  await page.locator('.korea-options summary').click();
   await page.selectOption('#korea-stage','thesis');
   assert.equal(await page.locator('[data-document=enrollment]').isVisible(),false);
   assert.equal(await page.locator('[data-document=advisor]').isVisible(),true);
@@ -72,6 +73,7 @@ try {
   await page.click('#korea-reset'); await page.reload(); assert.equal(await page.locator('#ready-form34').isChecked(),false);
   await go('/en/life-abroad/korea/e9-extension/');
   assert.equal(await page.locator('[data-document=reemployment]').isVisible(),true);
+  await page.locator('.korea-options summary').click();
   await page.selectOption('#korea-employment','renewal'); assert.equal(await page.locator('[data-document=reemployment]').isVisible(),false);
   await page.selectOption('#korea-employment','reemployment'); assert.equal(await page.locator('[data-document=reemployment]').isVisible(),true);
   await go('/en/life-abroad/korea/d2-extension/');
@@ -103,7 +105,9 @@ try {
   sql("INSERT INTO comments(thread,name,category,message,created_at,status) VALUES ('korea-d4-extension','Old pending','experience','Old synthetic pending','2000-01-01T00:00:00Z','pending'),('korea-d4-extension','Old published','experience','Old synthetic published','2000-01-01T00:00:00Z','published'); INSERT INTO comment_limits(key,day,count) VALUES ('old-local-test','2000-01-01',1);");
   const twoDaysAgo = new Date(Date.now()-2*86400000).toISOString().slice(0,10);
   sql(`INSERT INTO comment_limits(key,day,count) VALUES ('retention-boundary','${twoDaysAgo}',1);`);
-  const scheduled = await page.request.post(`${base}/cdn-cgi/local/explorer/api/local/scheduled?worker=sajilodesk`,{data:{cron:'17 19 * * *'}});
+  // Target the running dev proxy directly. The Explorer owner registry can
+  // briefly point at the short-lived Wrangler D1 CLI after a fixture write.
+  const scheduled = await page.request.get(`${base}/cdn-cgi/local/scheduled?cron=${encodeURIComponent('17 19 * * *')}`);
   assert.equal(scheduled.status(),200,await scheduled.text());
   assert.equal(sql("SELECT count(*) AS n FROM comments WHERE name='Old pending'")[0].results[0].n,0);
   assert.equal(sql("SELECT count(*) AS n FROM comments WHERE name='Old published'")[0].results[0].n,1);

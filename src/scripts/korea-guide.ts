@@ -28,19 +28,19 @@ if (root) {
         const record = saved as { answers?: Record<string, unknown>; checked?: unknown };
         for (const select of selectors) { const value = record.answers?.[select.dataset.answer!]; if (typeof value === 'string' && [...select.options].some(o => o.value === value)) select.value = value; }
         if (Array.isArray(record.checked)) for (const input of inputs) input.checked = record.checked.includes(input.dataset.ready);
-        status.textContent = say('Saved preparation restored from this browser.', 'यस ब्राउजरमा सेभ गरेको तयारी देखाइएको छ।');
+        status.textContent = say('Saved checklist restored.', 'सेभ गरेको सूची देखाइएको छ।');
       }
-    } catch { status.textContent = say('Storage is unavailable. You can still use and download this checklist.', 'सेभ गर्ने सुविधा चलेन। सूची प्रयोग र डाउनलोड गर्न सक्नुहुन्छ।'); }
-    const dirty = () => { update(); status.textContent = say('Changes are not saved yet. Use “Save on this device”.', 'परिवर्तन सेभ भएको छैन। “यही उपकरणमा सेभ गर्नुहोस्” थिच्नुहोस्।'); };
+    } catch { status.textContent = say('Storage unavailable. Download a copy.', 'सेभ गर्ने सुविधा चलेन। सूची डाउनलोड गर्नुहोस्।'); }
+    const dirty = () => { update(); status.textContent = say('Changes are not saved.', 'परिवर्तन सेभ भएको छैन।'); };
     [...selectors, ...inputs].forEach(input => input.addEventListener('change', dirty));
     root.querySelector('#korea-save')!.addEventListener('click', () => {
-      try { localStorage.setItem(key, JSON.stringify({ answers: answers(), checked: inputs.filter(i => i.checked).map(i => i.dataset.ready) })); status.textContent = say('Saved in this browser. Open this guide here to continue.', 'यही ब्राउजरमा सेभ भयो। पछि यही जानकारी खोलेर तयारी जारी राख्न सक्नुहुन्छ।'); }
-      catch { status.textContent = say('Could not save. Download the checklist to keep a copy.', 'सेभ हुन सकेन। प्रतिलिपि राख्न सूची डाउनलोड गर्नुहोस्।'); }
+      try { localStorage.setItem(key, JSON.stringify({ answers: answers(), checked: inputs.filter(i => i.checked).map(i => i.dataset.ready) })); status.textContent = say('Saved in this browser.', 'यही ब्राउजरमा सेभ भयो।'); }
+      catch { status.textContent = say('Could not save. Download a copy.', 'सेभ हुन सकेन। सूची डाउनलोड गर्नुहोस्।'); }
     });
     root.querySelector('#korea-reset')!.addEventListener('click', () => {
       inputs.forEach(input => { input.checked = false; }); selectors.forEach(select => { select.selectedIndex = 0; });
       try { localStorage.removeItem(key); } catch { /* Page reset still works. */ }
-      update(); status.textContent = say('This checklist has been reset.', 'यो सूचीको चिनो हटाइयो।');
+      update(); status.textContent = say('Checklist reset.', 'सूचीको चिनो हटाइयो।');
     });
     root.querySelector('#korea-download')!.addEventListener('click', () => {
       const values = answers();

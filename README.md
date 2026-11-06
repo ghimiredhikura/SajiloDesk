@@ -2,7 +2,7 @@
 
 **Everyday tasks, made sajilo.**
 
-Free tools for life in Nepal, and wherever life takes you.
+Free everyday tools for Nepal, Nepalis, and beyond.
 
 **[Open SajiloDesk in English](https://sajilodesk.com/en/)** · **[नेपालीमा खोल्नुहोस्](https://sajilodesk.com/ne/)**
 

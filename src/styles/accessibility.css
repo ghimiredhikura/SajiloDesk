@@ -23,6 +23,23 @@
 input::placeholder,textarea::placeholder { color: #797280; }
 
 /* Comfortable reading scale: headings stay steady; small and medium text step up. */
+/* English uppercase overlines use a lighter scale; retain readable tiny captions. */
+html[lang=en] {
+  --caps-regular: max(11px, calc(var(--text-md) * .75));
+  --caps-compact: max(11px, calc(var(--text-sm) * .75));
+  --caps-small: max(11px, calc(var(--text-xs) * .75));
+}
+html[lang=en] :is(.eyebrow,.mini-eyebrow,.pill,.panel-kicker),
+html[lang=en] .related-card p,
+html[lang=en] .today-top > span:first-child { font-size:var(--caps-regular); }
+html[lang=en] .today-key-day-label,
+html[lang=en] .calendar-event > span { font-size:var(--caps-small); }
+@media (max-width:800px) {
+  html[lang=en] .today-top > span:first-child { font-size:var(--caps-compact); }
+}
+@media (max-width:600px) {
+  html[lang=en] .journey-mini .mini-eyebrow { font-size:var(--caps-compact); }
+}
 body { font-size: 16px; }
 .desktop-nav a,.saved-link,.language-switch { font-size: 15px; }
 .brand-name small { font-size: var(--text-md); letter-spacing: .4px; }

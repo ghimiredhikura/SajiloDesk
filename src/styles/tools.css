@@ -15,11 +15,11 @@
 .tool-page .field-row + .field, .tool-page .field-row + .field-row { margin-top: 12px; }
 .tool-page input:not([type=checkbox]):not([type=range]):not([type=file]), .tool-page select { padding: 10px 11px; min-height: 44px; }
 .tool-page .panel label, .tool-page .field-row label { font-size: 13px; margin-bottom: 5px; }
-.tool-page .field-help, .tool-page .privacy-note, .tool-page .result-meta { font-size: 12px; line-height: 1.6; }
+.tool-page .field-help, .tool-page .privacy-note, .tool-page .result-meta { font-size: var(--text-md); line-height: 1.6; }
 .tool-page .privacy-note { margin-top: 12px; }
 .tool-page .panel-actions { margin-top: 14px; }
 .tool-page .button { min-height: 44px; padding: 10px 14px; font-size: 14px; }
-.tool-page .info-note, .tool-page .success-note { padding: 10px 12px; font-size: 12px; line-height: 1.6; margin-top: 12px; }
+.tool-page .info-note, .tool-page .success-note { padding: 10px 12px; font-size: var(--text-md); line-height: 1.6; margin-top: 12px; }
 .tool-page .mt-20 { margin-top: 16px; }
 .tool-page .segmented { margin-bottom: 16px; }
 .tool-page .result-date { font-size: 29px; }
@@ -38,10 +38,10 @@
 .tool-page .panel .upload-zone { min-height: 68px; padding: 10px; gap: 4px; }
 .tool-page .upload-zone > svg { display: none; }
 .tool-page .upload-zone strong { font-size: 14px; }
-.tool-page .upload-zone p { font-size: 12px; }
+.tool-page .upload-zone p { font-size: var(--text-md); }
 .tool-page #photo-status { margin-top: 6px; }
 .tool-page #photo-example { font-size: 13px; color: var(--orange); min-height: 44px; flex-shrink: 0; }
-.tool-page .sample-label { font-size: 12px; color: var(--muted); }
+.tool-page .sample-label { font-size: var(--text-md); color: var(--muted); }
 .tool-page #original-block { display: grid; grid-template-columns: 76px 1fr; align-items: center; gap: 12px; margin-top: 10px; }
 .tool-page #original-block .file-preview { height: 60px; min-height: 0; margin: 0; }
 .tool-page #original-block img { max-height: 60px; }
@@ -57,30 +57,30 @@
 .today-card .today-icon { width: 24px; height: 24px; border-radius: 6px; }
 .today-card .today-date { margin-top: 8px; font-size: 27px; line-height: 1.25; }
 .today-card .today-ad { margin-top: 2px; font-size: 13px; line-height: 1.5; }
-.today-card .today-time { margin-top: 4px; font-size: 11px; line-height: 1.5; }
+.today-card .today-time { margin-top: 4px; font-size: var(--text-sm); line-height: 1.5; }
 .today-highlights { position: relative; z-index: 1; margin-top: 10px; }
 .today-key-day { display: grid; grid-template-columns: 40px minmax(0,1fr); gap: 8px; background: #fff4d1; border: 1px solid #e8cc8d; border-radius: 10px; padding: 8px 11px; }
 .today-key-day + .today-key-day { margin-top: 6px; }
-.today-key-day-label { display: block; color: #805c29; font-size: 10px; line-height: 1.7; font-weight: 700; text-transform: uppercase; letter-spacing: .3px; padding-top: 3px; }
+.today-key-day-label { display: block; color: #805c29; font-size: var(--text-xs); line-height: 1.7; font-weight: 700; text-transform: uppercase; letter-spacing: .3px; padding-top: 3px; }
 .today-key-day-name { color: #633b18; font-size: 15px; line-height: 1.45; font-weight: 700; overflow-wrap: anywhere; }
 .today-nepal-key-day { background: #edf4fb; border-color: #c6d7e9; }
 .today-nepal-key-day .today-key-day-name, .today-nepal-key-day .today-key-day-label { color: #254b6a; }
 .today-event-details ul { margin: 0 0 6px; padding-left: 16px; }
-.today-holiday-line { color: #7a6252; font-size: 12px; line-height: 1.5; margin-top: 6px; overflow-wrap: anywhere; }
+.today-holiday-line { color: #7a6252; font-size: var(--text-md); line-height: 1.5; margin-top: 6px; overflow-wrap: anywhere; }
 .today-holiday-line[data-status=nationwide], .today-holiday-line[data-status=scoped], .today-holiday-line[data-status=weekly] { color: #8d3627; font-weight: 650; font-size: 13px; }
 .today-highlights a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .today-footer { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: end; gap: 0 12px; margin-top: auto; padding-top: 4px; flex-shrink: 0; }
 .today-footer .today-observances[open] { grid-column: 1 / -1; }
 .today-observances { position: relative; margin-top: 0; z-index: 1; min-width: 0; }
-.today-observances > summary { display: flex; align-items: flex-end; gap: 3px; list-style: none; color: #6d5142; font-size: 12px; line-height: 1.7; cursor: pointer; padding: 0; min-height: 44px; }
+.today-observances > summary { display: flex; align-items: flex-end; gap: 3px; list-style: none; color: #6d5142; font-size: var(--text-md); line-height: 1.7; cursor: pointer; padding: 0; min-height: 44px; }
 .today-observances > summary::-webkit-details-marker { display: none; }
 .today-observances > summary::before { content: '+ '; font-weight: 700; }
 .today-observances[open] > summary::before { content: '− '; }
-.today-event-details { border: 1px solid #ead7c8; background: #fff9f3; padding: 10px 12px; border-radius: 8px; font-size: 12px; line-height: 1.7; }
+.today-event-details { border: 1px solid #ead7c8; background: #fff9f3; padding: 10px 12px; border-radius: 8px; font-size: var(--text-md); line-height: 1.7; }
 .today-event-details p + p { margin-top: 5px; }
 .today-event-details a { text-decoration: underline; text-underline-offset: 3px; }
 .today-observances[open] > .today-event-details { margin-top: 10px; }
-.today-card:has(.today-observances) .today-link { position: relative; inset: auto; margin: 0; min-height: 44px; font-size: 12px; line-height: 1.7; grid-column: 2; align-items: flex-end; }
+.today-card:has(.today-observances) .today-link { position: relative; inset: auto; margin: 0; min-height: 44px; font-size: var(--text-md); line-height: 1.7; grid-column: 2; align-items: flex-end; }
 @media (min-width:601px) {
   .home-hero { align-items: stretch; }
   .home-hero .today-card { align-self: start; }
@@ -109,7 +109,7 @@
 @media (max-width:600px) {
   .hero-copy h1, html[lang=ne] .hero-copy h1 { font-size: clamp(22px, 7vw, 32px); letter-spacing: -.02em; line-height: 1.3; }
   .tool-page .tool-workspace { grid-template-columns: 1fr; gap: 12px; }
-  .tool-page .breadcrumbs { padding-top: 10px; font-size: 11px; }
+  .tool-page .breadcrumbs { padding-top: 10px; font-size: var(--text-sm); }
   .tool-page .tool-heading { padding-block: 12px 16px; }
   .tool-page .tool-heading h1 { font-size: 25px; }
   .tool-page .tool-heading p { font-size: 13px; }
@@ -119,7 +119,7 @@
   .tool-page .land-results { grid-template-columns: 1fr 1fr; }
   .tool-page .land-result-row strong { font-size: 18px; }
   .tool-page .method-section { margin-top: 12px; }
-  .tool-page .share-row { font-size: 12px; gap: 8px; }
+  .tool-page .share-row { font-size: var(--text-md); gap: 8px; }
   .today-card:has(.today-observances) { min-height: 0; padding: 14px 18px 10px; }
   .today-card .today-date { font-size: 24px; }
 }

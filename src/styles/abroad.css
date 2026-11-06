@@ -62,3 +62,8 @@
 .community-form input:not([type=checkbox]),.community-form select,.community-form textarea { font-size:16px; }
 .korea-scope summary,.korea-sources summary,.community-guidelines summary { font-size:15px; }
 .community-form .community-consent { font-size:14px; }
+
+/* Requested 25% reduction for the Nepali visa-document headline. */
+html[lang=ne] #abroad-feature-title {
+  font-size:calc(var(--desk-section-title) * .75);
+}

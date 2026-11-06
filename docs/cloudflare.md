@@ -1,6 +1,6 @@
 # SajiloDesk production deployment
 
-Production hostname: **https://sajilodesk.com/**. The source repository remains `ghimiredhikura/SajiloDesk`. Domain registration and DNS are with Cloudflare. The prior GitHub Pages project remains a separate preview; its Actions workflow does not publish Cloudflare production.
+Production hostname: **https://sajilodesk.com/**. The source repository remains `ghimiredhikura/SajiloDesk`. Domain registration and DNS are with Cloudflare. The former GitHub Pages project was retired on 6 November 2026 at the owner's request. GitHub Actions now verifies builds without publishing a Pages site; Cloudflare production is published using the command below.
 
 New visitors to the root open `/ne/` by default. A saved explicit English selection opens `/en/` on subsequent root visits in that browser. The no-JavaScript language chooser and search-engine `x-default` alternate also prefer Nepali.
 

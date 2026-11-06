@@ -1,10 +1,10 @@
-# GitHub Pages deployment
+# Retired GitHub Pages deployment
 
-**Historical preview:** production is now at `https://sajilodesk.com` on Cloudflare, launched on 6 November 2026. Use [Cloudflare deployment](cloudflare.md) for the current production procedure. This document records the earlier GitHub Pages setup; the `.com.np` registration mentioned below was subsequently rejected.
+**Retired on 6 November 2026:** the owner requested removal of `https://ghimiredeepak.com.np/SajiloDesk/`. GitHub Pages was disabled for the SajiloDesk repository, and its publishing workflow was replaced with build verification only. Production is at `https://sajilodesk.com` on Cloudflare; use [Cloudflare deployment](cloudflare.md) for the current procedure. The account's personal website and domain settings are separate. The instructions below are historical and would republish the old site if followed; the `.com.np` application mentioned below was rejected.
 
-The current requested target is **https://ghimiredhikura.github.io/SajiloDesk/**, using the `main` branch of `ghimiredhikura/SajiloDesk`. The workflow is `.github/workflows/deploy-pages.yml`. This supersedes the earlier Cloudflare-only hosting plan.
+The former target was **https://ghimiredhikura.github.io/SajiloDesk/**, using the `main` branch of `ghimiredhikura/SajiloDesk` and the now-removed `.github/workflows/deploy-pages.yml` workflow.
 
-## Current deployment (5 November 2026)
+## Historical deployment (5 November 2026)
 
 The repository is public and GitHub Pages uses the Actions workflow. HTTPS is enforced. The requested project address returns a 301 redirect to **https://ghimiredeepak.com.np/SajiloDesk/** because the account's personal website has a custom domain. That destination serves SajiloDesk successfully; its English and Nepali pages and all five tools were checked in Chrome. The personal website and its DNS were not changed. The separate `sajilodesk.com.np` domain is still pending approval.
 

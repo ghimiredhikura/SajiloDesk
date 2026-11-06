@@ -132,3 +132,9 @@ Cloudflare initially injected its Web Analytics beacon, which conflicted with th
 New root visitors now open **`/ne/`**. Targeted local and live Chrome checks passed fresh storage, a saved explicit English choice, switching back to Nepali, unavailable storage, and the no-JavaScript language chooser. The default search-engine alternate also points to Nepali. Saved language choices remain respected. The final main Worker version is `40745940-cea5-46e5-94a0-ffbdee487085`; the redirect Worker version is `7e27282a-33f8-4eee-8859-e44c52a7a36e`.
 
 Search Console verification/submission and actual Google indexing have not been performed. Physical-device, other-browser and independent editorial/typist checks remain separate follow-up work.
+
+## Retired GitHub Pages copy (6 November 2026)
+
+At the owner's request, removed GitHub Pages from `ghimiredhikura/SajiloDesk`. GitHub returned HTTP 204 for the removal and HTTP 404 on the subsequent Pages-settings query; the public source repository and its production homepage remain available. Replaced the Pages publishing workflow with `.github/workflows/verify.yml`, which only installs dependencies and verifies the custom-domain production build. It has no Pages deployment job or publishing permissions.
+
+Isolated Chrome verified HTTP 404 for both `https://ghimiredeepak.com.np/SajiloDesk/` and its `/ne/` page. The personal homepage still returned HTTP 200. `https://sajilodesk.com/` returned HTTP 200 and opened `/ne/` with the Nepali document language. No Cloudflare configuration or personal-site settings were changed for this retirement.

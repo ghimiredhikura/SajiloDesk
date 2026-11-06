@@ -183,3 +183,9 @@ Added shared compact spacing with content-height panels, smaller section gaps, a
 `npm run verify` passed with zero diagnostics, **36 unit tests**, **14 DOM-entry scenarios**, **44 HTML pages**, **1,392 local references** and **204 labelled controls**. Browser validation passed **84 responsive checks / 14 tool workflows**, all **ten laptop default work areas**, the **12-layout calendar suite**, and **60 Korea layouts / all six visa-task journeys**, including saved settings inside the disclosure, export, storage failure, comments and scheduled cleanup. The retention test invokes the running local dev proxy directly. The later refinements were confined to the Korea interface and its test harness.
 
 Live Chrome checks passed **68 typography comparisons and 12 responsive layouts** at 390/1366 px in both languages with no page errors or horizontal overflow. Screenshots were visually inspected. Main Worker version: **`8579d62b-d96d-4ed8-a22e-7f72e4500aa1`**. The owner's compact-layout preference is recorded in [development.md](development.md).
+
+## Longer welcome screen (6 November 2026)
+
+The root welcome/language chooser now waits about three seconds before opening the saved language or the Nepali default. Language selection opens immediately; keyboard focus on a language choice or interaction with a link cancels the automatic redirect. Direct language-page visits have no welcome delay.
+
+`npm run verify` passed. The new `npm run test:welcome` passed eight browser scenarios: visible at 2.9 seconds, automatic navigation after three seconds for both language preferences, keyboard and pointer interaction, blocked storage, direct language routes and the no-JavaScript chooser. Live real-time Chrome checks passed fresh Nepali entry, remembered English, switching back, blocked storage and the no-JavaScript fallback without console/runtime errors. Worker version: `9c0b703e-0dd4-4277-87da-e27f0c1712bc`.

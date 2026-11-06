@@ -9,6 +9,16 @@ import { route } from '../lib/catalog';
     import { route } from '../lib/catalog';
     let language:'en'|'ne'='ne';
     try { if(localStorage.getItem('sajilo-language')==='en') language='en'; } catch { /* Nepali remains the default when storage is unavailable. */ }
-    window.location.replace(route(language));
+    const welcomeDelay = 3000;
+    const redirectTimer = window.setTimeout(() => window.location.replace(route(language)), welcomeDelay);
+    const cancelRedirect = () => window.clearTimeout(redirectTimer);
+    // Let visitors choose a language or another link without racing the timer.
+    document.querySelectorAll<HTMLAnchorElement>('a[href]').forEach(link => {
+      link.addEventListener('pointerdown', cancelRedirect, { once: true });
+      link.addEventListener('click', cancelRedirect, { once: true });
+    });
+    document.querySelectorAll<HTMLAnchorElement>('[data-language]').forEach(link => {
+      link.addEventListener('focus', cancelRedirect, { once: true });
+    });
   </script>
 </Layout>

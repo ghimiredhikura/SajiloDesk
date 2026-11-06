@@ -19,6 +19,7 @@
     "test:defaults": "node scripts/test-defaults.mjs",
     "test:calendar": "node scripts/test-calendar.mjs",
     "test:korea": "node scripts/test-korea.mjs",
+    "test:welcome": "node scripts/test-welcome.mjs",
     "community": "node scripts/community-admin.mjs"
   },
   "dependencies": {

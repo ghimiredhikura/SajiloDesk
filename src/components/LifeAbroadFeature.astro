@@ -6,6 +6,6 @@ const { lang } = Astro.props;
 ---
 <section class="abroad-feature" aria-labelledby="abroad-feature-title">
   <div class="abroad-feature-mark"><Icon name="globe" size={30}/></div>
-  <div><p class="eyebrow">{pick(lang, 'LIFE ABROAD · KOREA', 'विदेशको दैनिकी · कोरिया')}</p><h2 id="abroad-feature-title">{pick(lang, 'Get your visa documents ready.', 'भिसाका कागजात जुटाऔँ, सजिलै।')}</h2><p>{pick(lang, 'Visa extensions and address changes for students and E-9 workers.', 'विद्यार्थी र E-9 श्रमिकका लागि म्याद थप्ने र ठेगाना परिवर्तनको जानकारी।')}</p></div>
+  <div><p class="eyebrow">{pick(lang, 'LIFE ABROAD · KOREA', 'विदेशको दैनिकी · कोरिया')}</p><h2 id="abroad-feature-title">{pick(lang, 'Get your visa documents ready.', 'भिसाका लागि आवश्यक कागजातहरू जुटाउनुहोस्।')}</h2><p>{pick(lang, 'Visa extensions and address changes for students and E-9 workers.', 'विद्यार्थी र E-9 श्रमिकका लागि म्याद थप्ने र ठेगाना परिवर्तनको जानकारी।')}</p></div>
   <a class="button primary" href={route(lang, 'life-abroad')}>{pick(lang, 'Find my guide', 'जानकारी छान्नुहोस्')}<Icon name="arrow" size={18}/></a>
 </section>

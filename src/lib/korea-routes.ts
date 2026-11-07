@@ -1,8 +1,8 @@
-import { koreaTasks, visaOptions, codeSlug, usesD2Checklist } from './korea-catalog';
+import { koreaTasks, routeVisaOptions, codeSlug, usesD2Checklist } from './korea-catalog';
 export const koreaGuideSlugs = [
   'd2-extension','d4-extension','e9-extension','address-change',
-  ...visaOptions.filter(v=>!usesD2Checklist(v.id)&&!['D-4-1','E-9','F-5'].includes(v.id)).map(v=>`extend-${codeSlug(v.id)}`),
-  ...visaOptions.map(v=>`change-to-${codeSlug(v.id)}`),
+  ...routeVisaOptions.filter(v=>!usesD2Checklist(v.id)&&!['D-4-1','E-9'].includes(v.id)&&v.family!=='F-5').map(v=>`extend-${codeSlug(v.id)}`),
+  ...routeVisaOptions.map(v=>`change-to-${codeSlug(v.id)}`),
   'f4-registration','f4-address-change','status-change-check',
   ...koreaTasks.filter(t=>!['extension','change','address','permanent'].includes(t.id)).map(t=>t.slug),
 ];

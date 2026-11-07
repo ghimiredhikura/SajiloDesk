@@ -1,8 +1,9 @@
 import type { Bilingual } from './korea';
+import { visaSubtypes, type VisaOption } from './korea-visa-subtypes';
 
-// These are status families, not a claim that every numbered programme has
-// identical eligibility. Keep uncommon subcodes under their parent family.
-export const visaOptions: { id: string; family: string; name: Bilingual; group: string }[] = [
+// Families and verified subcodes for Nepali nationals. Unlisted specialist
+// programmes remain under the parent; eligibility is documented separately.
+const originalVisaOptions:VisaOption[] = [
   { id:'E-9', family:'E-9', name:['EPS worker','EPS श्रमिक'], group:'common' },
   { id:'D-2', family:'D-2', name:['University student','विश्वविद्यालयका विद्यार्थी'], group:'common' },
   { id:'D-4-1', family:'D-4', name:['Korean-language student','कोरियाली भाषा विद्यार्थी'], group:'common' },
@@ -53,16 +54,22 @@ export const visaOptions: { id: string; family: string; name: Bilingual; group: 
   { id:'A-2', family:'A-2', name:['Official duty','सरकारी काम'], group:'official' },
   { id:'A-3', family:'A-3', name:['Agreement','विशेष सम्झौता'], group:'official' },
 ];
+// Preserve published URLs, while the public chooser is scoped to Nepali nationals.
+export const excludedNepaliVisas=['F-4','H-2','H-1','B-1','B-2'];
+export const legacyVisaOptions=originalVisaOptions.filter(v=>excludedNepaliVisas.includes(v.id));
+export const visaOptions:VisaOption[]=[...originalVisaOptions.filter(v=>!excludedNepaliVisas.includes(v.id)),...visaSubtypes];
+export const routeVisaOptions:VisaOption[]=[...visaOptions,...legacyVisaOptions];
 export const visaGroups: { id:string; name:Bilingual }[] = [
   {id:'common',name:['Common choices','धेरैलाई चाहिने']},
   {id:'study',name:['Study, culture & training','अध्ययन, कला र तालिम']},
   {id:'work',name:['Work & business','रोजगारी र व्यवसाय']},
+  {id:'permanent',name:['Permanent residence · F-5 routes','स्थायी बसोबास · F-5 का आधार']},
   {id:'family',name:['Family, residence & other','परिवार, बसोबास र अन्य']},
   {id:'short',name:['Short visits','छोटो भ्रमण']},
   {id:'official',name:['Diplomatic & official','कूटनीतिक र सरकारी']},
 ];
 export const koreaVisas = visaOptions.map(v=>v.id);
-export const visaFamily = (visa:string) => visaOptions.find(v=>v.id===visa)?.family ?? '';
+export const visaFamily = (visa:string) => routeVisaOptions.find(v=>v.id===visa)?.family ?? '';
 export const normalizeVisaSearch=(value:string)=>value.normalize('NFKC').toLocaleLowerCase().replace(/[\s‐‑–—-]/g,'');
 export function searchVisaOptions(query:string){
   const q=normalizeVisaSearch(query);
@@ -126,10 +133,10 @@ export function getTaskChoices(visa:string):JourneyChoice[]{
   if(['D-1','D-2','D-4','D-5','D-6','D-7','D-8','D-9','D-10',...professionalFamilies,'F-1','F-3','G-1'].includes(family)&&visa!=='F-1-D')ids.add('outside');
   if(['D-1','D-2','D-4','D-5','D-6','D-7','D-8','D-9','D-10',...professionalFamilies,'F-1','F-2','F-4','F-5','F-6','H-2'].includes(family))ids.add('family');
   if(['D-2','D-7','D-8','D-9',...professionalFamilies,'F-1','F-2','F-3','F-4','F-6','H-2'].includes(family))ids.add('permanent');
-  if(visa==='F-5')for(const id of ['extension','change','registration','employment','outside','workplace','permanent','part-time'])ids.delete(id);
+  if(visaFamily(visa)==='F-5')for(const id of ['extension','change','registration','employment','outside','workplace','permanent','part-time'])ids.delete(id);
   if(visa==='F-1-D')ids.delete('permanent');
   const names:Record<string,Bilingual>={};
-  if(visa==='F-5'){
+  if(visaFamily(visa)==='F-5'){
     names.card=['Renew / replace my permanent-resident card','स्थायी बासिन्दाको कार्ड नवीकरण / फेरि बनाउने'];
     names.overdue=['Missed a report / card deadline','सूचना वा कार्डको म्याद नाघेको'];
   }else if(ids.has('card'))names.card=['Replace a lost / damaged residence card','हराएको / बिग्रिएको परिचयपत्र फेरि बनाउने'];
@@ -140,11 +147,11 @@ export function getTaskChoices(visa:string):JourneyChoice[]{
   if(family==='F-2')names.workplace=['Workplace changes under my F-2 conditions','F-2 का सर्तअनुसार कार्यस्थल फेर्ने'];
   if(ids.has('school')&&!['D-2','D-4'].includes(family))names.school=['Report school details (ages 6–18)','विद्यालयको विवरण दिने (६–१८ वर्ष)'];
   const choices=koreaTasks.filter(t=>ids.has(t.id)).map(t=>({id:t.id,name:names[t.id]??t.name}));
-  if(visa==='F-5')choices.sort((a,b)=>Number(b.id==='card')-Number(a.id==='card'));
+  if(visaFamily(visa)==='F-5')choices.sort((a,b)=>Number(b.id==='card')-Number(a.id==='card'));
   return choices;
 }
 export function getChangeTargets(visa:string):ChangeTarget[]{
-  if(!koreaVisas.includes(visa)||visa==='F-5')return [];
+  if(!koreaVisas.includes(visa)||visaFamily(visa)==='F-5')return [];
   const f=visaFamily(visa),ids=new Set<string>(),exceptions=new Set<string>();
   const add=(...codes:string[])=>codes.forEach(code=>ids.add(code));
   const study=()=>{for(const v of visaOptions)if(['D-2','D-4'].includes(v.family))ids.add(v.id);};
@@ -154,7 +161,7 @@ export function getChangeTargets(visa:string):ChangeTarget[]{
     add('F-3','F-6','G-1');exceptions.add('F-6');
   }else if(['D-3','E-8','E-9','E-10'].includes(f)){
     add('F-3','F-6','G-1');
-    if(['E-9','E-10'].includes(f))add('E-7-4');
+    if(['E-9','E-10'].includes(f))add('E-7-4','E-7-4R');
   }else if(f==='G-1'){
     // Humanitarian G-1 subtypes and restoration of a former E-9 status need
     // individual grounds; never present these as ordinary open conversions.
@@ -176,10 +183,25 @@ export function getChangeTargets(visa:string):ChangeTarget[]{
   }
   // F-3 domestic changes are humanitarian/change-of-circumstances cases.
   exceptions.add('F-3');exceptions.add('G-1');
+  // Include researched subcodes of offered parent routes. Family-specific
+  // prerequisites still remove known mismatches from the target menu.
+  for(const option of visaOptions)if(ids.has(option.family))ids.add(option.id);
+  if(!['E-9','E-10'].includes(f)){ids.delete('E-7-4');ids.delete('E-7-4R');}
+  const only:Record<string,string[]>={
+    'F-5-16':['F-2','F-2-7'], 'F-5-S1':['F-2','F-2-7','F-2-7S'],
+    'F-5-T':['F-2','F-2-T'], 'F-5-T1':['F-2','F-2-T1'],
+    'F-5-27':['F-2','F-2-4'], 'F-5-28':['F-2','F-2-16'],
+    'F-5-29':['F-2','F-2-16'], 'F-5-18':['F-2','F-2-71'],
+    'F-5-24':['D-8','D-8-4'], 'F-5-26':['D-8','D-8-1'],
+  };
+  for(const [code,current] of Object.entries(only))if(!current.includes(visa))ids.delete(code);
+  if(f!=='F-6')ids.delete('F-5-2');
+  ids.delete('F-5-20'); // A newborn's grant of status, not an adult status change.
+  if(!['F-2','F-2-71','F-2-T1','F-3'].includes(visa))for(const code of ['F-5-3','F-5-4','F-5-19','F-5-22','F-5-S2'])ids.delete(code);
   return visaOptions.filter(v=>v.id!==visa&&ids.has(v.id)).map(v=>{
     let name=v.name;
     if(f==='G-1'&&v.id==='E-9')name=['Restore a former EPS status','पहिलेको EPS भिसा पुनः पाउने'];
-    const exception=exceptions.has(v.id);
+    const exception=exceptions.has(v.id)||exceptions.has(v.family);
     return {id:v.id,name:[`${v.id} · ${name[0]}${exception?' · special case':''}`,`${v.id} · ${name[1]}${exception?' · विशेष अवस्था':''}`] as Bilingual,exception};
   }).sort((a,b)=>Number(a.exception)-Number(b.exception));
 }
@@ -192,7 +214,7 @@ export function koreaJourney(visa:string, task:string, target=''):string|null {
   if(task==='change'&&target===otherChangeTarget)return 'status-change-check';
   if (task==='change') return koreaVisas.includes(target) && visa!==target ? `change-to-${codeSlug(target)}` : null;
   if (task==='extension') {
-    if (visa==='F-5') return 'residence-card';
+    if (visaFamily(visa)==='F-5') return 'residence-card';
     if (usesD2Checklist(visa)) return 'd2-extension';
     if (visa==='D-4-1') return 'd4-extension';
     if (visa==='E-9') return 'e9-extension';
@@ -200,7 +222,7 @@ export function koreaJourney(visa:string, task:string, target=''):string|null {
   }
   if (task==='address' && visa==='F-4') return 'f4-address-change';
   if (task==='registration' && visa==='F-4') return 'f4-registration';
-  if (task==='permanent' && visa==='F-5') return 'residence-card';
+  if (task==='permanent' && visaFamily(visa)==='F-5') return 'residence-card';
   if (task==='workplace' && ['D-2','D-4'].includes(visaFamily(visa))) return 'student-work';
   return koreaTasks.find(t=>t.id===task)?.slug ?? null;
 }

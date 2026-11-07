@@ -1,3 +1,5 @@
+> Current eligibility/scope review: [7 November 2026](korea-eligibility-research-2026-11-07.md). Public menus are now for Nepali nationals: 113 choices, including 29 specific F-5 routes; older ancestry/nationality-restricted URLs remain available only as legacy references.
+
 # Life abroad · Korea
 
 The Korea desk covers all **37 parent status families**, with **49 searchable choices** and **21 tasks**: extensions, status changes, registration, reports, work/study permissions, cards, travel, family, permanent residence, entry visas, departure, overdue cases, refusals, certificates and application help. D-2 subtypes 1–8 can be found by typing `D2`. Common choices appear first. An unlisted subcode uses its parent family and the current official manual.

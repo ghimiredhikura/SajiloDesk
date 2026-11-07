@@ -30,7 +30,8 @@ const targetChoices=visa?getChangeTargets(visa):visaOptions.map(v=>({id:v.id,nam
     </form>
     <p class="abroad-small" id="journey-help" aria-live="polite">{pick(lang,'Tasks follow your status. For an unlisted subcode, choose its parent (E-9-1 → E-9).','भिसाअनुसार कामको सूची देखिन्छ। नभेटिएको उपप्रकारमा मूल वर्ग छान्नुहोस् (E-9-1 → E-9)।')}</p>
     <p class="abroad-small journey-selection-note" id="journey-selection-note" role="status" hidden></p>
+    <p class="abroad-small" id="journey-eligibility-link" hidden><a href={route(lang,'life-abroad')+'#visa-eligibility'}>{pick(lang,'Check eligibility & criteria','योग्यता र सर्त हेर्नुहोस्')} →</a></p>
     <div class="journey-links"><a id="journey-entry-link" href={route(lang,'life-abroad/korea/entry-visa')}>{pick(lang,'Applying before entering Korea?','कोरिया आउनुअघि आवेदन दिने हो?')}</a><a id="journey-other-link" href={route(lang,'life-abroad/korea/application-help')}>{pick(lang,'Another procedure / special situation','अर्को काम / विशेष अवस्था')}</a></div>
-    <noscript><details><summary>{pick(lang,'Open a guide directly','सीधै जानकारी खोल्नुहोस्')}</summary><ul>{koreaGuides.map(g=><li><a href={route(lang,`life-abroad/korea/${g.slug}`)}>{g.visa==='ALL'?'':`${g.visa} · `}{textFor(lang,g.title)}</a></li>)}</ul></details></noscript>
+    <noscript><details><summary>{pick(lang,'Open a guide directly','सीधै जानकारी खोल्नुहोस्')}</summary><ul>{koreaGuides.filter(g=>g.visa==='ALL'||visaOptions.some(v=>v.id===g.visa)).map(g=><li><a href={route(lang,`life-abroad/korea/${g.slug}`)}>{g.visa==='ALL'?'':`${g.visa} · `}{textFor(lang,g.title)}</a></li>)}</ul></details></noscript>
   </PickerBody>
 </section><script>import '../scripts/korea-journey';</script>

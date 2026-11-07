@@ -1,3 +1,13 @@
+## Korea eligibility and Nepali catalogue — 7 November 2026
+
+- Production verification: Astro diagnostics clean, 59 unit tests pass, 483 generated pages, static link/label/language/CSP checks and 14 tool DOM scenarios pass.
+- Expanded guide browser suite: 113 choices, 21 tasks, all 222 guide URLs in both languages and their public comment-thread GETs pass. Legacy F-4 links/redirects and no-JavaScript fallback remain valid; excluded legacy visas are absent from the current chooser.
+- Relevance suite: all 113 current choices match the native task/target values; six EN/NE responsive flows, stale-choice clearing and guarded submission pass.
+- Eligibility suite: eight WebKit/Chromium × EN/NE × touch/desktop flows pass, including 30 F5 search results, direct subtype links, compact expandable criteria, both dated GNI releases, asset alternatives, general F-5 route directory, saved checklist and exported eligibility/source notes.
+- iPhone 14 device-profile suite: four WebKit/Chromium EN/NE portrait/landscape flows pass; touch, blur-before-pointerup, list scroll/cancel, short viewport and minimum 16px input guard remain valid. This is browser emulation, not a physical-iPhone keyboard test.
+- Selector-mode suite: all eight engine/language/device flows pass; left-half typing, right-half keyboard-free list focus, consistent task/target popup styling and homepage tool wrapping are preserved.
+- GNI application-effective date remains explicitly unverified; official statistical releases are distinguished from a confirmed filing cutoff. Research and exact route distinctions are documented in [the eligibility review](korea-eligibility-research-2026-11-07.md).
+
 # Sajilo Desk verification report
 
 Verification records through **7 November 2026**, including local checks and the production deployment below. This is implementation evidence, not a participant study.

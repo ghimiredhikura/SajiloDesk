@@ -77,5 +77,5 @@ try{
   await page.locator('#korea-journey-form').dispatchEvent('submit');
   assert.ok(page.url().endsWith('/change-to-d-2/?visa=E-9'));
   assert.deepEqual(errors,[]);
-  console.log('PASS: status-specific task/target menus for all 49 choices; both searchable and native controls; 6 bilingual responsive flows; invalid choice clearing, special-case escape route, old links and guarded submission.');
+  console.log('PASS: status-specific task/target menus for all catalogue choices; both searchable and native controls; 6 bilingual responsive flows; invalid choice clearing, special-case escape route, old links and guarded submission.');
 }finally{await browser.close();}

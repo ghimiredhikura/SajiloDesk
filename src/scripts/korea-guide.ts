@@ -1,17 +1,41 @@
 import { getGuide, documentApplies, textFor } from '../lib/korea';
 import { downloadBlob } from './shared';
+import { journeyCaution, koreaVisas, visaFamily, usesD2Checklist } from '../lib/korea-catalog';
+import { route } from '../lib/catalog';
 const root = document.querySelector<HTMLElement>('[data-korea-guide]');
 if (root) {
   const guide = getGuide(root.dataset.koreaGuide!);
   const lang = document.documentElement.lang === 'ne' ? 'ne' : 'en';
   const say = (en: string, ne: string) => lang === 'ne' ? ne : en;
   if (guide) {
-    const key = `sajilo-korea-v1-${guide.slug}`;
+    const queryVisa = new URL(location.href).searchParams.get('visa') || '';
+    const fixedVisa = guide.task !== 'change' && guide.visa !== 'ALL' ? guide.visa : '';
+    const studentSubtype=guide.slug==='d2-extension'&&usesD2Checklist(queryVisa)?queryVisa:'';
+    const currentVisa = studentSubtype || fixedVisa || (koreaVisas.includes(queryVisa) ? queryVisa : '');
+    if (guide.slug === 'address-change' && currentVisa === 'F-4') {
+      location.replace(`${route(lang,'life-abroad/korea/f4-address-change')}?visa=F-4`);
+    }
+    if(guide.slug==='first-registration'&&currentVisa==='F-4')location.replace(`${route(lang,'life-abroad/korea/f4-registration')}?visa=F-4`);
+    const selectedTask=guide.task || 'extension';
+    const caution=journeyCaution(currentVisa,selectedTask,guide.task==='change'?guide.visa:'');
+    const context=root.querySelector<HTMLElement>('.korea-context')!;
+    if(currentVisa){
+      context.hidden=false;
+      context.querySelector('#korea-context-label')!.textContent=guide.task==='change'?`${currentVisa} → ${guide.visa}`:say(`Your selected status: ${currentVisa}`,`छानिएको भिसा: ${currentVisa}`);
+      context.querySelector('#korea-context-caution')!.textContent=caution?textFor(lang,caution):say('Check your exact subcode against the linked official manual.','आफ्नो सही उपप्रकार जोडिएको आधिकारिक निर्देशिकासँग मिलाउनुहोस्।');
+      context.dataset.caution=String(!!caution);
+    }
+    for(const alert of root.querySelectorAll<HTMLElement>('[data-alert-visas]')) {
+      if(currentVisa && alert.dataset.alertVisas) alert.hidden=!alert.dataset.alertVisas.split(',').some(v=>v===currentVisa||v===visaFamily(currentVisa));
+    }
+    // A shared procedure must not restore another visa's prepared documents.
+    const legacy=['d2-extension','d4-extension','e9-extension'].includes(guide.slug)&&currentVisa===guide.visa;
+    const key = `sajilo-korea-v1-${guide.slug}${legacy?'':`-${currentVisa||'all'}`}`;
     const selectors = [...root.querySelectorAll<HTMLSelectElement>('[data-answer]')];
     const inputs = [...root.querySelectorAll<HTMLInputElement>('[data-ready]')];
     const cards = [...root.querySelectorAll<HTMLElement>('[data-document]')];
     const status = root.querySelector<HTMLElement>('#korea-save-status')!;
-    const answers = () => Object.fromEntries(selectors.map(s => [s.dataset.answer!, s.value]));
+    const answers = ():Record<string,string> => ({...Object.fromEntries(selectors.map(s => [s.dataset.answer!, s.value])),visa:visaFamily(currentVisa)});
     function update() {
       const values = answers();
       for (const card of cards) { const doc = guide!.documents.find(d => d.id === card.dataset.document)!; card.hidden = !documentApplies(doc, values); }
@@ -44,7 +68,8 @@ if (root) {
     });
     root.querySelector('#korea-download')!.addEventListener('click', () => {
       const values = answers();
-      const lines = [`SajiloDesk · Korea · ${guide.visa === 'ALL' ? say('Registered residents', 'दर्ता भएका विदेशी') : guide.visa}`, textFor(lang, guide.title), '', textFor(lang, guide.scope), '', ...selectors.map(s => `${s.labels?.[0]?.textContent}: ${s.selectedOptions[0]?.textContent}`), '', say('Prepared / checked (not an approval assessment)', 'तयार / बुझिएको (स्वीकृतिको मूल्याङ्कन होइन)')];
+      const lines = [`SajiloDesk · Korea · ${currentVisa || guide.visa}`, textFor(lang, guide.title), '', textFor(lang, guide.scope), ...(caution?[textFor(lang,caution)]:[]), '', ...selectors.map(s => `${s.labels?.[0]?.textContent}: ${s.selectedOptions[0]?.textContent}`), '', say('Prepared / checked (not an approval assessment)', 'तयार / बुझिएको (स्वीकृतिको मूल्याङ्कन होइन)')];
+      for(const alert of root!.querySelectorAll<HTMLElement>('.korea-deadline'))if(!alert.hidden)lines.push(alert.textContent?.trim()||'',...[...alert.querySelectorAll<HTMLAnchorElement>('a')].map(a=>a.href));
       for (const doc of guide.documents.filter(d => documentApplies(d, values))) {
         const checked = inputs.find(i => i.dataset.ready === doc.id)?.checked;
         lines.push(`\n[${checked ? 'x' : ' '}] ${doc.korean} — ${textFor(lang, doc.name)} (${doc.requirement})`, textFor(lang, doc.obtain));

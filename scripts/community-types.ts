@@ -1,4 +1,5 @@
-export const threads = ['korea-d2-extension', 'korea-d4-extension', 'korea-e9-extension', 'korea-address-change'] as const;
+import { koreaThreads } from '../src/lib/korea-routes';
+export const threads = koreaThreads;
 export const categories = ['experience', 'correction', 'request'] as const;
 export interface Statement {
   bind(...values: unknown[]): Statement;

@@ -83,6 +83,37 @@
 }
 
 /* Country-edition ribbon approved in the homepage preview. Scope changes here. */
+.abroad-hub [hidden],.korea-journey [hidden]{display:none!important}
+.korea-visa-search{position:relative;min-width:0}
+.visa-search-input{position:relative}
+.visa-search-input input{width:100%;min-width:0;box-sizing:border-box;font:inherit;font-size:var(--desk-control);line-height:1.7;min-height:48px;padding:10px 34px 10px 9px;border:1px solid #d9d0d8;border-radius:9px;background:#fff;color:#392f43}
+.visa-search-input input:disabled{background:#f5f2f6;color:#786e7d}
+.korea-journey .visa-search-input button{position:absolute;right:1px;top:1px;bottom:1px;height:auto;min-height:0;width:32px;border:0;background:transparent;color:#655b6c;border-radius:8px;padding:0}
+.visa-search-results{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:30;max-height:264px;overflow-y:auto;overscroll-behavior:contain;border:1px solid #b8c8ae;border-radius:9px;background:#fff;box-shadow:0 7px 20px #392f4320;padding:4px;font-size:var(--desk-control)}
+.visa-search-results [role=option]{padding:10px 8px;min-height:44px;box-sizing:border-box;line-height:1.5;cursor:pointer;border-radius:6px;overflow-wrap:anywhere}
+.visa-search-results [role=option]:hover,.visa-search-results [role=option].active{background:#edf2e8;color:#425738}
+.visa-search-results [aria-selected=true]{font-weight:700}
+.korea-visa-search>[data-search-empty]{position:absolute;top:100%;z-index:30;background:#fff;border:1px solid #d9d0d8;padding:10px;border-radius:8px;font-size:var(--text-sm);line-height:1.65;margin:4px 0;width:100%;box-sizing:border-box}
+.korea-journey .visa-search-input button:disabled{opacity:.5}
+.korea-journey[data-changing=true] form{grid-template-columns:repeat(3,minmax(0,1fr)) auto}
+.korea-review-line{display:flex;justify-content:space-between;gap:5px 12px;flex-wrap:wrap;margin:8px 0 10px;font-size:var(--text-sm);color:#706675;line-height:1.65}
+.korea-review-line>span:first-child{font-weight:600;color:#526c43}
+.korea-deadline,.korea-context{border:1px solid #e5d5b8;border-left:3px solid #b47b37;background:#fff7e9;border-radius:10px;padding:10px 14px;margin:10px 0;font-size:var(--text-md);line-height:1.7}
+.korea-deadline>strong,.korea-context>strong{display:block;color:#705437;font-size:var(--desk-panel-title)}
+.korea-deadline p,.korea-context p{margin:4px 0;color:#695b49}
+.korea-deadline .document-source-links{margin-top:5px;font-size:var(--text-xs);gap:4px 12px}
+.korea-context{background:#f2f5ee;border-color:#dce4d4;border-left-color:#728665}
+.korea-context[data-caution=true]{background:#fff4e4;border-color:#e5d5b8;border-left-color:#b47b37}
+.korea-context[data-caution=false]{padding:0;border:0;background:none;margin:6px 0}
+.korea-context[data-caution=false]>strong{font-size:var(--text-md);color:#526c43}
+.korea-context[data-caution=false]>p,.korea-context[data-caution=false]>a{display:none}
+.korea-context a,.korea-coverage a{font-size:var(--text-sm);color:#a33c24;text-decoration:underline;text-underline-offset:3px}
+.korea-coverage{font-size:var(--text-md);line-height:1.7;margin:12px 0;color:#706675}
+.korea-coverage summary{cursor:pointer;font-weight:600;color:#526c43}
+.korea-coverage ul{columns:2;padding-left:22px;margin:8px 0}
+.korea-coverage li{break-inside:avoid;margin-bottom:3px}
+@media(max-width:1100px){.korea-journey[data-changing=true] form{grid-template-columns:repeat(2,minmax(0,1fr))}.korea-journey[data-changing=true] button{grid-column:auto;justify-self:stretch}}
+@media(max-width:600px){.korea-journey[data-changing=true] form{grid-template-columns:1fr}.korea-coverage ul{columns:1}.korea-deadline,.korea-context{padding:9px 11px}}
 .abroad-feature.korea-ribbon { grid-template-columns:40px minmax(0,1fr) auto; gap:16px; padding:17px 20px; border-radius:17px; }
 .abroad-feature.korea-ribbon .abroad-feature-mark { width:40px; height:40px; border-radius:12px; }
 .abroad-feature.korea-ribbon #abroad-feature-title { display:block; font-size:25px; line-height:1.35; letter-spacing:-.025em; margin:5px 0; }

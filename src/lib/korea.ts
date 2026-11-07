@@ -1,8 +1,37 @@
 import type { Lang } from './catalog';
+import { makeExpandedGuides, addressAlert, expiryAlert, statusDocuments } from './korea-expanded';
+export { koreaVisas, koreaTasks, koreaJourney, visaOptions, visaGroups, visaFamily, visaFamilies } from './korea-catalog';
 export type Bilingual = readonly [string, string];
 export const textFor = (lang: Lang, text: Bilingual) => text[lang === 'ne' ? 1 : 0];
-export const reviewed = '2026-11-06';
+export const reviewed = '2026-11-07';
+const actArticle = (article: string) => `https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=00&joNo=${article.padStart(4,'0')}&lsiSeq=290729&urlMode=lsScJoRltInfoR`;
+const lawNote: Bilingual = ['Immigration Act edition effective 2 October 2026; article and penalty context checked 7 November 2026.', '२ अक्टोबर २०२६ देखि लागू अध्यागमन ऐन। दफा र कारबाहीको सन्दर्भ ७ नोभेम्बर २०२६ मा जाँचिएको।'];
 export const koreaSources = {
+  manual: {name:'HiKorea · status-by-status manual · 6 Nov 2026',url:'https://www.hikorea.go.kr/board/BoardNtcDetailR.pt?BBS_SEQ=1&BBS_GB_CD=BS10&NTCCTT_SEQ=1062&page=1',note:['Checked the 261106 stay manual. Open the 체류민원 attachment and search your status/subcode and procedure. Later laws/notices and individual instructions take precedence.','261106 बसाइ निर्देशिका जाँचिएको। 체류민원 संलग्न फाइल खोलेर सही भिसा/उपप्रकार र प्रक्रिया खोज्नुहोस्। पछिका कानुन/सूचना र व्यक्तिगत निर्देशन लागू हुन्छन्।']},
+  portal: {name:'Korea Visa Portal · Visa Navigator',url:'https://www.visa.go.kr/openPage.do?MENU_ID=10102',note:['Official visa-purpose and consular-route directory. Entry-visa and in-country permission requirements differ.','भिसाको उद्देश्य र विदेशबाट आवेदन दिने आधिकारिक सूची। प्रवेश भिसा र कोरियाभित्रको अनुमतिका सर्त फरक हुन्छन्।']},
+  act20:{name:'Immigration Act · Article 20 · additional activity',url:actArticle('20'),note:lawNote},
+  act21:{name:'Immigration Act · Article 21 · workplace changes',url:actArticle('21'),note:lawNote},
+  act23:{name:'Immigration Act · Article 23 · grant of status',url:actArticle('23'),note:lawNote},
+  act24:{name:'Immigration Act · Article 24 · status change',url:actArticle('24'),note:lawNote},
+  act25:{name:'Immigration Act · Article 25 · stay extension',url:actArticle('25'),note:lawNote},
+  act31:{name:'Immigration Act · Article 31 · registration',url:actArticle('31'),note:lawNote},
+  act33:{name:'Immigration Act · Article 33 · F-5 card validity',url:actArticle('33'),note:lawNote},
+  act35:{name:'Immigration Act · Article 35 · detail changes',url:actArticle('35'),note:lawNote},
+  act36:{name:'Immigration Act · Article 36 · address reporting',url:actArticle('36'),note:lawNote},
+  act37:{name:'Immigration Act · Article 37 · card return',url:actArticle('37'),note:lawNote},
+  act94:{name:'Immigration Act · Article 94 · penalties',url:actArticle('94'),note:lawNote},
+  act95:{name:'Immigration Act · Article 95 · penalties',url:actArticle('95'),note:lawNote},
+  act98:{name:'Immigration Act · Article 98 · criminal fines',url:actArticle('98'),note:lawNote},
+  act100:{name:'Immigration Act · Article 100 · administrative fines',url:actArticle('100'),note:lawNote},
+  registration:{name:'EasyLaw · registration and registered-detail changes',url:'https://easylaw.go.kr/CSP/CnpClsMain.laf?ccfNo=2&cciNo=3&cnpClsNo=1&csmSeq=2853&popMenu=ov',note:['Government legislation explanation. Check the current statute alongside the explanation.','सरकारी कानुनी व्याख्या। सँगै हाल लागू दफा पनि हेर्नुहोस्।']},
+  f4Address:{name:'Gov24 · 국내거소이전신고 · F-4 address',url:'https://m.gov.kr/mw/AA020InfoCappView.do?CappBizCD=12700000106&HighCtgCD=A01010',note:['Domestic-residence move report: 14 days. This differs from the ordinary ARC report.','घरेलु बसोबासको ठेगाना सरेको सूचना: १४ दिन। सामान्य ARC को सूचनाभन्दा फरक।']},
+  f4Law:{name:'EasyLaw · Overseas Koreans Act · residence reporting',url:'https://easylaw.go.kr/CSP/CnpClsMainBtr.laf?ccfNo=3&cciNo=2&cnpClsNo=3&csmSeq=1136&popMenu=ov',note:['Separate F-4 framework: address-report penalty under Article 17 and re-entry under Article 10.','F-4 को छुट्टै व्यवस्था: दफा १७ मा ठेगाना सूचनाको जरिवाना र दफा १० मा पुनःप्रवेश।']},
+  f4Decree:{name:'Overseas Koreans Enforcement Decree · Article 7',url:'https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=00&joNo=0007&lsiSeq=284843&urlMode=lsScJoRltInfoR',note:['Edition effective 24 March 2026. Domestic-residence reporting and foreigner-registration alternative.','२४ मार्च २०२६ देखि लागू। घरेलु बसोबास दर्ता र त्यसको सट्टा विदेशी दर्ताको व्यवस्था।']},
+  reentryRule:{name:'Immigration Enforcement Rules · Article 44-2',url:'https://law.go.kr/LSW/lsLinkCommonInfo.do?lspttninfSeq=82628',note:['Edition effective 23 October 2026. Re-entry exemptions, time limits and exclusions.','२३ अक्टोबर २०२६ देखि लागू। पुनःप्रवेशको छुट, अवधि र अपवाद।']},
+  workplaceLaw:{name:'Work24 · foreign-worker workplace changes',url:'https://m.work24.go.kr/cm/c/f/1100/selecSystInfo.do?systClId=SC00000339&systCnntId=CI00002290&systId=SI00000446',note:['Employment Permits Act Article 25: E-9 workplace-change process and exceptions.','रोजगार अनुमति ऐनको दफा २५: E-9 कम्पनी परिवर्तनको प्रक्रिया र अपवाद।']},
+  work24:{name:'Work24 / EPS',url:'https://www.eps.go.kr/',note:['Official employment-permit services. Immigration permission remains a separate step.','आधिकारिक रोजगार अनुमति सेवा। अध्यागमनको अनुमति छुट्टै काम हो।']},
+  employment2026:{name:'Ministry of Justice · 2026 employment-information reporting',url:'https://www.immigration.go.kr/bbs/moj/182/601588/artclView.do',note:['16 December 2025 notice and attachment; expanded online service from 2 January 2026, covered statuses and 15-day changes.','१६ डिसेम्बर २०२५ को सूचना र संलग्न विवरण। २ जनवरी २०२६ देखि विस्तारित अनलाइन सेवा, लागू हुने भिसा र परिवर्तनको १५ दिनको नियम।']},
+  certService:{name:'Dongjak local government · immigration certificates',url:'https://www.dongjak.go.kr/portal/main/contents.do?menuNo=201136',note:['Official local-government certificate and child-status service directory; use the linked Gov24 service.','प्रमाणपत्र र बच्चाको बसाइसम्बन्धी स्थानीय सरकारी विवरण। जोडिएको Gov24 सेवा प्रयोग गर्नुहोस्।']},
   gov: { name: 'Gov24 · 체류기간연장허가', url: 'https://www.gov.kr/mw/AA020InfoCappView.do?CappBizCD=12700000097&HighCtgCD=A01008', note: ['Government baseline by status.', 'भिसाको प्रकारअनुसार सरकारी आधारभूत सूची।'] },
   address: { name: 'Gov24 · foreign resident address change', url: 'https://www.gov.kr/mw/AA020InfoCappView.do?CappBizCD=12700000026&HighCtgCD=A01010', note: ['Government service details updated 29 Jun 2026. Registered residents, documents and reporting routes.', '२९ जुन २०२६ मा अद्यावधिक सरकारी विवरण। दर्ता भएका विदेशीका कागजात र ठेगाना परिवर्तनको सूचना दिने तरिका।'] },
   forms: { name: 'HiKorea · 민원서식', url: 'https://www.hikorea.go.kr/board/BoardApplicationListR.pt', note: ['Current blank forms; search the Korean document name.', 'हालका खाली फाराम। कागजातको कोरियाली नाम राखेर खोज्नुहोस्।'] },
@@ -24,8 +53,11 @@ export interface KoreaDocument {
   id: string; korean: string; name: Bilingual; kind: 'identity' | 'form' | 'issued' | 'evidence' | 'check';
   requirement: Requirement; issuer: Bilingual; obtain: Bilingual; detail?: Bilingual; sources: SourceId[];
   condition?: { field: 'stage'; value: 'regular' | 'thesis' } | { field: 'employment'; value: 'renewal' | 'reemployment' };
+  visas?: string[];
+  excludeVisas?:string[];
 }
-export interface KoreaGuide { slug: string; visa: string; audience: Bilingual; title: Bilingual; scope: Bilingual; warning: Bilingual; documents: KoreaDocument[]; sources: SourceId[]; procedure?: 'address'; steps?: Bilingual[]; intro?: Bilingual; hint?: Bilingual }
+export interface KoreaAlert { title:Bilingual; text:Bilingual; detail?:Bilingual; sources:SourceId[]; visas?:string[] }
+export interface KoreaGuide { slug: string; visa: string; audience: Bilingual; title: Bilingual; scope: Bilingual; warning: Bilingual; documents: KoreaDocument[]; sources: SourceId[]; procedure?: 'address'; steps?: Bilingual[]; intro?: Bilingual; hint?: Bilingual; task?:string; reviewed?:string; coverage?:'checklist'|'route'; alerts?:KoreaAlert[] }
 const common: KoreaDocument[] = [
   { id: 'form34', korean: '통합신청서 (별지 제34호)', name: ['Integrated application form · Form 34', 'एकीकृत आवेदन फाराम · फाराम ३४'], kind: 'form', requirement: 'required', issuer: ['You complete it', 'तपाईंले भर्ने'], obtain: ['Open HiKorea’s forms library, search 통합신청서, download the current form and select 체류기간 연장허가 (extension of stay). Complete and sign it.', 'हाइकोरियाको फाराम सूचीमा 통합신청서 खोज्नुहोस्। हालको फाराम डाउनलोड गरेर 체류기간 연장허가 (बसाइ अवधि थप्ने) छान्नुहोस्। विवरण भरेर हस्ताक्षर गर्नुहोस्।'], sources: ['forms', 'form34'] },
   { id: 'passport', korean: '여권', name: ['Passport', 'राहदानी'], kind: 'identity', requirement: 'required', issuer: ['Your existing passport', 'तपाईंसँग भएको राहदानी'], obtain: ['Check the passport you will use for the application. Ask which pages need copying or scanning for your submission route.', 'आवेदनमा प्रयोग गर्ने राहदानी जाँच्नुहोस्। अनलाइन वा कार्यालयमा बुझाउँदा कुन पृष्ठको प्रतिलिपि चाहिन्छ, बुझ्नुहोस्।'], sources: ['gov'] },
@@ -72,20 +104,24 @@ const addressChange: KoreaGuide = {
     ['Keep confirmation and check the recorded address. Gov24 says an online report does not add the new address to the back of the card. If another person reports for you, ask about a power of attorney, their ID and relationship evidence; that path is outside this self-report checklist.', 'सूचना दिएको पुष्टि राख्नुहोस् र दर्ता भएको ठेगाना जाँच्नुहोस्। सरकारी विवरणअनुसार अनलाइन सूचना दिँदा परिचयपत्रको पछाडि नयाँ ठेगाना लेखिँदैन। अरूले बुझाउने भए अख्तियारनामा, उनको परिचयपत्र र सम्बन्धको प्रमाणबारे सोध्नुहोस्; त्यो प्रक्रिया यो आफैँ सूचना दिने सूचीमा समेटिएको छैन।'],
   ]
 };
-export const koreaGuides: KoreaGuide[] = [d2, d4, e9, addressChange];
-export const koreaVisas = ['D-2', 'D-4-1', 'E-9'] as const;
-export const koreaTasks = [
-  { id: 'extension', name: ['Extend my stay / visa', 'बसाइ / भिसाको म्याद थप्ने'] },
-  { id: 'address', name: ['Report a change of address', 'बस्ने ठेगाना फेरिएको सूचना दिने'] },
-] satisfies { id: string; name: Bilingual }[];
-export function koreaJourney(visa: string, task: string): string | null {
-  if (!koreaVisas.includes(visa as typeof koreaVisas[number])) return null;
-  if (task === 'address') return 'address-change';
-  if (task === 'extension') return ({ 'D-2': 'd2-extension', 'D-4-1': 'd4-extension', 'E-9': 'e9-extension' } as Record<string, string>)[visa];
-  return null;
-}
+// Preserve existing links and saved lists while updating the evidence baseline.
+d2.sources = [...new Set([...d2.sources, 'manual' as SourceId])];
+d4.sources = [...new Set([...d4.sources, 'manual' as SourceId])];
+// The current manual lists business-registration evidence; do not promote an
+// older service-page guarantee field as a universal current requirement.
+e9.documents = e9.documents.filter(d => d.id !== 'guarantee');
+e9.documents.push(statusDocuments('E-9').find(d=>d.id==='business')!);
+e9.sources = [...new Set([...e9.sources, 'manual' as SourceId])];
+addressChange.scope = ['For registered foreign residents moving within Korea. F-4 domestic-residence reporting has its own guide. An address report does not extend your stay or authorize a workplace change.', 'कोरियाभित्र सरेका, विदेशी दर्ता भएका बासिन्दाका लागि। F-4 घरेलु बसोबास दर्ताको जानकारी छुट्टै छ। ठेगाना सूचनाले बसाइको म्याद थप्ने वा कम्पनी परिवर्तनको अनुमति दिने काम गर्दैन।'];
+export const koreaGuides: KoreaGuide[] = [
+  ...[d2,d4,e9].map(g=>({...g,task:'extension',reviewed,coverage:'checklist' as const,alerts:[expiryAlert],sources:[...new Set<SourceId>([...g.sources,'act25'])]})),
+  {...addressChange,task:'address',reviewed,coverage:'checklist',alerts:[addressAlert],sources:[...addressChange.sources,'act36','act98']},
+  ...makeExpandedGuides(),
+];
 export const getGuide = (slug: string) => koreaGuides.find(g => g.slug === slug);
 export function documentApplies(doc: KoreaDocument, answers: Record<string, string>) {
+  if(doc.excludeVisas?.includes(answers.visa))return false;
+  if (doc.visas && answers.visa && !doc.visas.includes(answers.visa)) return false;
   if (!doc.condition) return true;
   const answer = answers[doc.condition.field];
   // An unanswered special case stays visible, rather than silently omitting it.

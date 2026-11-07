@@ -1,10 +1,14 @@
 # Life abroad · Korea
 
-The first release covers **in-country stay extensions for registered D-2 degree students, D-4-1 university language students and E-9 EPS workers**, plus **self-filed address-change reports for these registered residents**. Visitors first choose their current visa and task; the selector then opens the matching guide. The address guide preserves visa context in the URL without putting personal data there. It does not cover new entry visas, first registration, workplace changes, status changes, re-entry or eligibility decisions. These remain separate procedures until their official information and exceptions have been reviewed.
+The Korea desk covers all **37 parent status families**, with **49 searchable choices** and **21 tasks**: extensions, status changes, registration, reports, work/study permissions, cards, travel, family, permanent residence, entry visas, departure, overdue cases, refusals, certificates and application help. D-2 subtypes 1–8 can be found by typing `D2`. Common choices appear first. An unlisted subcode uses its parent family and the current official manual.
 
-## Source review · 6 November 2026
+The main flow stays at two choices: current visa and task. Only a status change asks for a target. Detailed checklists and official-route/document-category guides have separate coverage labels. Menu availability does not establish eligibility, and not every family-level route is a final list for every programme subtype.
 
-The source registry and bilingual document dictionary live in `src/lib/korea.ts`. Every document identifies its source, issuer, acquisition method, type and requirement scope. The published review date is an actual manual review, not the build timestamp. A warning appears when that review is more than 90 days old.
+## Source review · 7 November 2026
+
+See the [research and evidence matrix](korea-research-2026-11.md) for the 6 November 2026 HiKorea manual, current legal editions, task coverage, verified deadlines and penalty types. Per-guide review dates appear outside collapsed details and in downloads. Statutory maximum penalties are distinguished from fixed fees and actual case outcomes. F-4 address/registration/forms and F-5 card renewal have separate handling.
+
+The source registry and retained checklists live in `src/lib/korea.ts`; expanded document packs are in `src/lib/korea-expanded.ts`. `korea-catalog.ts` owns visa/task choices, search and routing. The lightweight `korea-routes.ts` manifest feeds the public API allowlist and private moderation filters without bundling legal content into the Worker. Every document identifies its source, issuer, acquisition method, type and requirement scope. The published review date is an actual manual review, not the build timestamp. A warning appears when that review is more than 90 days old.
 
 Visible descriptions are deliberately short. Full scope and exceptions sit in a disclosure; document instructions open individually. The detail page's visa/task selector stays collapsed until needed. The important expiry/reporting reminder remains visible.
 
@@ -24,17 +28,19 @@ Visible descriptions are deliberately short. Full scope and exceptions sit in a 
 | [Geomdan accommodation form](https://www.geomdan.go.kr/dong.geomdan/peti/petiDetail.do?cate=1&pgno=2&seq=720) | Official form discovery. Evidence/attachments depend on the housing arrangement. |
 | [KIS 1345](https://www.immigration.go.kr/immigration_eng/1862/subview.do) | Current official contact details and hours; no hardcoded ARS menu or language option number. |
 
-Financial minimums, fees, copies/originals, certificate age, authentication and medical-document requirements are left for individual confirmation. Do not convert a university-specific requirement into a national rule. Reader comments never update the official checklist automatically.
+Published standard office fees are dated and sourced; online reductions, exemptions and the actual amount payable need confirmation. Financial thresholds, copies/originals, certificate age, authentication and medical-document requirements depend on the exact route. Do not convert a university-specific requirement into a national rule. Reader comments never update the official checklist automatically.
 
 ## Adding another guide
 
 1. Separate entry visas, registration, extensions, changes, reporting and re-entry.
 2. Establish the official baseline and scope. Verify the issuing body, current notices, exceptions, form location and certificate-acquisition route.
 3. Write natural English and Nepali explanations; keep the actual Korean search term.
-4. Add sources and actual review date, condition handling, routing, sitemap and comment-thread allowlist. The database bounds thread length; the Worker enforces the exact published-thread allowlist.
+4. Add sources and actual review date, condition handling and routing. Keep `korea-routes.ts` and generated guide slugs in agreement; tests verify them, and the sitemap and comment/moderation allowlists use those definitions. The database bounds thread length; the Worker enforces the exact published-thread allowlist.
 5. Test conditions, storage failure, export, mobile layout and no-JavaScript reading. Publish only what was verified.
 
 ## Public comments and review
+
+The expanded guide set uses the same private moderation page. New filters and public thread IDs come from `korea-routes.ts`; this expansion needs no production schema migration and preserves existing comment IDs and threads.
 
 Comments are **real shared comments**, stored in the account's Cloudflare D1 database `sajilodesk-community` (APAC). No GitHub or other visitor account is required. The frontend uses only same-origin `/api/comments` requests, without external scripts or widgets. Static pages and existing tools remain served as assets; `/api/*` and private `/admin` routes invoke the Worker. A daily cleanup trigger removes old pending comments and rate-limit records.
 
@@ -62,7 +68,7 @@ npm exec -- wrangler secret put COMMENT_SALT
 
 Supply a long random secret through stdin/the prompt. It is used for the daily HMAC and must never be committed, printed or embedded in browser code. A separate `.dev.vars` in the local runtime can contain `COMMENT_SALT=local-development-only`; `.dev.vars*` is ignored. Initialize local D1 with the same schema using `--local`. The initial development database used a three-thread CHECK. The one-time `scripts/community-migrate-threads.sql` migration preserved rows/IDs and replaced it with a length bound; it has already been applied to the local and production databases. Do not run it again during normal deployments. New installations use the final schema directly.
 
-Run `npm run test:korea` only against local D1: it inserts synthetic comments and clears the local test data, never the production database.
+Run `npm run test:korea-expanded` for search, status routing, saved context, all generated bilingual guide/comment endpoints and responsive checks. Run `npm run test:korea` only against local D1: it inserts synthetic comments and clears the local test data, never the production database.
 
 For the complete local service (use the synced NTFS runtime on this Windows setup):
 

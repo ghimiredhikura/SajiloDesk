@@ -20,7 +20,7 @@ Each tool opens with a ready-to-try example. Replace the values or choose your o
 
 ## Life abroad · Korea
 
-Preparing to extend a D-2, D-4-1 or E-9 stay in Korea? [Choose a document guide](https://sajilodesk.com/en/life-abroad/) by selecting your current visa and whether you need a stay extension or an address-change report. Understand Korean document names, where to get each item and which official forms to use. Save your preparation in your browser or download the checklist. The guides are available in Nepali and English.
+Visa paperwork in Korea? [Find your guide](https://sajilodesk.com/en/life-abroad/) by choosing your visa and what you want to do. Search by typing a code such as **D2**. Find help with renewals, visa changes, registration, work, family and travel, with Korean document names, official sources and a checked date. Save or download your preparation list. Available in Nepali and English.
 
 Share an experience, suggest a missing document or request a new guide in the comments at the end. Comments are reviewed before publication; no sign-up is needed. Check your individual requirements with immigration and your school or employer.
 

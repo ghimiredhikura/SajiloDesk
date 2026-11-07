@@ -1,3 +1,4 @@
+import { koreaGuideSlugs, moderationGuideTitle } from '../lib/korea-routes';
 interface ReviewComment { id: number; thread: string; name: string; category: string; message: string; createdAt: string; status: string }
 interface ReviewPage { comments: ReviewComment[]; counts: { pending: number; published: number }; nextBefore: number | null; reviewer: string }
 const list = document.querySelector<HTMLElement>('#review-list')!;
@@ -10,12 +11,7 @@ const tabs = [...document.querySelectorAll<HTMLButtonElement>('[data-review-tab]
 const dialog = document.querySelector<HTMLDialogElement>('#review-delete-dialog')!;
 const confirmDelete = document.querySelector<HTMLButtonElement>('#review-confirm-delete')!;
 const cancelDelete = document.querySelector<HTMLButtonElement>('#review-cancel-delete')!;
-const guides: Record<string, [string, string]> = {
-  'korea-d2-extension': ['D-2 extension', 'd2-extension'],
-  'korea-d4-extension': ['D-4-1 extension', 'd4-extension'],
-  'korea-e9-extension': ['E-9 extension', 'e9-extension'],
-  'korea-address-change': ['Address change', 'address-change'],
-};
+const guides:Record<string,[string,string]>=Object.fromEntries(koreaGuideSlugs.map(slug=>[`korea-${slug}`,[moderationGuideTitle(slug),slug]]));
 const types: Record<string, string> = { experience: 'Experience', correction: 'Correction', request: 'Suggestion' };
 let selected = 'pending', nextBefore: number | null = null, busy = false, expired = false;
 let deleting: ReviewComment | null = null, deleteTrigger: HTMLButtonElement | null = null;

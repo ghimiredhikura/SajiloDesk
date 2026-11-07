@@ -13,14 +13,14 @@ export async function renderDocument(bytes:Uint8Array){
   try{return Object.assign(await loading.promise,{destroy:()=>loading.destroy()});}
   catch(error){await loading.destroy();throw error;}
 }
-export async function pageCanvas(document:PDFDocumentProxy,index:number,dpi:number){
+export async function pageCanvas(document:PDFDocumentProxy,index:number,dpi:number,pixelLimit=12000000){
   const page=await document.getPage(index),size=page.getViewport({scale:1});
-  const scale=Math.min(dpi/72,Math.sqrt(12000000/(size.width*size.height)),4096/Math.max(size.width,size.height));
+  const scale=Math.min(dpi/72,Math.sqrt(pixelLimit/(size.width*size.height)),4096/Math.max(size.width,size.height));
   const viewport=page.getViewport({scale}),canvas=window.document.createElement('canvas');
-  canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
+  canvas.width=Math.ceil(viewport.width-1e-7);canvas.height=Math.ceil(viewport.height-1e-7);
   try{await page.render({canvas,viewport,background:'rgb(255,255,255)'}).promise;}
   catch(error){canvas.width=canvas.height=0;throw error;}
-  page.cleanup();return {canvas,width:size.width,height:size.height};
+  page.cleanup();return {canvas,width:size.width,height:size.height,dpi:scale*72};
 }
 export async function canvasBlob(canvas:HTMLCanvasElement,type:string,quality=.85):Promise<Blob>{
   return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('render')),type,quality));

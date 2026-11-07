@@ -2,6 +2,13 @@
 
 Verification records through **7 November 2026**, including local checks and the production deployment below. This is implementation evidence, not a participant study.
 
+## 7 November: full PDF previews and clearer output
+
+- Original PDFs now preview immediately, with all pages scrollable. Result previews include all extracted/merged/compressed pages; Original/Result switches and a merged-input file chooser support comparison. Fit-width/zoom preserves the current page. The 30-page fixture reaches the final page with at most five allocated canvases. Previews render at screen density rather than the former 60 DPI JPEG.
+- Default compression selectively re-encodes suitable JPEG images at 92% without resampling or rasterising text/vectors. The browser suite verified smaller output, unchanged image dimensions and byte-for-byte identical text/vector content streams. Lossless mode retained the original JPEG bytes. Unsupported/masked/colour-managed images are kept unchanged. Scanned-page rebuilding is explicit at 250 DPI/90% rather than the old 120 DPI/72% default.
+- Image export now defaults to 300 DPI PNG, with 95% JPEG available. The fine-text/vector fixture produced a 2,480 × 3,509 PNG; its fine text and hairlines were visually inspected. Source quality and pixel bounds remain explicit.
+- All 52 automated tests pass, including density metadata with unchanged PNG/JPEG pixels. Astro reports zero errors/warnings/hints; static links, labels, language alternates and CSP checks pass. PDF browser checks pass eight bilingual Chrome layouts and two iPhone 14 WebKit touch flows, including all-page scrolling, source/result switching, file previews, download correctness, memory bounds, errors/cancel and no uploads/external requests. Physical iOS testing remains separate.
+
 ## 7 November: iPhone Korea selector correction
 
 - Reproduced the reported failure in WebKit with iPhone 14 device settings and an input blur during the option tap: the original build retained an empty visa and disabled task, and the search font was 14 px. The same probe after the fix commits E-9, enables the task and reports a 16 px input.

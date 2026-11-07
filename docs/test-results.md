@@ -2,6 +2,13 @@
 
 Verification records through **7 November 2026**, including local checks and the production deployment below. This is implementation evidence, not a participant study.
 
+## 7 November: iPhone Korea selector correction
+
+- Reproduced the reported failure in WebKit with iPhone 14 device settings and an input blur during the option tap: the original build retained an empty visa and disabled task, and the search font was 14 px. The same probe after the fix commits E-9, enables the task and reports a 16 px input.
+- The focused mobile suite passes four bilingual WebKit/Chromium flows with portrait/landscape layouts, real current/target taps, the forced focus-loss sequence, explicit-only navigation, scrolling/pointercancel, keyboard selection, compatible/incompatible choice handling, the compact guide selector, dropdown toggling and a short viewport. Pinch zoom remains enabled. Screenshots were visually inspected.
+- The existing relevance suite still passes all 49 current visa choices and six bilingual responsive workflows. All 50 automated tests, Astro checks (zero errors/warnings/hints) and static link/label/CSP checks pass. No content, eligibility rules, homepage layout, database or moderation changes were made.
+- This verifies emulated touch/WebKit behaviour and CSS zoom guards, not the physical iPhone's OS keyboard or automatic zoom. See [the selector implementation notes](korea-selector-rules.md#iphone-touch-and-focus-regression).
+
 ## 7 November: relevant Korea menus and everyday PDF tools
 
 - Korea menus now derive procedures and target-status shortlists from the selected current status. The real native select and typed search use the same allowed choices. Changing status clears incompatible task/target values, and guarded submission rejects injected or stale values. All 49 current-status choices and six bilingual responsive flows passed, including E-9, D-2, F-5, C-3, old direct links and the special-case route. The rules are navigation aids, not a legal eligibility determination; see [selector sources and boundaries](korea-selector-rules.md).

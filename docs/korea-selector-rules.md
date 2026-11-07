@@ -31,3 +31,13 @@ The source review and licence/precedence notes in [the research matrix](korea-re
 - Changing the current status retains compatible selections and clears incompatible tasks/targets. Any open stale result list is dismissed when its permitted choices change.
 - The target field appears only for a status-change task; ordinary tasks retain two choices.
 - Unit tests cover all offered and omitted combinations. Browser tests cover all 49 current choices, both controls, bilingual mobile/desktop flows, resetting, special cases and old direct links.
+
+## iPhone touch and focus regression
+
+The 7 November mobile correction addresses a reproduced event-order failure: when the input loses focus during a tap on a result, closing the list immediately prevents the visa from being committed and leaves step two disabled. [WebKit issue 322721](https://bugs.webkit.org/show_bug.cgi?id=322721) documents the corresponding iOS focus behaviour; cancelling pointerdown alone is insufficient.
+
+The combobox now tracks a primary pointer gesture, keeps results visible across the intervening blur, and commits only on the option's click after a stationary pointerup. Movement, list scrolling and pointercancel do not select an option. Closing on pointerup was also rejected because a following compatibility click could reach a submit button underneath the disappearing row. Keyboard and assistive-technology activation remain supported. A touch selection dismisses the input without refocusing/reopening the list.
+
+Both search inputs and the native task/target controls use a minimum 16 px font on narrow or coarse-pointer screens; desktop sizes remain unchanged. The viewport still permits user zoom. Results are positioned and height-limited against the visual viewport and mobile navigation.
+
+Run `npm run test:korea-mobile` against local Wrangler after installing Playwright WebKit (`npx playwright install webkit`). It tests iPhone 14 device settings in WebKit and Chromium, in English/Nepali and portrait/landscape, including real taps, a forced blur during the tap, no accidental form submission, gesture cancellation, keyboard selection, smart resets and a reduced-height viewport. These are emulated browser tests; physical iOS keyboard and automatic zoom need device verification.

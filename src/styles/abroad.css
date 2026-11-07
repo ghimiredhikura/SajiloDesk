@@ -95,6 +95,10 @@
 .visa-search-results [aria-selected=true]{font-weight:700}
 .korea-visa-search>[data-search-empty]{position:absolute;top:100%;z-index:30;background:#fff;border:1px solid #d9d0d8;padding:10px;border-radius:8px;font-size:var(--text-sm);line-height:1.65;margin:4px 0;width:100%;box-sizing:border-box}
 .korea-journey .visa-search-input button:disabled{opacity:.5}
+/* iPhone Safari zooms focused controls below 16px. Keep pinch zoom available. */
+@media(max-width:600px),(pointer:coarse){
+  .korea-journey .visa-search-input input,.korea-journey select{font-size:max(16px,var(--desk-control))}
+}
 .journey-links{display:flex;flex-wrap:wrap;gap:5px 16px;margin-top:7px;font-size:var(--text-sm);line-height:1.7}
 .journey-links a{color:#526c43;text-decoration:underline;text-underline-offset:3px}
 .korea-journey .journey-selection-note{color:#80512e;margin-top:6px}

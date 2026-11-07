@@ -26,7 +26,8 @@
     "community": "node scripts/community-admin.mjs",
     "test:korea-expanded": "tsx scripts/test-korea-expanded.ts",
     "test:korea-relevance": "tsx scripts/test-korea-relevance.ts",
-    "test:pdf": "node scripts/test-pdf.mjs"
+    "test:pdf": "node scripts/test-pdf.mjs",
+    "test:korea-mobile": "node scripts/test-korea-mobile.mjs"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "5.3.0",

@@ -1,0 +1,10 @@
+---
+import { pick,type Lang } from '../lib/catalog';
+interface Props {lang:Lang; id:string; target?:boolean}
+const {lang,id,target=false}=Astro.props;
+---
+<div class="korea-visa-search" data-visa-search hidden>
+  <div class="visa-search-input"><input id={`${id}-search`} type="text" role="combobox" aria-label={pick(lang,target?'Search target visa':'Search current visa',target?'चाहिएको भिसा खोज्नुहोस्':'हालको भिसा खोज्नुहोस्')} aria-autocomplete="list" aria-expanded="false" aria-controls={`${id}-results`} autocomplete="off" spellcheck="false" placeholder={pick(lang,'Type D2, E9 or a name…','D2, E9 वा नाम लेख्नुहोस्…')}/><button type="button" aria-label={pick(lang,'Show visa choices','भिसाको सूची देखाउनुहोस्')} tabindex="-1">▾</button></div>
+  <div class="visa-search-results" id={`${id}-results`} role="listbox" aria-label={pick(lang,'Matching visa types','मिल्ने भिसाका प्रकार')} hidden></div>
+  <p data-search-empty role="status" hidden></p>
+</div>

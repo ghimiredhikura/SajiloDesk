@@ -37,7 +37,9 @@ try {
     await go('/en/life-abroad/');
     assert.equal(await page.locator('#journey-task').isDisabled(),true);
     assert.equal(await page.locator('#journey-open').isDisabled(),true);
-    await page.selectOption('#journey-visa',visa);await page.selectOption('#journey-task','extension');await page.click('#journey-open');
+    await page.fill('#journey-visa-search',visa);
+    await page.locator('#journey-visa-results [role=option]').filter({hasText:new RegExp(`^${visa} ·`)}).click();
+    await page.selectOption('#journey-task','extension');await page.click('#journey-open');
     await page.waitForURL(`**/${slug}/`);
     await page.locator('[data-journey].compact summary').click();
     await page.selectOption('#journey-task','address');await page.click('#journey-open');await page.waitForURL('**/address-change/?visa=*');

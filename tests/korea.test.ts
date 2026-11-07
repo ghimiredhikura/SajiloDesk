@@ -1,10 +1,18 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { koreaGuides, documentApplies, koreaSources, reviewed, koreaJourney } from '../src/lib/korea';
+import { koreaTasks, koreaVisas, visaFamilies, searchVisaOptions, journeyCaution } from '../src/lib/korea-catalog';
+import { koreaGuideSlugs, koreaThreads } from '../src/lib/korea-routes';
 import { validateComment, commentsApi } from '../scripts/community-worker';
 test('all published Korea documents have bilingual issuer instructions and real source mappings', () => {
-  assert.equal(koreaGuides.length, 4);
+  assert.equal(visaFamilies.length,37);
+  assert.equal(koreaTasks.length,21);
+  assert.deepEqual(new Set(koreaGuides.map(g=>g.slug)),new Set(koreaGuideSlugs));
+  assert.equal(new Set(koreaGuideSlugs).size,koreaGuideSlugs.length);
   for (const guide of koreaGuides) {
+    assert.equal(guide.reviewed,reviewed);
+    assert.ok(['checklist','route'].includes(guide.coverage!));
+    assert.ok(koreaThreads.includes(`korea-${guide.slug}`));
     assert.equal(new Set(guide.documents.map(d => d.id)).size, guide.documents.length);
     for (const document of guide.documents) {
       for (const field of [document.name, document.issuer, document.obtain]) assert.ok(field.length === 2 && field.every(s => s.trim().length > 3));
@@ -20,9 +28,46 @@ test('visa and task choices resolve only to a reviewed published procedure', () 
     assert.equal(koreaJourney(visa,'address'),'address-change');
     for (const task of ['extension','address']) assert.ok(koreaGuides.some(g=>g.slug===koreaJourney(visa,task)));
   }
-  assert.equal(koreaJourney('D-10','extension'),null);
+  for(const visa of koreaVisas)for(const task of koreaTasks){
+    if(task.id==='change'){
+      assert.equal(koreaJourney(visa,task.id),null);
+      for(const target of koreaVisas){
+        const slug=koreaJourney(visa,task.id,target);
+        if(visa===target)assert.equal(slug,null);
+        else assert.ok(koreaGuideSlugs.includes(slug!),`${visa} → ${target}`);
+      }
+    }else assert.ok(koreaGuideSlugs.includes(koreaJourney(visa,task.id)!));
+  }
+  assert.equal(koreaJourney('F-5','extension'),'residence-card');
+  assert.equal(koreaJourney('D-2-3','extension'),'d2-extension');
+  assert.equal(koreaJourney('F-4','address'),'f4-address-change');
+  assert.equal(koreaJourney('F-4','registration'),'f4-registration');
+  assert.equal(koreaJourney('D-2','workplace'),'student-work');
+  assert.equal(koreaJourney('E-9','change','invalid'),null);
   assert.equal(koreaJourney('D-2','unreviewed-status-change'),null);
   assert.equal(koreaJourney('','address'),null);
+});
+test('visa search normalises codes and includes all D-2 subtypes without unrelated visas',()=>{
+  const ids=searchVisaOptions('D2').map(v=>v.id);
+  assert.deepEqual(ids,['D-2',...Array.from({length:8},(_,i)=>`D-2-${i+1}`)]);
+  assert.deepEqual(searchVisaOptions(' d—2 ').map(v=>v.id),ids);
+  assert.ok(searchVisaOptions('स्नातकोत्तर').some(v=>v.id==='D-2-3'));
+  assert.equal(searchVisaOptions('not a visa').length,0);
+});
+test('critical deadlines, legal penalty types and restricted transitions remain distinct',()=>{
+  const address=koreaGuides.find(g=>g.slug==='address-change')!;
+  const f4=koreaGuides.find(g=>g.slug==='f4-address-change')!;
+  assert.match(address.alerts![0].text[0],/15 days/);
+  assert.match(address.alerts![0].text[0],/criminal fine/);
+  assert.match(address.alerts![0].detail![0],/legal maximum/);
+  assert.match(address.alerts![0].text[0],/₩1,000,000/);
+  assert.match(f4.alerts![0].text[0],/14 days/);
+  assert.match(f4.alerts![0].text[0],/administrative fine/);
+  assert.match(f4.alerts![0].text[0],/₩2,000,000/);
+  assert.match(journeyCaution('E-9','change','D-2')![0],/restricts/);
+  assert.match(journeyCaution('C-3','change','F-1-D')![0],/exception/);
+  assert.match(journeyCaution('F-5','employment')![0],/excluded/);
+  for(const g of koreaGuides)for(const alert of g.alerts??[])for(const id of alert.sources)assert.ok(g.sources.includes(id));
 });
 test('student thesis path replaces ordinary enrollment while unknown E-9 cases retain conditional evidence', () => {
   const student = koreaGuides[0], worker = koreaGuides[2];
@@ -30,6 +75,7 @@ test('student thesis path replaces ordinary enrollment while unknown E-9 cases r
   const thesis = student.documents.filter(d => documentApplies(d, { stage: 'thesis' })).map(d => d.id);
   assert.ok(regular.includes('enrollment') && !regular.includes('advisor'));
   assert.ok(!thesis.includes('enrollment') && thesis.includes('advisor'));
+  assert.equal(documentApplies({ ...worker.documents[0], excludeVisas:['F-4'] },{visa:'F-4'}),false);
   const confirmation = worker.documents.find(d => d.id === 'reemployment')!;
   assert.equal(documentApplies(confirmation, { employment: 'renewal' }), false);
   assert.equal(documentApplies(confirmation, { employment: 'reemployment' }), true);

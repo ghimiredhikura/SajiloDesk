@@ -4,6 +4,7 @@ import '../../styles/accessibility.css';
 import '../../styles/moderation.css';
 import '@fontsource-variable/dm-sans';
 import '@fontsource-variable/noto-sans-devanagari';
+import { koreaGuideSlugs, moderationGuideTitle } from '../../lib/korea-routes';
 import Brand from '../../components/Brand.astro';
 import { withBase } from '../../lib/paths';
 const canonical = new URL(withBase('admin/'), Astro.site);
@@ -33,7 +34,7 @@ const canonical = new URL(withBase('admin/'), Astro.site);
           <button type="button" data-review-tab="published" aria-pressed="false">Published <span id="review-published-count">—</span></button>
         </div>
         <div class="review-filters">
-          <label><span>Guide</span><select id="review-thread"><option value="">All guides</option><option value="korea-d2-extension">D-2 extension</option><option value="korea-d4-extension">D-4-1 extension</option><option value="korea-e9-extension">E-9 extension</option><option value="korea-address-change">Address change</option></select></label>
+          <label><span>Guide</span><select id="review-thread"><option value="">All guides</option>{koreaGuideSlugs.map(slug=><option value={`korea-${slug}`}>{moderationGuideTitle(slug)}</option>)}</select></label>
           <label><span>Type</span><select id="review-category"><option value="">All types</option><option value="experience">Experience</option><option value="correction">Correction</option><option value="request">Suggestion</option></select></label>
         </div>
       </div>

@@ -22,6 +22,8 @@ The response headers include `Cache-Control: public, no-transform` so Cloudflare
 
 The `release/korea-country-brand` branch is based on production source `336c54f` and changes only the Korea ribbon, hub and guide branding. Its equivalent Korea changes are also kept on `main`. The broader-audience copy commit `20af118` on `main` was still unpublished when this release was prepared; it is deliberately excluded from this deployment to preserve the owner's requested homepage scope. Build this release branch to reproduce the scoped production update. Do not assume a build of `main` is byte-for-byte equivalent to this release while that earlier copy remains pending.
 
+The same scoped release branch now also contains the 7 November Korea immigration expansion and searchable visa selector. It continues to exclude the unpublished broader-audience copy on `main`. The Korea guide changes are mirrored on `main`; deploy this release branch while that copy remains pending.
+
 From a normal local checkout, install locked dependencies with `npm ci`. For the Google Drive source, first run `scripts/sync-local.ps1` and work in `%LOCALAPPDATA%\SajiloDesk-runtime` to avoid virtual-filesystem package errors.
 
 Authenticate once with `npm exec -- wrangler login --use-keyring`; the owner must approve Cloudflare's browser authorization. On this Windows setup, credentials use encrypted storage with the key held in Windows Credential Manager. Never add authentication tokens to the repository.

@@ -88,11 +88,12 @@
 .visa-search-input{position:relative}
 .visa-search-input input{width:100%;min-width:0;box-sizing:border-box;font:inherit;font-size:var(--desk-control);line-height:1.7;min-height:48px;padding:10px 34px 10px 9px;border:1px solid #d9d0d8;border-radius:9px;background:#fff;color:#392f43}
 .visa-search-input input:disabled{background:#f5f2f6;color:#786e7d}
-.korea-journey .visa-search-input button{position:absolute;right:1px;top:1px;bottom:1px;height:auto;min-height:0;width:32px;border:0;background:transparent;color:#655b6c;border-radius:8px;padding:0}
+.korea-journey .visa-search-input button{position:absolute;right:1px;top:1px;bottom:1px;height:auto;min-height:0;width:50%;border:0;background:transparent;color:#655b6c;border-radius:8px;padding:0 12px;display:flex;align-items:center;justify-content:flex-end}
 .visa-search-results{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:30;max-height:264px;overflow-y:auto;overscroll-behavior:contain;border:1px solid #b8c8ae;border-radius:9px;background:#fff;box-shadow:0 7px 20px #392f4320;padding:4px;font-size:var(--desk-control)}
 .visa-search-results [role=option]{padding:10px 8px;min-height:44px;box-sizing:border-box;line-height:1.5;cursor:pointer;border-radius:6px;overflow-wrap:anywhere}
 .visa-search-results [role=option]:hover,.visa-search-results [role=option].active{background:#edf2e8;color:#425738}
 .visa-search-results [aria-selected=true]{font-weight:700}
+.visa-search-results:focus-visible{outline:2px solid #526c43;outline-offset:2px}
 .korea-visa-search>[data-search-empty]{position:absolute;top:100%;z-index:30;background:#fff;border:1px solid #d9d0d8;padding:10px;border-radius:8px;font-size:var(--text-sm);line-height:1.65;margin:4px 0;width:100%;box-sizing:border-box}
 .korea-journey .visa-search-input button:disabled{opacity:.5}
 /* iPhone Safari zooms focused controls below 16px. Keep pinch zoom available. */

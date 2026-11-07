@@ -4,7 +4,7 @@ import { toolText, route, type Tool, type Lang } from '../lib/catalog';
 interface Props { tool: Tool; lang: Lang }
 const { tool, lang } = Astro.props;
 ---
-<article class={`tool-card ${tool.color}`} data-tool-card data-tool-id={tool.id} data-category={tool.category} data-search={`${tool.aliases} ${tool.title.join(' ')}`}>
+<article class={`tool-card ${tool.color}`} data-tool-card data-tool-id={tool.id} data-category={tool.category} data-categories={tool.id==='pdf-tools'?`${tool.category} pdf`:tool.category} data-search={`${tool.aliases} ${tool.title.join(' ')}`}>
   <div class="tool-card-top"><span class="tool-icon"><Icon name={tool.icon} size={29}/></span><button class="favorite-button" type="button" data-favorite={tool.id} aria-label={lang === 'ne' ? `${toolText(tool, 'short', lang)} मनपर्नेमा राख्नुहोस्` : `Save ${toolText(tool, 'short', lang)}`} aria-pressed="false"><Icon name="heart" size={19}/></button></div>
   <a class="tool-card-link" href={route(lang, `tools/${tool.id}`)}><h3>{toolText(tool, 'title', lang)}</h3><p>{toolText(tool, 'description', lang)}</p><div class="card-bottom"><span>{toolText(tool, 'tags', lang)}</span><span class="card-arrow"><Icon name="arrow" size={19}/></span></div></a>
 </article>

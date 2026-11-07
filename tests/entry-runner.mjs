@@ -26,7 +26,7 @@ if(id==='home'||id==='saved'){
   assert.equal(visible().length,6);input('tool-search','jagga');assert.equal(visible().length,1);assert.equal(visible()[0].dataset.toolId,'land-converter');
   input('tool-search','प्रीति');assert.equal(visible().length,1);assert.equal(visible()[0].dataset.toolId,'preeti-unicode');
   input('tool-search','not-a-tool');assert.equal(visible().length,0);assert.equal(get('no-tools').hidden,false);
-  input('tool-search','');document.querySelector('[data-category-filter=files]').click();assert.equal(visible().length,2);
+  input('tool-search','');assert.equal(visible()[0].dataset.toolId,'pdf-tools');document.querySelector('[data-category-filter=pdf]').click();assert.equal(visible().length,1);assert.equal(visible()[0].dataset.toolId,'pdf-tools');document.querySelector('[data-category-filter=files]').click();assert.equal(visible().length,2);
   document.querySelector('[data-favorite=photo-resizer]').click();assert.deepEqual(JSON.parse(localStorage.getItem('sajilo-favorites')),['photo-resizer']);
  }else{assert.equal(visible().length,2);document.querySelector('[data-favorite=photo-resizer]').click();assert.equal(visible().length,1);}
 }else if(id==='date-converter'){

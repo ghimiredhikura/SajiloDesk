@@ -38,6 +38,14 @@ The 7 November mobile correction addresses a reproduced event-order failure: whe
 
 The combobox now tracks a primary pointer gesture, keeps results visible across the intervening blur, and commits only on the option's click after a stationary pointerup. Movement, list scrolling and pointercancel do not select an option. Closing on pointerup was also rejected because a following compatibility click could reach a submit button underneath the disappearing row. Keyboard and assistive-technology activation remain supported. A touch selection dismisses the input without refocusing/reopening the list.
 
-Both search inputs and the native task/target controls use a minimum 16 px font on narrow or coarse-pointer screens; desktop sizes remain unchanged. The viewport still permits user zoom. Results are positioned and height-limited against the visual viewport and mobile navigation.
+All three search inputs and the native fallbacks use a minimum 16 px font on narrow or coarse-pointer screens; desktop sizes remain unchanged. The viewport still permits user zoom. Results are positioned and height-limited against the visual viewport and mobile navigation.
 
 Run `npm run test:korea-mobile` against local Wrangler after installing Playwright WebKit (`npx playwright install webkit`). It tests iPhone 14 device settings in WebKit and Chromium, in English/Nepali and portrait/landscape, including real taps, a forced blur during the tap, no accidental form submission, gesture cancellation, keyboard selection, smart resets and a reduced-height viewport. These are emulated browser tests; physical iOS keyboard and automatic zoom need device verification.
+
+## Matching selectors and keyboard-free browsing
+
+The current visa, task and target-status fields share the same custom list, including relevance filtering and the compact picker on guide pages. Their native selects remain as progressive-enhancement fallbacks and as the single value source for routing.
+
+The left half of each field is the editable input. The right half is a transparent button over the same displayed label; it opens the full permitted list without focusing the input. Opening from the right explicitly blurs an active input and focuses a non-editable listbox, so it does not request a soft keyboard. Arrow keys, Enter, Escape and Tab work from the list/button as well as the input. A pointer selection keeps the existing stationary-gesture and click-through protections. There is no zoom restriction; mobile/coarse-pointer inputs retain the 16 px minimum.
+
+`npm run test:selector-modes` exercises the actual left/right hit areas for all three fields, list focus, keyboard selection, matching popup styling, smart clearing and compact guide pages in WebKit/Chromium, English/Nepali and touch/desktop contexts. `npm run test:korea-mobile` retains the forced iOS blur ordering, scrolling/cancel and portrait/landscape cases. The physical OS keyboard is not available in emulation; the verified invariant is that right-side browsing focuses a non-editable element and never focuses the input.

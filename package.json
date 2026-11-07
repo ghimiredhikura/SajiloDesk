@@ -27,7 +27,8 @@
     "test:korea-expanded": "tsx scripts/test-korea-expanded.ts",
     "test:korea-relevance": "tsx scripts/test-korea-relevance.ts",
     "test:pdf": "node scripts/test-pdf.mjs",
-    "test:korea-mobile": "node scripts/test-korea-mobile.mjs"
+    "test:korea-mobile": "node scripts/test-korea-mobile.mjs",
+    "test:selector-modes": "node scripts/test-selector-modes.mjs"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "5.3.0",

@@ -1,6 +1,6 @@
 # Everyday PDF tools
 
-English: `/en/tools/pdf-tools/`. Nepali: `/ne/tools/pdf-tools/`. The sixth homepage tool belongs to Photos & files, with search and favourites. Files stay in the browser; there is no document-upload endpoint.
+English: `/en/tools/pdf-tools/`. Nepali: `/ne/tools/pdf-tools/`. The PDF card is first among the six homepage tools, with dedicated PDF and Photos & files filters, search and favourites. Files stay in the browser; there is no document-upload endpoint.
 
 ## Preview before and after processing
 

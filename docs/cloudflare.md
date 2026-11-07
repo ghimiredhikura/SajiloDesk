@@ -6,7 +6,7 @@ The root shows a welcome/language chooser for about three seconds, then opens `/
 
 ## Hosting
 
-`wrangler.jsonc` serves Astro's generated `dist/` as static assets on `sajilodesk.com`. The five tools and guide pages are static, with no document uploads or SSR. `/api/*` runs `scripts/community-worker.ts` for public comments, backed by the `COMMUNITY_DB` D1 binding. `/admin` and `/admin/*` run through authenticated owner moderation before any static asset or private API is served; see the [moderation page and sign-in setup](moderation.md). A daily scheduled handler expires unapproved comments and rate-limit records. Comments use Worker/D1 free-tier allowances; ordinary asset traffic remains separate. See [Korea service and moderation](korea-service.md) for setup, privacy, review and expansion instructions. Static asset requests are free and unlimited under Cloudflare's current pricing, subject to platform asset limits.
+`wrangler.jsonc` serves Astro's generated `dist/` as static assets on `sajilodesk.com`. The six tools and guide pages are static, with no document uploads or SSR. `/api/*` runs `scripts/community-worker.ts` for public comments, backed by the `COMMUNITY_DB` D1 binding. `/admin` and `/admin/*` run through authenticated owner moderation before any static asset or private API is served; see the [moderation page and sign-in setup](moderation.md). A daily scheduled handler expires unapproved comments and rate-limit records. Comments use Worker/D1 free-tier allowances; ordinary asset traffic remains separate. See [Korea service and moderation](korea-service.md) for setup, privacy, review and expansion instructions. Static asset requests are free and unlimited under Cloudflare's current pricing, subject to platform asset limits.
 
 `wrangler.redirect.jsonc` deploys a separate, small `sajilodesk-redirect` Worker for `www.sajilodesk.com` and `http://sajilodesk.com/*`. It redirects to the HTTPS apex and preserves paths and query strings. Redirect requests use the Workers free-tier allowance. Custom-domain setup creates the corresponding DNS bindings and certificates. No paid plan or certificate subscription is needed.
 
@@ -42,7 +42,7 @@ The deployment command verifies the site, builds the static files, and publishes
 
 ## Verify after publishing
 
-- Check root language routing, `/en/`, `/ne/`, all five tools, the example photo and calendar.
+- Check root language routing, `/en/`, `/ne/`, all six tools, the example photo and PDF and calendar.
 - Confirm HTTP and `www` redirect to `https://sajilodesk.com` with paths and queries preserved.
 - Confirm unknown pages return HTTP 404 and the configured response headers are present.
 - Confirm public pages are indexable and their canonical/hreflang URLs use `sajilodesk.com` without the old project prefix. Saved tools and the 404 page remain `noindex`.
@@ -50,3 +50,5 @@ The deployment command verifies the site, builds the static files, and publishes
 - Confirm `/robots.txt` and `/sitemap.xml` use the new origin. Search Console domain verification and sitemap submission are a separate owner-account step; indexing is not guaranteed by deployment.
 
 References: [Static asset billing](https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/), [custom domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/), [Workers limits](https://developers.cloudflare.com/workers/platform/limits/).
+
+The release branch also includes the status-aware Korea procedure menus and the sixth homepage tool, [Everyday PDF tools](pdf-tool.md). It still excludes `20af118`. The PDF renderer assets are prepared automatically by `prebuild`; deploy the complete verified build so its worker, fonts and decoders are present.

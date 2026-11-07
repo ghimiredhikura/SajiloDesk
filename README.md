@@ -14,9 +14,10 @@ Free everyday tools for Nepal, Nepalis, and beyond.
 | Age calculator | Find your age today or on an application deadline. |
 | Preeti to Unicode | Turn legacy Preeti text into readable Nepali Unicode. |
 | Photo resize & compress | Adjust photo dimensions, format and file size, then download a copy. |
+| Everyday PDF tools | Extract pages, merge PDFs, reduce file size or save a page as JPG/PNG. |
 | Land-area converter | Convert ropani, aana, bigha, kattha, square feet and square metres. |
 
-Each tool opens with a ready-to-try example. Replace the values or choose your own photo to get started.
+Each tool opens with a ready-to-try example. Replace the values or choose your own photo or PDF to get started.
 
 ## Life abroad · Korea
 
@@ -32,7 +33,7 @@ See today's Nepali and English dates, Nepal and world key days, and listed holid
 
 - Free to use, with no account required.
 - Available in English and नेपाली.
-- Photos, text and calculations are processed in your browser.
+- Photos, PDFs, text and calculations are processed in your browser.
 - Save favourite tools on your own device for quick access.
 
 SajiloDesk is an independent utility site. Check the issuing authority's rules when preparing official applications. The holiday list currently covers BS 2083; sources and coverage are available in the site.

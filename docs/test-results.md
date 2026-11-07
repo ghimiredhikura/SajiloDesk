@@ -1,6 +1,13 @@
 # Sajilo Desk verification report
 
-Verification records through **6 November 2026**, including local checks and the production deployment below. This is implementation evidence, not a participant study.
+Verification records through **7 November 2026**, including local checks and the production deployment below. This is implementation evidence, not a participant study.
+
+## 7 November: relevant Korea menus and everyday PDF tools
+
+- Korea menus now derive procedures and target-status shortlists from the selected current status. The real native select and typed search use the same allowed choices. Changing status clears incompatible task/target values, and guarded submission rejects injected or stale values. All 49 current-status choices and six bilingual responsive flows passed, including E-9, D-2, F-5, C-3, old direct links and the special-case route. The rules are navigation aids, not a legal eligibility determination; see [selector sources and boundaries](korea-selector-rules.md).
+- The sixth utility supports PDF extraction, merging with file reordering, compression and a selected page as JPG/PNG, with an initial example result. The PDF Chrome suite passed eight bilingual layouts (320/390/768/1366 px), actual downloads, page order/dimensions/rotation, image dimensions, scanned compression, original-file fallback, invalid/encrypted/signed/form inputs, cancellation, search and favourites. There were no runtime/console errors, external requests or uploads.
+- All 50 automated tests pass, including real PDF copy and range/boundary cases. Static build, sitemap, local references, labels, language alternates, CSP and platform asset checks pass. The 14 existing tool DOM workflows remain covered. PDF page previews and both desktop/mobile layouts were visually inspected. Physical-device and Safari checks remain separate.
+- PDF limitations, compression trade-offs, input/output bounds and local asset preparation are documented in [the PDF tool guide](pdf-tool.md). No D1 schema or comment changes are needed for the PDF utility; the special-case Korea comment thread uses the existing moderation system.
 
 ## 5 November: daily information, ready-to-use examples and compact tools
 

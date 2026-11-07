@@ -7,6 +7,8 @@
     "node": ">=22.23.4"
   },
   "scripts": {
+    "predev": "node scripts/prepare-pdf-assets.mjs",
+    "prebuild": "node scripts/prepare-pdf-assets.mjs",
     "dev": "astro dev --host 127.0.0.1",
     "build": "astro build && node scripts/finalize-build.mjs",
     "preview": "astro preview --host 127.0.0.1",
@@ -23,7 +25,8 @@
     "test:moderation": "tsx scripts/test-moderation.ts",
     "community": "node scripts/community-admin.mjs",
     "test:korea-expanded": "tsx scripts/test-korea-expanded.ts",
-    "test:korea-relevance": "tsx scripts/test-korea-relevance.ts"
+    "test:korea-relevance": "tsx scripts/test-korea-relevance.ts",
+    "test:pdf": "node scripts/test-pdf.mjs"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "5.3.0",
@@ -32,7 +35,9 @@
     "@lacspace/preeti": "1.1.0",
     "@remotemerge/nepali-date-converter": "1.2.7",
     "astro": "7.4.5",
-    "jose": "6.2.15"
+    "jose": "6.2.15",
+    "pdf-lib": "1.17.1",
+    "pdfjs-dist": "6.5.438"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",

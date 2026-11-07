@@ -24,6 +24,7 @@
     "test:welcome": "node scripts/test-welcome.mjs",
     "test:moderation": "tsx scripts/test-moderation.ts",
     "community": "node scripts/community-admin.mjs",
+    "test:korea-eligibility": "node scripts/test-korea-eligibility.mjs",
     "test:korea-expanded": "tsx scripts/test-korea-expanded.ts",
     "test:korea-relevance": "tsx scripts/test-korea-relevance.ts",
     "test:pdf": "node scripts/test-pdf.mjs",

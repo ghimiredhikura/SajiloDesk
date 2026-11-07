@@ -3,7 +3,7 @@ import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
 import { readFile,mkdir } from 'node:fs/promises';
 import { koreaGuides } from '../src/lib/korea';
-import { koreaTasks,koreaVisas } from '../src/lib/korea-catalog';
+import { koreaTasks,koreaVisas,visaOptions } from '../src/lib/korea-catalog';
 const base=process.env.TEST_BASE_URL||'http://127.0.0.1:8791';
 if(!['127.0.0.1','localhost'].includes(new URL(base).hostname))throw new Error('Use the local QA server.');
 const browser=await chromium.launch({channel:'chrome',headless:true});
@@ -80,7 +80,7 @@ try{
   }
   const nojs=await browser.newContext({javaScriptEnabled:false}),np=await nojs.newPage();await np.goto(`${base}/en/life-abroad/`);
   assert.equal(await np.locator('#journey-visa').isVisible(),true);
-  assert.equal(await np.locator('noscript a').count(),koreaGuides.length);await nojs.close();
+  assert.equal(await np.locator('noscript a').count(),koreaGuides.filter(g=>g.visa==='ALL'||visaOptions.some(v=>v.id===g.visa)).length);await nojs.close();
   assert.deepEqual(errors,[]);
   console.log(`PASS: ${koreaVisas.length} visa choices, ${koreaTasks.length} tasks; ${koreaGuides.length} bilingual guide routes and comment threads; D2 search, keyboard selection, conditional third field, status-change restrictions, context-isolated saving, language context, F-4 redirect and small-screen layouts.`);
 }finally{await browser.close();}

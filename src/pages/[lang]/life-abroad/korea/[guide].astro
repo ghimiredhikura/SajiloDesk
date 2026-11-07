@@ -3,6 +3,8 @@ import Layout from '../../../../layouts/Layout.astro';
 import Icon from '../../../../components/Icon.astro';
 import KoreaComments from '../../../../components/KoreaComments.astro';
 import KoreaJourneyPicker from '../../../../components/KoreaJourneyPicker.astro';
+import KoreaEligibility from '../../../../components/KoreaEligibility.astro';
+import { excludedNepaliVisas } from '../../../../lib/korea-catalog';
 import KoreaBrand from '../../../../components/KoreaBrand.astro';
 import { langs, pick, route } from '../../../../lib/catalog';
 import { koreaGuides, koreaSources, reviewed, textFor, housingOptions } from '../../../../lib/korea';
@@ -28,6 +30,8 @@ const requirementNames = { required: ['Baseline document', 'आधारभू�
   <div class="korea-page-heading"><div><p class="eyebrow"><KoreaBrand/> <span class="visa-tag">{guide.visa === 'ALL' ? pick(lang,'Korea immigration','कोरिया अध्यागमन') : guide.visa}</span></p><h1>{textFor(lang, guide.title)}</h1><p>{textFor(lang, guide.intro ?? guide.scope)}</p></div><a href="#experiences" class="text-link">{pick(lang, 'Experiences & suggestions', 'अनुभव र सुझाव')} ↓</a></div>
   <KoreaJourneyPicker lang={lang} visa={guide.visa === 'ALL' || changing ? '' : guide.visa} target={changing ? guide.visa==='ALL'?'other':guide.visa : ''} task={guide.task ?? 'extension'} compact/>
   <p class="korea-review-line"><span>{pick(lang,guide.coverage==='checklist'?'Document checklist':'Official route & document categories',guide.coverage==='checklist'?'कागजातको सूची':'आधिकारिक प्रक्रिया र कागजातका प्रकार')}</span><span>{pick(lang,'Last checked','पछिल्लो जाँच')}: <time datetime={checked}>{checkedLabel}</time></span></p>
+  {excludedNepaliVisas.includes(guide.visa)&&<aside class="korea-scope-note"><strong>{pick(lang,'Outside the Nepali visa catalogue','नेपाली भिसा सूचीको दायराबाहिर')}</strong><p>{pick(lang,'This older link is kept for reference. Overseas-Korean and nationality-restricted routes are not offered in our Nepali visa selector. Use the current Korea hub to find your route.','यो पुरानो लिङ्क सन्दर्भका लागि राखिएको छ। कोरियाली मूल र राष्ट्रियतामा सीमित प्रक्रिया नेपाली भिसा छनोटमा राखिएका छैनन्। आफ्नो प्रक्रिया हालको कोरिया पृष्ठमा खोज्नुहोस्।')}</p></aside>}
+  <KoreaEligibility lang={lang} visa={guide.visa}/>
   <div class="korea-context" hidden><strong id="korea-context-label"></strong><p id="korea-context-caution"></p><a href={koreaSources.manual.url} target="_blank" rel="noopener noreferrer">{pick(lang,'Official status manual','आधिकारिक भिसा निर्देशिका')} ↗</a></div>
   {guide.alerts?.map(alert=><aside class="korea-deadline" data-alert-visas={alert.visas?.join(',')}><strong>{textFor(lang,alert.title)}</strong><p>{textFor(lang,alert.text)}</p>{alert.detail && <details><summary>{pick(lang,'Penalty details & next step','कारबाही र अब के गर्ने?')}</summary><p>{textFor(lang,alert.detail)}</p></details>}<div class="document-source-links">{alert.sources.map(id=><a href={koreaSources[id].url} title={koreaSources[id].name} target="_blank" rel="noopener noreferrer">{alertSourceLabel(id)} ↗</a>)}</div></aside>)}
   {!guide.alerts?.length && <div class="korea-notice"><Icon name="info" size={20}/><p>{textFor(lang, guide.hint ?? guide.warning)}</p></div>}

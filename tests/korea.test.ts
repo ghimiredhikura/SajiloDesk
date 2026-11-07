@@ -5,7 +5,7 @@ import { koreaTasks, koreaVisas, visaFamilies, searchVisaOptions, journeyCaution
 import { koreaGuideSlugs, koreaThreads } from '../src/lib/korea-routes';
 import { validateComment, commentsApi } from '../scripts/community-worker';
 test('all published Korea documents have bilingual issuer instructions and real source mappings', () => {
-  assert.equal(visaFamilies.length,37);
+  assert.equal(visaFamilies.length,32);
   assert.equal(koreaTasks.length,21);
   assert.deepEqual(new Set(koreaGuides.map(g=>g.slug)),new Set(koreaGuideSlugs));
   assert.equal(new Set(koreaGuideSlugs).size,koreaGuideSlugs.length);
@@ -43,8 +43,8 @@ test('visa and task choices resolve only to a reviewed published procedure', () 
   assert.equal(koreaJourney('F-5','extension'),null);
   assert.equal(koreaJourney('F-5','card'),'residence-card');
   assert.equal(koreaJourney('D-2-3','extension'),'d2-extension');
-  assert.equal(koreaJourney('F-4','address'),'f4-address-change');
-  assert.equal(koreaJourney('F-4','registration'),'f4-registration');
+  assert.equal(koreaJourney('F-4','address'),null);
+  assert.equal(koreaJourney('F-4','registration'),null);
   assert.equal(koreaJourney('D-2','workplace'),null);
   assert.equal(koreaJourney('E-9','change','invalid'),null);
   assert.equal(koreaJourney('D-2','unreviewed-status-change'),null);
@@ -67,11 +67,11 @@ test('task relevance removes known mismatches and keeps conditional duties label
 test('target shortlists distinguish restrictions from special cases and never promise eligibility',()=>{
   const targets=(visa:string)=>getChangeTargets(visa).map(t=>t.id);
   assert.ok(targets('D-2-3').includes('D-10'));assert.ok(targets('D-4-1').includes('D-2'));
-  assert.deepEqual(targets('E-9').filter(t=>t.startsWith('E-')),['E-7-4']);
+  assert.deepEqual(targets('E-9').filter(t=>t.startsWith('E-')),['E-7-4','E-7-4R']);
   for(const id of ['D-2','D-4-1','D-10','E-7','H-1'])assert.ok(!targets('E-9').includes(id));
   assert.ok(getChangeTargets('E-9').find(t=>t.id==='F-3')!.exception);
   assert.ok(targets('C-3').includes('F-1-D'));assert.ok(!targets('C-3').includes('E-7'));
-  assert.ok(!targets('H-1').includes('F-6'));assert.ok(targets('H-1').includes('E-7'));
+  assert.deepEqual(targets('H-1'),[]);
   assert.ok(getChangeTargets('G-1').every(t=>t.exception));
   assert.equal(koreaJourney('E-9','change','other'),'status-change-check');
   assert.equal(koreaJourney('E-9','change','D-2'),null);

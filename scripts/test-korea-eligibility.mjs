@@ -1,0 +1,61 @@
+import {chromium,webkit,devices} from 'playwright';
+import assert from 'node:assert/strict';
+import {mkdir,readFile} from 'node:fs/promises';
+import {chooseTask} from './korea-browser-helpers.mjs';
+const base=process.env.TEST_BASE_URL||'http://127.0.0.1:8791';
+if(!['localhost','127.0.0.1'].includes(new URL(base).hostname)&&process.env.LIVE_READ_ONLY!=='true')throw new Error('Use local QA or explicitly enable read-only checks.');
+await mkdir('tmp/korea-eligibility',{recursive:true});
+for(const engine of ['webkit','chromium']){
+ const browser=await(engine==='webkit'?webkit.launch():chromium.launch({channel:'chrome'}));
+ try{for(const lang of ['en','ne'])for(const touch of [true,false]){
+  const {defaultBrowserType,...phone}=devices['iPhone 14'];
+  const context=await browser.newContext(touch?phone:{viewport:{width:1366,height:900}}),page=await context.newPage(),errors=[];
+  page.setDefaultTimeout(15000);page.setDefaultNavigationTimeout(45000);
+  page.on('pageerror',e=>errors.push(String(e)));page.on('request',r=>assert.ok(['GET','HEAD'].includes(r.method())));
+  const choose=async(id,value)=>{await page.fill(`#${id}-search`,value);await page.locator(`#${id}-results [data-value="${value}"]`).click();assert.equal(await page.inputValue(`#${id}`),value);};
+  await page.goto(`${base}/${lang}/life-abroad/`,{waitUntil:'domcontentloaded'});
+  assert.equal(await page.locator('#visa-eligibility').getAttribute('open'),null);
+  for(const code of ['F-4','H-2','H-1','B-1','B-2'])assert.equal(await page.locator(`#journey-visa option[value="${code}"]`).count(),0);
+  await page.fill('#journey-visa-search','F5');assert.equal(await page.locator('#journey-visa-results [role=option]').count(),30);
+  await choose('journey-visa','F-5-15');assert.equal(await page.locator('#journey-task-search').isDisabled(),false);
+  assert.equal(await page.locator('#journey-task option[value=extension]').count(),0);
+  await page.locator('#journey-eligibility-link a').click();
+  await page.waitForFunction(()=>document.querySelector('#eligibility-search')?.value==='F-5-15');
+  assert.equal(await page.locator('#eligibility-f-5-15').isVisible(),true);
+  assert.equal(await page.locator('[data-eligibility-code]:visible').count(),1);
+  assert.match(await page.locator('#eligibility-f-5-15').textContent(),/₩52,416,000/);
+  await page.locator('.eligibility-money>summary').click();
+  assert.match(await page.locator('.eligibility-table').textContent(),/₩52,570,000/);
+  assert.match(await page.locator('.eligibility-table').textContent(),/₩104,832,000/);
+  await page.fill('#eligibility-search','F5');assert.equal(await page.locator('[data-eligibility-code]:visible').count(),30);
+  await page.fill('#eligibility-search','not-a-visa');assert.equal(await page.locator('.eligibility-empty').isVisible(),true);
+  await page.fill('#eligibility-search','D2');assert.equal(await page.locator('[data-eligibility-code]:visible').count(),9);
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+  await chooseTask(page,'card');await page.click('#journey-open');await page.waitForURL('**/residence-card/?visa=F-5-15');
+  assert.match(await page.locator('#korea-context-label').textContent(),/F-5-15/);
+  await page.goto(`${base}/${lang}/life-abroad/korea/change-to-f-5-15/?visa=E-7-1`,{waitUntil:'domcontentloaded'});
+  assert.equal(await page.locator('.eligibility-directory').getAttribute('open'),null);
+  await page.locator('.eligibility-directory>summary').click();
+  assert.match(await page.locator('.eligibility-content').textContent(),/₩471,440,000/);
+  assert.equal(await page.locator('[data-document=knowledge]').count(),0);
+  assert.equal(await page.locator('[data-document=criminal-record]').count(),0);
+  assert.equal(await page.locator('[data-document=net-assets]').count(),1);
+  await page.check('#ready-passport');await page.click('#korea-save');
+  const download=page.waitForEvent('download');await page.click('#korea-download');
+  const exported=await readFile(await(await download).path(),'utf8');
+  assert.match(exported,/F-5-15/);assert.match(exported,/52,416,000/);assert.match(exported,/52,570,000/);assert.match(exported,/2026-06-09/);assert.match(exported,/2026-11-07/);
+  await page.reload({waitUntil:'domcontentloaded'});assert.equal(await page.locator('#ready-passport').isChecked(),true);
+  await page.goto(`${base}/${lang}/life-abroad/`,{waitUntil:'domcontentloaded'});
+  await choose('journey-visa','F-2-7');await chooseTask(page,'change',touch);
+  await choose('journey-target','F-5-16');await page.click('#journey-open');await page.waitForURL('**/change-to-f-5-16/?visa=F-2-7');
+  await page.locator('.eligibility-directory>summary').click();assert.match(await page.locator('.eligibility-content').textContent(),/₩104,832,000/);assert.match(await page.locator('.eligibility-content').textContent(),/₩707,160,000/);
+  if(touch){await page.setViewportSize({width:320,height:844});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));}
+  await page.goto(`${base}/${lang}/life-abroad/korea/change-to-f-5/`,{waitUntil:'domcontentloaded'});
+  await page.locator('.eligibility-directory>summary').click();
+  assert.equal(await page.locator('[data-eligibility-code]:visible').count(),30);
+  assert.equal(await page.locator('#eligibility-f-5-15>summary').isVisible(),true);
+  await page.screenshot({path:`tmp/korea-eligibility/${engine}-${lang}-${touch?'mobile':'desktop'}.png`,fullPage:false});
+  assert.deepEqual(errors,[]);console.log(`PASS ${engine} ${lang} ${touch?'touch':'desktop'}: F5 search, Nepali scope, subtype tasks, expandable eligibility, GNI releases, assets, checklist and export.`);
+  await context.close();
+ }}finally{await browser.close();}
+}

@@ -1,6 +1,7 @@
+import { getVisaEligibility, eligibilitySources, gniReference, won } from '../lib/korea-eligibility';
 import { getGuide, documentApplies, textFor } from '../lib/korea';
 import { downloadBlob } from './shared';
-import { journeyCaution, koreaVisas, visaFamily, usesD2Checklist } from '../lib/korea-catalog';
+import { journeyCaution, routeVisaOptions, visaFamily, usesD2Checklist } from '../lib/korea-catalog';
 import { route } from '../lib/catalog';
 const root = document.querySelector<HTMLElement>('[data-korea-guide]');
 if (root) {
@@ -11,7 +12,7 @@ if (root) {
     const queryVisa = new URL(location.href).searchParams.get('visa') || '';
     const fixedVisa = guide.task !== 'change' && guide.visa !== 'ALL' ? guide.visa : '';
     const studentSubtype=guide.slug==='d2-extension'&&usesD2Checklist(queryVisa)?queryVisa:'';
-    const currentVisa = studentSubtype || fixedVisa || (koreaVisas.includes(queryVisa) ? queryVisa : '');
+    const currentVisa = studentSubtype || fixedVisa || (routeVisaOptions.some(v=>v.id===queryVisa) ? queryVisa : '');
     if (guide.slug === 'address-change' && currentVisa === 'F-4') {
       location.replace(`${route(lang,'life-abroad/korea/f4-address-change')}?visa=F-4`);
     }
@@ -69,6 +70,15 @@ if (root) {
     root.querySelector('#korea-download')!.addEventListener('click', () => {
       const values = answers();
       const lines = [`SajiloDesk · Korea · ${currentVisa || guide.visa}`, textFor(lang, guide.title), '', textFor(lang, guide.scope), ...(caution?[textFor(lang,caution)]:[]), '', ...selectors.map(s => `${s.labels?.[0]?.textContent}: ${s.selectedOptions[0]?.textContent}`), '', say('Prepared / checked (not an approval assessment)', 'तयार / बुझिएको (स्वीकृतिको मूल्याङ्कन होइन)')];
+      const eligibility=getVisaEligibility(guide.visa);
+      if(eligibility){
+        lines.push('',say('Eligibility & criteria','योग्यता र सर्त'),...eligibility.criteria.map(c=>textFor(lang,c)));
+        if(eligibility.income)lines.push(textFor(lang,eligibility.income.text));
+        if(eligibility.income?.multiple)lines.push(`${eligibility.income.multiple}× GNI: ${won(gniReference.visaReference*eligibility.income.multiple)} (published 2026 visa reference); BOK revised 2025 GNI to ${won(gniReference.revisedStatistic)} on 2026-06-09. Confirm the filing-effective figure with 1345.`,eligibilitySources.gniMarch.url,eligibilitySources.gniJune.url,eligibilitySources.visa2026.url);
+        if(eligibility.knowledge)lines.push(textFor(lang,eligibility.knowledge));
+        if(eligibility.criminal)lines.push(textFor(lang,eligibility.criminal));
+        lines.push(...eligibility.evidence.map(e=>textFor(lang,e)),`Last checked: ${eligibility.reviewed}; HiKorea: ${eligibility.section}`,eligibilitySources.manual.url);
+      }
       for(const alert of root!.querySelectorAll<HTMLElement>('.korea-deadline'))if(!alert.hidden)lines.push(alert.textContent?.trim()||'',...[...alert.querySelectorAll<HTMLAnchorElement>('a')].map(a=>a.href));
       for (const doc of guide.documents.filter(d => documentApplies(d, values))) {
         const checked = inputs.find(i => i.dataset.ready === doc.id)?.checked;

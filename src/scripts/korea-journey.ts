@@ -53,6 +53,14 @@ if(picker){
       const url=new URL(route(lang,`life-abroad/korea/${slug}`),location.origin);
       if(selected)url.searchParams.set('visa',visa.value);link.href=url.href;
     }
+    const eligibilityLink=picker.querySelector<HTMLElement>('#journey-eligibility-link');
+    const eligibilityVisa=task.value==='permanent'?'F-5':changing&&target.value&&target.value!=='other'?target.value:visa.value;
+    if(eligibilityLink){
+      eligibilityLink.hidden=!eligibilityVisa;
+      const link=eligibilityLink.querySelector('a')!;
+      link.href=route(lang,'life-abroad')+'#eligibility-'+eligibilityVisa.toLowerCase();
+      link.textContent=say(`Check ${eligibilityVisa} eligibility & criteria →`,`${eligibilityVisa} को योग्यता र सर्त हेर्नुहोस् →`);
+    }
     currentSearch?.sync();taskSearch?.sync();targetSearch?.sync();
   };
   visa.addEventListener('change',update);task.addEventListener('change',update);target.addEventListener('change',update);

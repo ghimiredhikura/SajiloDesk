@@ -1,3 +1,4 @@
+import {chooseTask} from './korea-browser-helpers.mjs';
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
@@ -17,7 +18,7 @@ try{
     await page.setViewportSize({width,height:900});await page.goto(`${base}/${lang}/life-abroad/`);
     await choose('journey-visa','E-9');
     assert.deepEqual(await values('journey-task'),getTaskChoices('E-9').map(t=>t.id));
-    await page.selectOption('#journey-task','change');
+    await chooseTask(page,'change');
     assert.deepEqual(await values('journey-target'),[...getChangeTargets('E-9').map(t=>t.id),'other']);
     await page.locator('#journey-target-search').focus();
     const listBounds=await page.locator('#journey-target-results').boundingBox();
@@ -43,7 +44,7 @@ try{
     assert.equal(await page.locator('#journey-target-field').isVisible(),false);
     assert.equal(await page.locator('#journey-target-search').isDisabled(),true);
     assert.deepEqual(await values('journey-task'),getTaskChoices('F-5').map(t=>t.id));
-    await page.selectOption('#journey-task','card');await page.click('#journey-open');await page.waitForURL('**/residence-card/?visa=F-5');
+    await chooseTask(page,'card');await page.click('#journey-open');await page.waitForURL('**/residence-card/?visa=F-5');
     await page.locator('[data-journey].compact summary').click();
     await choose('journey-visa','C-3');
     assert.equal(await page.inputValue('#journey-task'),'');
@@ -59,7 +60,7 @@ try{
     await choose('journey-visa',visa);
     assert.deepEqual(await values('journey-task'),getTaskChoices(visa).map(t=>t.id));
     if(getTaskChoices(visa).some(t=>t.id==='change')){
-      await page.selectOption('#journey-task','change');
+      await chooseTask(page,'change');
       assert.deepEqual(await values('journey-target'),[...getChangeTargets(visa).map(t=>t.id),'other']);
       await page.locator('#journey-target-search').focus();
       const labels=await page.locator('#journey-target-results [role=option]').allTextContents();

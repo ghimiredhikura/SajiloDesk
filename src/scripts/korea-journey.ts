@@ -16,6 +16,7 @@ if(picker){
   const query=new URL(location.href).searchParams;
   const queryVisa=query.get('visa')||'';
   let currentSearch:ReturnType<typeof enhanceVisaSelect>|undefined;
+  let taskSearch:ReturnType<typeof enhanceVisaSelect>|undefined;
   let targetSearch:ReturnType<typeof enhanceVisaSelect>|undefined;
   const guideRoot=document.querySelector<HTMLElement>('[data-korea-guide]');
   const fixed=guideRoot?.dataset.task!=='change' && guideRoot?.dataset.guideVisa!=='ALL' ? guideRoot?.dataset.guideVisa : '';
@@ -52,7 +53,7 @@ if(picker){
       const url=new URL(route(lang,`life-abroad/korea/${slug}`),location.origin);
       if(selected)url.searchParams.set('visa',visa.value);link.href=url.href;
     }
-    currentSearch?.sync();targetSearch?.sync();
+    currentSearch?.sync();taskSearch?.sync();targetSearch?.sync();
   };
   visa.addEventListener('change',update);task.addEventListener('change',update);target.addEventListener('change',update);
   picker.querySelector('form')!.addEventListener('submit',event=>{
@@ -71,5 +72,6 @@ if(picker){
   }
   update();
   currentSearch=enhanceVisaSelect(visa,lang);
+  taskSearch=enhanceVisaSelect(task,lang);
   targetSearch=enhanceVisaSelect(target,lang);
 }

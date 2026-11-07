@@ -1,3 +1,4 @@
+import {chooseTask} from './korea-browser-helpers.mjs';
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
@@ -39,10 +40,10 @@ try {
     assert.equal(await page.locator('#journey-open').isDisabled(),true);
     await page.fill('#journey-visa-search',visa);
     await page.locator('#journey-visa-results [role=option]').filter({hasText:new RegExp(`^${visa} ·`)}).click();
-    await page.selectOption('#journey-task','extension');await page.click('#journey-open');
+    await chooseTask(page,'extension');await page.click('#journey-open');
     await page.waitForURL(`**/${slug}/`);
     await page.locator('[data-journey].compact summary').click();
-    await page.selectOption('#journey-task','address');await page.click('#journey-open');await page.waitForURL('**/address-change/?visa=*');
+    await chooseTask(page,'address');await page.click('#journey-open');await page.waitForURL('**/address-change/?visa=*');
     assert.equal(await page.inputValue('#journey-visa'),visa);
     assert.equal(await page.locator('[data-document=identity]').isVisible(),true);
     assert.equal(await page.locator('[data-document=permit]').count(),0);

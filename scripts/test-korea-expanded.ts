@@ -1,3 +1,4 @@
+import {chooseTask} from './korea-browser-helpers.mjs';
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
 import { readFile,mkdir } from 'node:fs/promises';
@@ -22,13 +23,13 @@ try{
     await page.locator('#journey-visa-search').fill('D2');
     assert.equal(await page.locator('#journey-visa-results [role=option]').count(),9);
     assert.equal(await page.locator('#journey-visa-search').getAttribute('aria-expanded'),'true');
-    await choose('journey-visa','D2','D-2-3');await page.selectOption('#journey-task','extension');
+    await choose('journey-visa','D2','D-2-3');await chooseTask(page,'extension');
     assert.equal(await page.locator('#journey-target-field').isVisible(),false);
     await page.click('#journey-open');await page.waitForURL('**/d2-extension/?visa=D-2-3');
     assert.ok(await page.locator('.korea-review-line').textContent());
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
     await page.locator('[data-journey].compact summary').click();
-    await page.selectOption('#journey-task','change');assert.equal(await page.locator('#journey-target-field').isVisible(),true);
+    await chooseTask(page,'change');assert.equal(await page.locator('#journey-target-field').isVisible(),true);
     await choose('journey-target','D10','D-10');await page.click('#journey-open');
     await page.waitForURL('**/change-to-d-10/?visa=D-2-3');
     assert.match((await page.locator('#korea-context-label').textContent())!,/D-2-3 → D-10/);
@@ -43,7 +44,7 @@ try{
   await search.fill('invalid-visa');assert.equal(await page.locator('[data-search-empty]').first().isVisible(),true);
   assert.equal(await page.locator('#journey-open').isDisabled(),true);
   await search.press('Escape');
-  await choose('journey-visa','E9','E-9');await page.selectOption('#journey-task','change');
+  await choose('journey-visa','E9','E-9');await chooseTask(page,'change');
   await page.fill('#journey-target-search','D2');
   assert.equal(await page.locator('#journey-target-results [role=option]').filter({hasText:/^D-2/}).count(),0);
   // Previously shared direct guides remain readable, even if the route is no

@@ -1,3 +1,4 @@
+import {chooseTask} from './korea-browser-helpers.mjs';
 import {chromium,webkit,devices} from 'playwright';
 import assert from 'node:assert/strict';
 import {mkdir} from 'node:fs/promises';
@@ -15,7 +16,7 @@ for(const engine of ['webkit','chromium']){
    page.on('pageerror',e=>errors.push(String(e)));page.on('request',r=>assert.ok(['GET','HEAD'].includes(r.method()),'Read-only browser checks'));
    const go=async()=>{assert.ok([200,304].includes((await page.goto(`${base}/${lang}/life-abroad/`)).status()));await page.evaluate(()=>document.fonts.ready);};
    const option=(id,code)=>page.locator(`#${id}-results [role=option]`).filter({hasText:new RegExp(`^${code} ·`)});
-   const search=async(id,query)=>{await page.locator(`#${id}-search`).tap();await page.fill(`#${id}-search`,query);};
+   const search=async(id,query)=>{await page.locator(`#${id}-search`).tap({position:{x:16,y:24}});await page.fill(`#${id}-search`,query);};
    const select=async(id,code)=>{await search(id,code);const before=page.url();await option(id,code).tap();assert.equal(page.url(),before,'Selecting an option must not submit the form');assert.equal(await page.inputValue(`#${id}`),code);};
    const assertFrame=async()=>{
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
@@ -25,7 +26,7 @@ for(const engine of ['webkit','chromium']){
    await go();assert.equal(await page.locator('#journey-task').isDisabled(),true);
    for(const id of ['journey-visa-search','journey-task'])assert.ok(await page.locator(`#${id}`).evaluate(e=>parseFloat(getComputedStyle(e).fontSize)>=16),`${engine} ${lang}: 16px focused control`);
    await select('journey-visa','E-9');assert.equal(await page.locator('#journey-task').isDisabled(),false);await assertFrame();
-   await page.selectOption('#journey-task','change');await select('journey-target','E-7-4');assert.equal(await page.locator('#journey-open').isDisabled(),false);
+   await chooseTask(page,'change',true);await select('journey-target','E-7-4');assert.equal(await page.locator('#journey-open').isDisabled(),false);
    await page.locator('#journey-open').tap();await page.waitForURL('**/change-to-e-7-4/?visa=E-9');
    await page.locator('[data-journey].compact summary').tap();assert.equal(await page.inputValue('#journey-target'),'E-7-4');
    await select('journey-visa','D-2');assert.equal(await page.inputValue('#journey-target'),'');assert.equal(await page.locator('#journey-open').isDisabled(),true);
@@ -36,11 +37,11 @@ for(const engine of ['webkit','chromium']){
    await page.locator('#journey-visa-results').evaluate(list=>list.addEventListener('pointerdown',()=>document.querySelector('#journey-visa-search').blur(),{once:true}));
    await option('journey-visa','D-2-3').tap();assert.equal(await page.inputValue('#journey-visa'),'D-2-3','Blur during a real tap must commit the visa');
    assert.equal(await page.locator('#journey-task').isDisabled(),false);assert.equal(await page.locator('#journey-visa-results').isVisible(),false);
-   await page.selectOption('#journey-task','change');await search('journey-target','D10');
+   await chooseTask(page,'change',true);await search('journey-target','D10');
    await page.locator('#journey-target-results').evaluate(list=>list.addEventListener('pointerdown',()=>document.querySelector('#journey-target-search').blur(),{once:true}));
    await option('journey-target','D-10').tap();assert.equal(await page.inputValue('#journey-target'),'D-10');assert.equal(await page.locator('#journey-open').isDisabled(),false);
    // Scrolling/dragging must not accidentally select the first touched row.
-   await go();await page.locator('#journey-visa-search').tap();
+   await go();await page.locator('#journey-visa-search').tap({position:{x:16,y:24}});
    const list=page.locator('#journey-visa-results'),first=list.locator('[role=option]').first();
    await first.dispatchEvent('pointerdown',{pointerId:41,pointerType:'touch',isPrimary:true,button:0,clientX:80,clientY:400});
    await page.locator('#journey-visa-search').evaluate(e=>e.blur());
@@ -52,7 +53,7 @@ for(const engine of ['webkit','chromium']){
    await list.evaluate(e=>{e.scrollTop=600;});await page.waitForTimeout(50);assert.equal(await page.inputValue('#journey-visa'),'');
    await select('journey-visa','F-5');assert.equal(await page.locator('#journey-task').isDisabled(),false);
    const choices=await page.locator('#journey-task option').evaluateAll(options=>options.map(o=>o.value));assert.ok(!choices.includes('extension')&&choices.includes('card'));
-   await page.locator('#journey-visa-search').tap();await page.locator('.site-header').tap({position:{x:200,y:10}});assert.equal(await list.isVisible(),false);assert.ok((await page.inputValue('#journey-visa-search')).startsWith('F-5'));
+   await page.locator('#journey-visa-search').tap({position:{x:16,y:24}});await page.locator('.site-header').tap({position:{x:200,y:10}});assert.equal(await list.isVisible(),false);assert.ok((await page.inputValue('#journey-visa-search')).startsWith('F-5'));
    await page.locator('[data-visa-search] button').first().tap();assert.equal(await list.isVisible(),true);
    await page.locator('[data-visa-search] button').first().tap();assert.equal(await list.isVisible(),false);
    await search('journey-visa','E9');await page.locator('#journey-visa-search').press('Enter');assert.equal(await page.inputValue('#journey-visa'),'E-9');assert.equal(await list.isVisible(),false);
@@ -64,9 +65,9 @@ for(const engine of ['webkit','chromium']){
    assert.ok(bounds&&bounds.y>=viewport.top-1&&bounds.y+bounds.height<=viewport.bottom+1,`${engine} ${lang}: reduced viewport list ${JSON.stringify(bounds)}`);
    await page.screenshot({path:`tmp/korea-mobile/${engine}-${lang}-short.png`,fullPage:false});
    await option('journey-visa','E-9').tap();assert.equal(await page.locator('#journey-task').isDisabled(),false);await assertFrame();
-   await page.setViewportSize({width:844,height:390});await go();await select('journey-visa','D-2');await page.selectOption('#journey-task','change');await select('journey-target','D-10');await assertFrame();
+   await page.setViewportSize({width:844,height:390});await go();await select('journey-visa','D-2');await chooseTask(page,'change',true);await select('journey-target','D-10');await assertFrame();
    assert.ok(await page.locator('#journey-visa-search').evaluate(e=>parseFloat(getComputedStyle(e).fontSize)>=16),'Landscape keeps the zoom guard');
-   await page.setViewportSize(phone.viewport);await go();await select('journey-visa','D-4-1');await page.selectOption('#journey-task','extension');await assertFrame();
+   await page.setViewportSize(phone.viewport);await go();await select('journey-visa','D-4-1');await chooseTask(page,'extension',true);await assertFrame();
    await page.screenshot({path:`tmp/korea-mobile/${engine}-${lang}-iphone14.png`,fullPage:true});
    assert.deepEqual(errors,[]);flows++;console.log(`PASS ${engine} ${lang}: iPhone 14 portrait/landscape, touch and blur sequence`);await context.close();
   }

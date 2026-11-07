@@ -40,7 +40,7 @@ function filterTools() {
   const onlySaved = !!document.querySelector('[data-saved-only=true]');
   let count = 0;
   document.querySelectorAll<HTMLElement>('[data-tool-card]').forEach(card => {
-    const match = (category === 'all' || card.dataset.category === category) && query.split(/\s+/).every(q => (card.dataset.search || '').toLowerCase().normalize('NFKC').includes(q)) && (!onlySaved || favorites.includes(card.dataset.toolId!));
+    const match = (category === 'all' || (card.dataset.categories || card.dataset.category || '').split(' ').includes(category)) && query.split(/\s+/).every(q => (card.dataset.search || '').toLowerCase().normalize('NFKC').includes(q)) && (!onlySaved || favorites.includes(card.dataset.toolId!));
     card.hidden = !match; if (match) count++;
   });
   const empty = document.querySelector<HTMLElement>('#no-tools'); if (empty) empty.hidden = count > 0;

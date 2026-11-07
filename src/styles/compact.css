@@ -5,7 +5,7 @@
 .home-hero .hero-description { margin-bottom:16px; }
 .section-heading { margin-bottom:16px; }
 .section-heading h2 { margin-top:6px; }
-.category-filters { margin-bottom:12px; }
+.category-filters { margin-bottom:12px; flex-wrap:wrap; overflow:visible; }
 .tool-card { min-height:0; padding:18px; }
 .tool-card-top { margin-bottom:10px; }
 .tool-card h3,.tool-card p { min-height:0; }
@@ -98,6 +98,8 @@
 }
 
 @media (max-width:600px) {
+  .category-filters { flex-wrap:wrap; overflow:visible; white-space:normal; gap:8px; }
+  .category-filters button { flex:0 1 auto; min-height:44px; max-width:100%; }
   .site-header { height:64px; }
   .home-hero { padding-block:20px; gap:16px; }
   .section-heading { margin-bottom:12px; }

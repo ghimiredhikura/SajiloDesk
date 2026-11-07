@@ -20,6 +20,7 @@ const targetChoices=visa?getChangeTargets(visa):visaOptions.map(v=>({id:v.id,nam
       </div>
       <div><label for="journey-task"><span>2</span>{pick(lang,'What do you want to do?','के गर्न चाहनुहुन्छ?')}</label>
         <select id="journey-task" required disabled={!visa}><option value="">{pick(lang,'Choose a task','गर्नुपर्ने काम छान्नुहोस्')}</option>{taskChoices.map(t=><option value={t.id} selected={task===t.id}>{textFor(lang,t.name)}</option>)}</select>
+        <KoreaVisaSearch lang={lang} id="journey-task" task/>
       </div>
       <div id="journey-target-field" hidden={task!=='change'}><label for="journey-target"><span>3</span>{pick(lang,'Change to which status?','कुन भिसामा जाने?')}</label>
         <select id="journey-target" disabled={!visa || task!=='change'} required={task==='change'}><option value="">{pick(lang,'Choose the target status','चाहिएको भिसा छान्नुहोस्')}</option>{targetChoices.map(v=><option value={v.id} selected={target===v.id}>{textFor(lang,v.name)}</option>)}<option value="other" selected={target==='other'}>{textFor(lang,otherChangeName)}</option></select>

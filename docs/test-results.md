@@ -2,6 +2,13 @@
 
 Verification records through **7 November 2026**, including local checks and the production deployment below. This is implementation evidence, not a participant study.
 
+## 7 November: matching selectors, split tap areas and visible tool categories
+
+- Current visa, task and target now use the same custom popup. Left-half taps focus editable search; right-half taps focus the non-editable listbox without requesting input focus. Existing blur ordering, scroll/cancel and click-through protections remain covered. Keyboard navigation and the compact guide picker pass.
+- Eight selector-mode flows pass in WebKit/Chromium × English/Nepali × touch/desktop. The relevance suite still passes all 49 visa choices; the four iPhone 14 emulation flows still pass portrait/landscape and the forced focus-loss case. Physical OS keyboard behaviour remains separate from the verified focus invariant.
+- The homepage lists the PDF card first and includes a dedicated PDF filter after All tools. Photos & files still includes both photo and PDF tools. All six filter buttons wrap into visible rows at narrow widths, without horizontal scrolling. Checks cover 320/390/430/844/1366 px, both languages, dedicated/parent filters and no document overflow. Mobile screenshots and the matching task popup were visually inspected.
+- All 52 automated tests, 14 existing DOM-entry workflows, Astro diagnostics and the production build/static link/label/CSP checks pass. Eligibility data, PDF processing, moderation and other homepage content were not changed.
+
 ## 7 November: full PDF previews and clearer output
 
 - Original PDFs now preview immediately, with all pages scrollable. Result previews include all extracted/merged/compressed pages; Original/Result switches and a merged-input file chooser support comparison. Fit-width/zoom preserves the current page. The 30-page fixture reaches the final page with at most five allocated canvases. Previews render at screen density rather than the former 60 DPI JPEG.

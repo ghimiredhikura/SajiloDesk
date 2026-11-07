@@ -3,6 +3,7 @@ import Layout from '../../../../layouts/Layout.astro';
 import Icon from '../../../../components/Icon.astro';
 import KoreaComments from '../../../../components/KoreaComments.astro';
 import KoreaJourneyPicker from '../../../../components/KoreaJourneyPicker.astro';
+import KoreaBrand from '../../../../components/KoreaBrand.astro';
 import { langs, pick, route } from '../../../../lib/catalog';
 import { koreaGuides, koreaSources, reviewed, textFor, housingOptions } from '../../../../lib/korea';
 export function getStaticPaths() { return langs.flatMap(lang => koreaGuides.map(guide => ({ params: { lang, guide: guide.slug }, props: { lang, guide } }))); }
@@ -18,7 +19,7 @@ const requirementNames = { required: ['Baseline document', 'आधारभू�
 <Layout lang={lang} active="abroad" title={`${guide.visa === 'ALL' ? pick(lang, 'Korea', 'कोरिया') : guide.visa} · ${textFor(lang, guide.title)}`} description={textFor(lang, guide.scope)}>
 <div class="container korea-page" data-korea-guide={guide.slug} data-reviewed={reviewed}>
   <nav class="breadcrumbs" aria-label={pick(lang, 'Breadcrumb', 'पृष्ठको बाटो')}><a href={route(lang)}>{pick(lang, 'Home', 'गृहपृष्ठ')}</a><span>/</span><a href={route(lang, 'life-abroad')}>{pick(lang, 'Life abroad', 'विदेशको दैनिकी')}</a><span>/</span><span>{pick(lang, 'Korea', 'कोरिया')}</span></nav>
-  <div class="korea-page-heading"><div><p class="eyebrow">{pick(lang, 'LIFE ABROAD · KOREA', 'विदेशको दैनिकी · कोरिया')} <span class="visa-tag">{guide.visa === 'ALL' ? 'D-2 / D-4-1 / E-9' : guide.visa}</span></p><h1>{textFor(lang, guide.title)}</h1><p>{textFor(lang, guide.intro ?? guide.scope)}</p></div><a href="#experiences" class="text-link">{pick(lang, 'Experiences & suggestions', 'अनुभव र सुझाव')} ↓</a></div>
+  <div class="korea-page-heading"><div><p class="eyebrow"><KoreaBrand/> <span class="visa-tag">{guide.visa === 'ALL' ? 'D-2 / D-4-1 / E-9' : guide.visa}</span></p><h1>{textFor(lang, guide.title)}</h1><p>{textFor(lang, guide.intro ?? guide.scope)}</p></div><a href="#experiences" class="text-link">{pick(lang, 'Experiences & suggestions', 'अनुभव र सुझाव')} ↓</a></div>
   <KoreaJourneyPicker lang={lang} visa={guide.visa === 'ALL' ? '' : guide.visa} task={guide.procedure === 'address' ? 'address' : 'extension'} compact/>
   <div class="korea-notice"><Icon name="info" size={20}/><p>{textFor(lang, guide.hint ?? guide.warning)}</p></div>
 <p class="korea-stale" hidden>{pick(lang, 'This guide has not been checked in the last 90 days. Recheck the official sources and your case before relying on it.', 'यो जानकारी पछिल्लो ९० दिनमा जाँचिएको छैन। प्रयोग गर्नुअघि आधिकारिक स्रोत र आफ्नो अवस्था फेरि बुझ्नुहोस्।')}</p>

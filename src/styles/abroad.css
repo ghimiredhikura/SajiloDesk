@@ -82,7 +82,21 @@
   .community-comment-head { flex-direction:column; gap:3px; }
 }
 
-/* Requested 25% reduction for the Nepali visa-document headline. */
-html[lang=ne] #abroad-feature-title {
-  font-size:calc(var(--desk-section-title) * .75);
+/* Country-edition ribbon approved in the homepage preview. Scope changes here. */
+.abroad-feature.korea-ribbon { grid-template-columns:40px minmax(0,1fr) auto; gap:16px; padding:17px 20px; border-radius:17px; }
+.abroad-feature.korea-ribbon .abroad-feature-mark { width:40px; height:40px; border-radius:12px; }
+.abroad-feature.korea-ribbon #abroad-feature-title { display:block; font-size:25px; line-height:1.35; letter-spacing:-.025em; margin:5px 0; }
+html[lang=ne] .abroad-feature.korea-ribbon #abroad-feature-title { line-height:1.6; letter-spacing:0; }
+.abroad-feature.korea-ribbon p { font-size:14px; line-height:1.6; margin:0; }
+.abroad-feature.korea-ribbon > .button { font-size:14px; min-height:44px; padding:11px 16px; border-radius:10px; }
+.abroad-hub .abroad-country { width:40px; min-width:40px; height:40px; border-radius:12px; }
+@media (max-width:1000px) {
+  .abroad-feature.korea-ribbon { grid-template-columns:minmax(0,1fr) auto; gap:12px; }
+  .abroad-feature.korea-ribbon .abroad-feature-mark { display:none; }
+  .abroad-feature.korea-ribbon > .button { grid-column:auto; }
+  .abroad-feature.korea-ribbon #abroad-feature-title { font-size:22px; }
+}
+@media (max-width:600px) {
+  .abroad-feature.korea-ribbon { grid-template-columns:1fr; padding:15px 16px; gap:10px; }
+  .abroad-feature.korea-ribbon > .button { grid-column:1; justify-self:start; }
 }

@@ -1,11 +1,12 @@
 ---
 import Icon from './Icon.astro';
+import KoreaBrand from './KoreaBrand.astro';
 import { pick, route, type Lang } from '../lib/catalog';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 ---
-<section class="abroad-feature" aria-labelledby="abroad-feature-title">
-  <div class="abroad-feature-mark"><Icon name="globe" size={30}/></div>
-  <div><p class="eyebrow">{pick(lang, 'LIFE ABROAD · KOREA', 'विदेशको दैनिकी · कोरिया')}</p><h2 id="abroad-feature-title">{pick(lang, 'Get your visa documents ready.', 'भिसाका लागि आवश्यक कागजातहरू जुटाउनुहोस्।')}</h2><p>{pick(lang, 'Visa and paperwork guidance.', 'भिसा र कागजातबारे जानकारी।')}</p></div>
+<section class="abroad-feature korea-ribbon" aria-labelledby="abroad-feature-title">
+  <div class="abroad-feature-mark"><Icon name="globe" size={24}/></div>
+  <div><KoreaBrand/><h2 id="abroad-feature-title">{pick(lang, 'Life in Korea, made sajilo.', 'कोरियाको दैनिकी, अझ सजिलो।')}</h2><p>{pick(lang, 'Visa and document guides, in one place.', 'भिसा र कागजातबारे जानकारी, एकै ठाउँमा।')}</p></div>
   <a class="button primary" href={route(lang, 'life-abroad')}>{pick(lang, 'Find my guide', 'जानकारी छान्नुहोस्')}<Icon name="arrow" size={18}/></a>
 </section>

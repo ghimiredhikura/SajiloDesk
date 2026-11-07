@@ -24,3 +24,15 @@ SIL Open Font License 1.1. Full notice: mukta.txt
 The logo and decorative mountain/pagoda vector are original Sajilo Desk project artwork.
 Development/build tools and their exact versions are recorded in package-lock.json.
 Generated production assets contain no external font/CDN dependencies.
+
+pdf-lib 1.17.1
+MIT License. Full notice: pdf-lib.txt
+Source: https://github.com/Hopding/pdf-lib
+Bundled components: @pdf-lib/standard-fonts (MIT, pdf-lib-standard-fonts.txt),
+@pdf-lib/upng (MIT, pdf-lib-upng.txt), pako (MIT and Zlib, pako.txt), tslib (0BSD, tslib.txt).
+
+Mozilla PDF.js, pdfjs-dist 6.5.438
+Apache License 2.0. Full notice: pdfjs.txt
+Source: https://github.com/mozilla/pdf.js
+Renderer fonts and decoder licences are also distributed alongside their assets
+under /vendor/pdfjs/standard_fonts/ and /vendor/pdfjs/wasm/.

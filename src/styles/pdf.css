@@ -1,0 +1,37 @@
+.pdf-workspace { grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); }
+.pdf-tasks { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px; }
+.pdf-tasks button { min-height:44px; padding:8px; border:1px solid var(--border); border-radius:8px; font-size:var(--text-sm); font-weight:600; }
+.pdf-tasks button[aria-pressed=true] { background:#fff0e9; color:#a2351d; border-color:#edac99; }
+.pdf-tasks button:disabled { opacity:.6; }
+#pdf-example { color:var(--orange); min-height:44px; font-size:var(--text-sm); }
+.pdf-upload { margin-bottom:8px; }
+.pdf-files { list-style:none; padding:0; margin:8px 0 12px; max-height:196px; overflow:auto; }
+.pdf-files li { display:flex; align-items:center; gap:6px; border-bottom:1px solid var(--border); min-width:0; padding-block:3px; }
+.pdf-file-name { flex:1; min-width:0; font-size:var(--text-sm); overflow-wrap:anywhere; }
+.pdf-file-name small { display:block; color:var(--muted); font-size:var(--text-xs); }
+.pdf-files button { min-width:40px; min-height:44px; flex-shrink:0; border-radius:7px; color:var(--muted); }
+.pdf-files button:hover { background:#f5f1ec; }
+.pdf-files button:disabled { opacity:.35; }
+#pdf-settings { min-width:0; padding:0; margin:0; border:0; }
+#pdf-settings .field-help { margin-top:5px; }
+.pdf-resolution { margin-top:10px; }
+#pdf-status { margin-top:8px; }
+.pdf-preview { display:flex; align-items:center; justify-content:center; background:#f4f2ee; border:1px solid var(--border); border-radius:8px; padding:8px; }
+.pdf-preview img { display:block; max-height:220px; max-width:100%; object-fit:contain; }
+.pdf-result-empty { min-height:150px; display:grid; place-content:center; justify-items:center; text-align:center; color:var(--muted); gap:12px; }
+.pdf-result-empty p { max-width:260px; font-size:var(--text-md); }
+#pdf-preview-caption { margin-top:5px; }
+#pdf-download { margin-top:12px; }
+.pdf-result-note { margin-top:12px; }
+.pdf-result-panel .success-note { margin-top:8px; }
+@media(min-width:1100px) {
+  .pdf-tasks { grid-template-columns:repeat(4,minmax(0,1fr)); }
+  .pdf-workspace .panel-heading { margin-bottom:8px; }
+}
+@media(max-width:600px) {
+  .tool-page .pdf-workspace { grid-template-columns:1fr; gap:12px; }
+  .pdf-preview img { max-height:170px; }
+  .pdf-result-empty { min-height:80px; }
+  .pdf-files { max-height:156px; }
+  .pdf-result-panel { scroll-margin-block:76px; }
+}

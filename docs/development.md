@@ -4,7 +4,7 @@ The following contains the project setup, verification and historical hosting no
 
 # Sajilo Desk / सजिलो डेस्क
 
-A bilingual, browser-local utility desk for Nepal and Nepalis worldwide. The first implementation contains five tools, a responsive orange/navy interface, search with English/Nepali/Romanized aliases, device-local favorites, and three practical guides.
+A bilingual, browser-local utility desk for Nepal and Nepalis worldwide. The current implementation contains six tools, a responsive orange/navy interface, search with English/Nepali/Romanized aliases, device-local favorites, and three practical guides.
 
 **Status:** the bilingual site was published on GitHub Pages on 5 November 2026 and launched at `https://sajilodesk.com` on Cloudflare on 6 November. The earlier `.com.np` application was rejected. Public contact: **sajilodesk@gmail.com**. English and Nepali pages have passed real Chrome workflows and responsive visual review. Physical-device checks and independent Nepali review remain separate checks.
 
@@ -165,3 +165,7 @@ Rollback: select the prior verified Cloudflare deployment, or use `npx wrangler 
 - [Sources and validation ledger](validation-ledger.md): exact methods, dataset versions and human-review boundaries.
 
 Keep the core free. No fake live prices, testimonials, user counts, official presets or analytics claims. PDF utilities, Romanized typing, reverse text conversion and live data feeds are future work. No outreach or ad installation has occurred.
+
+## PDF tool
+
+The [PDF tool guide](pdf-tool.md) covers supported tasks, local renderer assets, compression trade-offs and browser verification. `npm run dev` and `npm run build` prepare the renderer assets automatically after installing dependencies. Use `TEST_BASE_URL=http://127.0.0.1:8791 npm run test:pdf` against local Wrangler (set the environment variable using PowerShell syntax on Windows).

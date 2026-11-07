@@ -12,3 +12,9 @@ const { lang, journey = false, saved = false } = Astro.props;
     {journey && <a class="tool-card journey-mini" href={route(lang, 'guides/application-prep')} data-journey-card><span class="mini-eyebrow"><Icon name="spark" size={17}/>{pick(lang, 'A LITTLE HELP', 'तयारीमा सानो सहयोग')}</span><h3>{pick(lang, 'A form to fill?', 'फाराम भर्नु छ?')}</h3><p>{pick(lang, 'Get your dates, age and photo ready in three simple steps.', 'तीन सरल चरणमा मिति, उमेर र फोटो तयार पार्नुहोस्।')}</p><span class="inline-link">{pick(lang, 'Let’s get you ready', 'तयारी सुरु गर्नुहोस्')}<Icon name="arrow" size={19}/></span></a>}
   </div><div class="empty-state" id="no-tools" hidden><Icon name="search" size={32}/><h3>{saved ? pick(lang, 'Your tools, one tap away', 'मनपर्ने उपकरण यहाँ राख्नुहोस्') : pick(lang, 'No tools found', 'उपकरण भेटिएन')}</h3><p>{saved ? pick(lang, 'Tap the heart on any tool to keep it here. Saved only on this device.', 'फेरि सजिलै भेट्न उपकरणको मुटु चिन्ह थिच्नुहोस्। यो सूची यही ब्राउजरमा मात्र रहन्छ।') : pick(lang, 'Try “date”, “photo”, “Preeti” or “jagga”.', '“मिति”, “फोटो”, “प्रीति” वा “jagga” खोज्नुहोस्।')}</p>{saved && <a class="button primary" href={route(lang, 'tools')}>{pick(lang, 'Explore tools', 'उपकरण हेर्नुहोस्')}<Icon name="arrow" size={18}/></a>}</div>
 </section>
+<style>
+  /* Six utility cards fill the grid; keep the preparation shortcut compact. */
+  .tool-grid > .journey-mini { grid-column:1 / -1; min-height:0; display:flex; flex-direction:row; flex-wrap:wrap; align-items:center; gap:6px 20px; }
+  .tool-grid > .journey-mini .mini-eyebrow,.tool-grid > .journey-mini h3,.tool-grid > .journey-mini .inline-link { margin:0; }
+  .tool-grid > .journey-mini p { margin:0; flex:1; min-width:200px; }
+</style>

@@ -14,7 +14,7 @@ Free everyday tools for Nepal, Nepalis, and beyond.
 | Age calculator | Find your age today or on an application deadline. |
 | Preeti to Unicode | Turn legacy Preeti text into readable Nepali Unicode. |
 | Photo resize & compress | Adjust photo dimensions, format and file size, then download a copy. |
-| Everyday PDF tools | Extract pages, merge PDFs, reduce file size or save a page as JPG/PNG. |
+| Everyday PDF tools | Preview every page, extract or merge pages, compress PDFs or save a page as JPG/PNG. |
 | Land-area converter | Convert ropani, aana, bigha, kattha, square feet and square metres. |
 
 Each tool opens with a ready-to-try example. Replace the values or choose your own photo or PDF to get started.

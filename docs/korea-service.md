@@ -4,6 +4,8 @@ The Korea desk covers all **37 parent status families**, with **49 searchable ch
 
 The main flow stays at two choices: current visa and task. Only a status change asks for a target. Detailed checklists and official-route/document-category guides have separate coverage labels. Menu availability does not establish eligibility, and not every family-level route is a final list for every programme subtype.
 
+Tasks and target searches now follow the selected status. See [selector relevance and its sources](korea-selector-rules.md). Incompatible choices are cleared when the current status changes. A separate special-case route preserves access to exceptions; entry-visa guidance has its own link below the picker.
+
 ## Source review · 7 November 2026
 
 See the [research and evidence matrix](korea-research-2026-11.md) for the 6 November 2026 HiKorea manual, current legal editions, task coverage, verified deadlines and penalty types. Per-guide review dates appear outside collapsed details and in downloads. Statutory maximum penalties are distinguished from fixed fees and actual case outcomes. F-4 address/registration/forms and F-5 card renewal have separate handling.

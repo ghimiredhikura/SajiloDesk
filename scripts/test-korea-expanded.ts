@@ -44,7 +44,11 @@ try{
   assert.equal(await page.locator('#journey-open').isDisabled(),true);
   await search.press('Escape');
   await choose('journey-visa','E9','E-9');await page.selectOption('#journey-task','change');
-  await choose('journey-target','D2','D-2');await page.click('#journey-open');await page.waitForURL('**/change-to-d-2/?visa=E-9');
+  await page.fill('#journey-target-search','D2');
+  assert.equal(await page.locator('#journey-target-results [role=option]').filter({hasText:/^D-2/}).count(),0);
+  // Previously shared direct guides remain readable, even if the route is no
+  // longer offered as an ordinary conversion in the smarter picker.
+  await go('/en/life-abroad/korea/change-to-d-2/?visa=E-9');
   assert.match((await page.locator('#korea-context-caution').textContent())!,/restricts this in-country change/);
   await page.check('#ready-passport');await page.click('#korea-save');
   await go('/en/life-abroad/korea/change-to-d-2/?visa=D-4-1');assert.equal(await page.locator('#ready-passport').isChecked(),false);

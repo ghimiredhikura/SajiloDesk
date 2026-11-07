@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { koreaGuides, documentApplies, koreaSources, reviewed, koreaJourney } from '../src/lib/korea';
-import { koreaTasks, koreaVisas, visaFamilies, searchVisaOptions, journeyCaution } from '../src/lib/korea-catalog';
+import { koreaTasks, koreaVisas, visaFamilies, searchVisaOptions, journeyCaution, getTaskChoices, getChangeTargets } from '../src/lib/korea-catalog';
 import { koreaGuideSlugs, koreaThreads } from '../src/lib/korea-routes';
 import { validateComment, commentsApi } from '../scripts/community-worker';
 test('all published Korea documents have bilingual issuer instructions and real source mappings', () => {
@@ -31,21 +31,51 @@ test('visa and task choices resolve only to a reviewed published procedure', () 
   for(const visa of koreaVisas)for(const task of koreaTasks){
     if(task.id==='change'){
       assert.equal(koreaJourney(visa,task.id),null);
-      for(const target of koreaVisas){
+      for(const target of [...koreaVisas,'other']){
         const slug=koreaJourney(visa,task.id,target);
-        if(visa===target)assert.equal(slug,null);
+        const offered=getTaskChoices(visa).some(t=>t.id==='change')&&(target==='other'||getChangeTargets(visa).some(t=>t.id===target));
+        if(!offered)assert.equal(slug,null,`${visa} must not route to unlisted ${target}`);
         else assert.ok(koreaGuideSlugs.includes(slug!),`${visa} → ${target}`);
       }
-    }else assert.ok(koreaGuideSlugs.includes(koreaJourney(visa,task.id)!));
+    }else if(getTaskChoices(visa).some(t=>t.id===task.id))assert.ok(koreaGuideSlugs.includes(koreaJourney(visa,task.id)!));
+    else assert.equal(koreaJourney(visa,task.id),null);
   }
-  assert.equal(koreaJourney('F-5','extension'),'residence-card');
+  assert.equal(koreaJourney('F-5','extension'),null);
+  assert.equal(koreaJourney('F-5','card'),'residence-card');
   assert.equal(koreaJourney('D-2-3','extension'),'d2-extension');
   assert.equal(koreaJourney('F-4','address'),'f4-address-change');
   assert.equal(koreaJourney('F-4','registration'),'f4-registration');
-  assert.equal(koreaJourney('D-2','workplace'),'student-work');
+  assert.equal(koreaJourney('D-2','workplace'),null);
   assert.equal(koreaJourney('E-9','change','invalid'),null);
   assert.equal(koreaJourney('D-2','unreviewed-status-change'),null);
   assert.equal(koreaJourney('','address'),null);
+});
+test('task relevance removes known mismatches and keeps conditional duties labelled',()=>{
+  const tasks=(visa:string)=>getTaskChoices(visa).map(t=>t.id);
+  assert.ok(tasks('E-9').includes('workplace')&&tasks('E-9').includes('employment'));
+  for(const id of ['part-time','school','outside','permanent','visa','family'])assert.ok(!tasks('E-9').includes(id));
+  assert.ok(tasks('D-2-3').includes('part-time'));assert.ok(!tasks('D-2-5').includes('part-time'));
+  assert.ok(tasks('D-4-1').includes('part-time'));assert.ok(!tasks('D-4').includes('part-time'));
+  assert.ok(!tasks('D-2').includes('employment'));assert.ok(!tasks('D-2').includes('workplace'));
+  assert.equal(tasks('F-5')[0],'card');
+  for(const id of ['extension','change','permanent','employment','workplace','outside','registration'])assert.ok(!tasks('F-5').includes(id));
+  assert.match(getTaskChoices('F-5').find(t=>t.id==='school')!.name[0],/ages 6–18/);
+  for(const id of ['registration','address','passport','card','employment','part-time'])assert.ok(!tasks('C-3').includes(id));
+  assert.ok(!tasks('B-1').includes('extension'));
+  assert.deepEqual(getTaskChoices('invalid'),[]);
+});
+test('target shortlists distinguish restrictions from special cases and never promise eligibility',()=>{
+  const targets=(visa:string)=>getChangeTargets(visa).map(t=>t.id);
+  assert.ok(targets('D-2-3').includes('D-10'));assert.ok(targets('D-4-1').includes('D-2'));
+  assert.deepEqual(targets('E-9').filter(t=>t.startsWith('E-')),['E-7-4']);
+  for(const id of ['D-2','D-4-1','D-10','E-7','H-1'])assert.ok(!targets('E-9').includes(id));
+  assert.ok(getChangeTargets('E-9').find(t=>t.id==='F-3')!.exception);
+  assert.ok(targets('C-3').includes('F-1-D'));assert.ok(!targets('C-3').includes('E-7'));
+  assert.ok(!targets('H-1').includes('F-6'));assert.ok(targets('H-1').includes('E-7'));
+  assert.ok(getChangeTargets('G-1').every(t=>t.exception));
+  assert.equal(koreaJourney('E-9','change','other'),'status-change-check');
+  assert.equal(koreaJourney('E-9','change','D-2'),null);
+  for(const visa of koreaVisas){assert.ok(!targets(visa).includes(visa));assert.equal(new Set(targets(visa)).size,targets(visa).length);}
 });
 test('visa search normalises codes and includes all D-2 subtypes without unrelated visas',()=>{
   const ids=searchVisaOptions('D2').map(v=>v.id);

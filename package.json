@@ -22,7 +22,8 @@
     "test:welcome": "node scripts/test-welcome.mjs",
     "test:moderation": "tsx scripts/test-moderation.ts",
     "community": "node scripts/community-admin.mjs",
-    "test:korea-expanded": "tsx scripts/test-korea-expanded.ts"
+    "test:korea-expanded": "tsx scripts/test-korea-expanded.ts",
+    "test:korea-relevance": "tsx scripts/test-korea-relevance.ts"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "5.3.0",

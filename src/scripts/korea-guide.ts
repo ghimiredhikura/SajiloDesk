@@ -21,7 +21,7 @@ if (root) {
     const context=root.querySelector<HTMLElement>('.korea-context')!;
     if(currentVisa){
       context.hidden=false;
-      context.querySelector('#korea-context-label')!.textContent=guide.task==='change'?`${currentVisa} → ${guide.visa}`:say(`Your selected status: ${currentVisa}`,`छानिएको भिसा: ${currentVisa}`);
+      context.querySelector('#korea-context-label')!.textContent=guide.task==='change'?`${currentVisa} → ${guide.visa==='ALL'?say('Other / special case','अन्य / विशेष अवस्था'):guide.visa}`:say(`Your selected status: ${currentVisa}`,`छानिएको भिसा: ${currentVisa}`);
       context.querySelector('#korea-context-caution')!.textContent=caution?textFor(lang,caution):say('Check your exact subcode against the linked official manual.','आफ्नो सही उपप्रकार जोडिएको आधिकारिक निर्देशिकासँग मिलाउनुहोस्।');
       context.dataset.caution=String(!!caution);
     }

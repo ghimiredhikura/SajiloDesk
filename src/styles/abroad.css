@@ -95,6 +95,10 @@
 .visa-search-results [aria-selected=true]{font-weight:700}
 .korea-visa-search>[data-search-empty]{position:absolute;top:100%;z-index:30;background:#fff;border:1px solid #d9d0d8;padding:10px;border-radius:8px;font-size:var(--text-sm);line-height:1.65;margin:4px 0;width:100%;box-sizing:border-box}
 .korea-journey .visa-search-input button:disabled{opacity:.5}
+.journey-links{display:flex;flex-wrap:wrap;gap:5px 16px;margin-top:7px;font-size:var(--text-sm);line-height:1.7}
+.journey-links a{color:#526c43;text-decoration:underline;text-underline-offset:3px}
+.korea-journey .journey-selection-note{color:#80512e;margin-top:6px}
+.korea-visa-search[data-open-up=true]>.visa-search-results,.korea-visa-search[data-open-up=true]>[data-search-empty]{top:auto;bottom:calc(100% + 4px)}
 .korea-journey[data-changing=true] form{grid-template-columns:repeat(3,minmax(0,1fr)) auto}
 .korea-review-line{display:flex;justify-content:space-between;gap:5px 12px;flex-wrap:wrap;margin:8px 0 10px;font-size:var(--text-sm);color:#706675;line-height:1.65}
 .korea-review-line>span:first-child{font-weight:600;color:#526c43}

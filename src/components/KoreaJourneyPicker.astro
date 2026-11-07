@@ -1,12 +1,14 @@
 ---
 import { pick, route, type Lang } from '../lib/catalog';
 import { koreaTasks, koreaGuides, textFor } from '../lib/korea';
-import { visaOptions, visaGroups } from '../lib/korea-catalog';
+import { visaOptions, visaGroups, getTaskChoices, getChangeTargets, otherChangeName } from '../lib/korea-catalog';
 import Icon from './Icon.astro';
 import KoreaVisaSearch from './KoreaVisaSearch.astro';
 interface Props { lang:Lang; visa?:string; task?:string; target?:string; compact?:boolean }
 const {lang,visa='',task='',target='',compact=false}=Astro.props;
 const PickerBody=compact?'details':'div';
+const taskChoices=visa?getTaskChoices(visa):koreaTasks.filter(t=>t.id!=='visa');
+const targetChoices=visa?getChangeTargets(visa):visaOptions.map(v=>({id:v.id,name:[`${v.id} · ${v.name[0]}`,`${v.id} · ${v.name[1]}`] as const}));
 ---
 <section class:list={['korea-journey',{compact}]} aria-labelledby="journey-title" data-journey data-lang={lang} data-initial-visa={visa} data-initial-task={task} data-initial-target={target}>
   <PickerBody>
@@ -17,15 +19,17 @@ const PickerBody=compact?'details':'div';
         <KoreaVisaSearch lang={lang} id="journey-visa"/>
       </div>
       <div><label for="journey-task"><span>2</span>{pick(lang,'What do you want to do?','के गर्न चाहनुहुन्छ?')}</label>
-        <select id="journey-task" required disabled={!visa}><option value="">{pick(lang,'Choose a task','गर्नुपर्ने काम छान्नुहोस्')}</option>{koreaTasks.map(t=><option value={t.id} selected={task===t.id}>{textFor(lang,t.name)}</option>)}</select>
+        <select id="journey-task" required disabled={!visa}><option value="">{pick(lang,'Choose a task','गर्नुपर्ने काम छान्नुहोस्')}</option>{taskChoices.map(t=><option value={t.id} selected={task===t.id}>{textFor(lang,t.name)}</option>)}</select>
       </div>
       <div id="journey-target-field" hidden={task!=='change'}><label for="journey-target"><span>3</span>{pick(lang,'Change to which status?','कुन भिसामा जाने?')}</label>
-        <select id="journey-target" disabled={task!=='change'} required={task==='change'}><option value="">{pick(lang,'Choose the target status','चाहिएको भिसा छान्नुहोस्')}</option>{visaGroups.map(group=><optgroup label={textFor(lang,group.name)}>{visaOptions.filter(v=>v.group===group.id).map(v=><option value={v.id} selected={target===v.id}>{v.id} · {textFor(lang,v.name)}</option>)}</optgroup>)}</select>
+        <select id="journey-target" disabled={!visa || task!=='change'} required={task==='change'}><option value="">{pick(lang,'Choose the target status','चाहिएको भिसा छान्नुहोस्')}</option>{targetChoices.map(v=><option value={v.id} selected={target===v.id}>{textFor(lang,v.name)}</option>)}<option value="other" selected={target==='other'}>{textFor(lang,otherChangeName)}</option></select>
         <KoreaVisaSearch lang={lang} id="journey-target" target/>
       </div>
       <button class="button primary" id="journey-open" type="submit" disabled>{pick(lang,'Show my guide','जानकारी हेर्नुहोस्')}<Icon name="arrow" size={18}/></button>
     </form>
-    <p class="abroad-small" id="journey-help" aria-live="polite">{pick(lang,'All 37 status families. Other subcodes: choose the parent (for example, E-9-1 → E-9). Applying before entry? Choose your intended visa.','सबै ३७ मूल भिसा वर्ग। अरू उपप्रकारमा मूल वर्ग छान्नुहोस् (जस्तै E-9-1 → E-9)। कोरिया आउनुअघि आवेदन दिने भए चाहिएको भिसा छान्नुहोस्।')}</p>
+    <p class="abroad-small" id="journey-help" aria-live="polite">{pick(lang,'Tasks follow your status. For an unlisted subcode, choose its parent (E-9-1 → E-9).','भिसाअनुसार कामको सूची देखिन्छ। नभेटिएको उपप्रकारमा मूल वर्ग छान्नुहोस् (E-9-1 → E-9)।')}</p>
+    <p class="abroad-small journey-selection-note" id="journey-selection-note" role="status" hidden></p>
+    <div class="journey-links"><a id="journey-entry-link" href={route(lang,'life-abroad/korea/entry-visa')}>{pick(lang,'Applying before entering Korea?','कोरिया आउनुअघि आवेदन दिने हो?')}</a><a id="journey-other-link" href={route(lang,'life-abroad/korea/application-help')}>{pick(lang,'Another procedure / special situation','अर्को काम / विशेष अवस्था')}</a></div>
     <noscript><details><summary>{pick(lang,'Open a guide directly','सीधै जानकारी खोल्नुहोस्')}</summary><ul>{koreaGuides.map(g=><li><a href={route(lang,`life-abroad/korea/${g.slug}`)}>{g.visa==='ALL'?'':`${g.visa} · `}{textFor(lang,g.title)}</a></li>)}</ul></details></noscript>
   </PickerBody>
 </section><script>import '../scripts/korea-journey';</script>
